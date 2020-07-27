@@ -1,0 +1,35 @@
+---
+title: "Balance Mutations in Logical Modeling"
+author: "[John Zobolas](https://github.com/bblodfon)"
+date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
+description: "Investigations for Balance logical operators paper"
+url: 'https\://yyyyyyy.github.io/xxxxxxxx/'
+github-repo: "yyyyyyy/xxxxxxxxxr"
+bibliography: references.bib
+link-citations: true
+site: bookdown::bookdown_site
+---
+
+# Intro {-}
+
+
+# Input {-}
+
+Loading libraries:
+```{r Load libraries, message = FALSE}
+library(xfun)
+```
+
+# Analysis {-}
+
+
+# Conclusion {-}
+
+
+# R session info {-}
+
+```{r session info, comment=""}
+xfun::session_info()
+```
+
+# References {-}

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1595850714768.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1EB1C034",
+    "lastKnownWriteTime" : 1595766897,
+    "last_content_update" : 1595766897,
+    "path" : "~/tmp/balance_paper/test.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "116,53",
+        "scrollLine" : "112"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

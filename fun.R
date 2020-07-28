@@ -1,6 +1,9 @@
 library(gtools)
 library(tibble)
 library(dplyr)
+library(usefun)
+library(foreach)
+library(doParallel)
 
 bool_values = c(TRUE, FALSE)
 
@@ -35,7 +38,7 @@ or_not = function(lv, num_act, num_inh) {
   apply_operator(lv[1:num_act], 'or') |! apply_operator(lv[(num_act+1):(num_act+num_inh)], 'or')
 }
 # (a OR b) AND (NOT c OR NOT d)
-balance1 = function(lv, num_act, num_inh) {
+balance_op = function(lv, num_act, num_inh) {
   apply_operator(lv[1:num_act], 'or') & apply_operator(!lv[(num_act+1):(num_act+num_inh)], 'or')
 }
 
@@ -55,117 +58,80 @@ exp_inh_win = function(lv, num_act, num_inh) {
   if (act_sum > inh_sum) return(TRUE) else return(FALSE)
 }
 
+get_data = function(num_reg) {
+  stopifnot(num_reg > 1) # simplest case allowed: 1 act + 1 inh
 
-####################################
-# 1 act + 1 inh
-d3 = permutations(v = bool_values, n = 2, r = 2, repeats.allowed = TRUE)
-and_not_res  = as.integer(apply(d3, 1, and_not, 1, 1))
-or_not_res   = as.integer(apply(d3, 1, or_not, 1, 1))
-balance1_res = as.integer(apply(d3, 1, balance1, 1, 1))
-exp_act_res  = as.integer(apply(d3, 1, exp_act_win, 1, 1))
-exp_inh_res  = as.integer(apply(d3, 1, exp_inh_win, 1, 1))
+  act = 1:(num_reg-1)
+  inh = num_reg - act
 
-d3 = d3 %>%
-  as_tibble() %>%
-  mutate_all(as.integer) %>%
-  add_column(and_not_res = and_not_res) %>%
-  add_column(or_not_res = or_not_res) %>%
-  add_column(balance1_res = balance1_res) %>%
-  add_column(exp_act_res = exp_act_res) %>%
-  add_column(exp_inh_res = exp_inh_res)
+  print(paste("Generating truth table for", num_reg, "variables"))
+  truth_table = permutations(v = bool_values, n = 2, r = num_reg, repeats.allowed = TRUE)
 
-###################################
-# 2 act + 1 inh
-d3 = permutations(v = bool_values, n = 2, r = 3, repeats.allowed = TRUE)
-and_not_res  = as.integer(apply(d3, 1, and_not, 2, 1))
-or_not_res   = as.integer(apply(d3, 1, or_not, 2, 1))
-balance1_res = as.integer(apply(d3, 1, balance1, 2, 1))
-exp_act_res  = as.integer(apply(d3, 1, exp_act_win, 2, 1))
-exp_inh_res  = as.integer(apply(d3, 1, exp_inh_win, 2, 1))
+  #data = list()
+  # get data for every (act, inh) pairing
+  data = foreach(index = 1:length(act), .export = c("and_not", "or_not",
+    "balance_op", "exp_act_win", "exp_inh_win", "apply_operator")) %dopar% {
+    num_act = act[index]
+    num_inh = inh[index]
+    #print(paste("Case:", num_act, "+", num_inh)) # print does not work inside parallel loops like that!
 
-d3 = d3 %>%
-  as_tibble() %>%
-  mutate_all(as.integer) %>%
-  add_column(and_not_res = and_not_res) %>%
-  add_column(or_not_res = or_not_res) %>%
-  add_column(balance1_res = balance1_res) %>%
-  add_column(exp_act_res = exp_act_res) %>%
-  add_column(exp_inh_res = exp_inh_res)
+    and_not_res  = as.integer(apply(truth_table, 1, and_not, num_act, num_inh))
+    or_not_res   = as.integer(apply(truth_table, 1, or_not, num_act, num_inh))
+    balance_op_res = as.integer(apply(truth_table, 1, balance_op, num_act, num_inh))
+    exp_act_res  = as.integer(apply(truth_table, 1, exp_act_win, num_act, num_inh))
+    exp_inh_res  = as.integer(apply(truth_table, 1, exp_inh_win, num_act, num_inh))
 
-##################################
-# 1 act + 2 inh
-d3 = permutations(v = bool_values, n = 2, r = 3, repeats.allowed = TRUE)
-and_not_res  = as.integer(apply(d3, 1, and_not, 1, 2))
-or_not_res   = as.integer(apply(d3, 1, or_not, 1, 2))
-balance1_res = as.integer(apply(d3, 1, balance1, 1, 2))
-exp_act_res  = as.integer(apply(d3, 1, exp_act_win, 1, 2))
-exp_inh_res  = as.integer(apply(d3, 1, exp_inh_win, 1, 2))
+    # td = truth density
+    td_and_not    = sum(and_not_res)/length(and_not_res)
+    td_or_not     = sum(or_not_res)/length(or_not_res)
+    td_balance_op = sum(balance_op_res)/length(balance_op_res)
+    td_exp_act    = sum(exp_act_res)/length(exp_act_res)
+    td_exp_inh    = sum(exp_inh_res)/length(exp_inh_res)
 
-d3 = d3 %>%
-  as_tibble() %>%
-  mutate_all(as.integer) %>%
-  add_column(and_not_res = and_not_res) %>%
-  add_column(or_not_res = or_not_res) %>%
-  add_column(balance1_res = balance1_res) %>%
-  add_column(exp_act_res = exp_act_res) %>%
-  add_column(exp_inh_res = exp_inh_res)
+    # Calculate the matches between the expected balance formulas
+    and_not_act_match = usefun::get_percentage_of_matches(and_not_res, exp_act_res)
+    and_not_inh_match = usefun::get_percentage_of_matches(and_not_res, exp_inh_res)
+    or_not_act_match = usefun::get_percentage_of_matches(or_not_res, exp_act_res)
+    or_not_inh_match = usefun::get_percentage_of_matches(or_not_res, exp_inh_res)
+    balance_op_act_match = usefun::get_percentage_of_matches(balance_op_res, exp_act_res)
+    balance_op_inh_match = usefun::get_percentage_of_matches(balance_op_res, exp_inh_res)
 
-####################################
-# 2 act + 2 inh
-d3 = permutations(v = bool_values, n = 2, r = 4, repeats.allowed = TRUE)
-and_not_res  = as.integer(apply(d3, 1, and_not, 2, 2))
-or_not_res   = as.integer(apply(d3, 1, or_not, 2, 2))
-balance1_res = as.integer(apply(d3, 1, balance1, 2, 2))
-exp_act_res  = as.integer(apply(d3, 1, exp_act_win, 2, 2))
-exp_inh_res  = as.integer(apply(d3, 1, exp_inh_win, 2, 2))
+    dplyr::bind_cols(num_reg = num_reg, num_act = num_act,
+      num_inh = num_inh, td_and_not = td_and_not, td_or_not = td_or_not,
+      td_balance_op = td_balance_op, td_exp_act = td_exp_act, td_exp_inh = td_exp_inh,
+      and_not_act_match = and_not_act_match, and_not_inh_match = and_not_inh_match,
+      or_not_act_match = or_not_act_match, or_not_inh_match = or_not_inh_match,
+      balance_op_act_match = balance_op_act_match, balance_op_inh_match = balance_op_inh_match)
+  }
 
-d3 = d3 %>%
-  as_tibble() %>%
-  mutate_all(as.integer) %>%
-  add_column(and_not_res = and_not_res) %>%
-  add_column(or_not_res = or_not_res) %>%
-  add_column(balance1_res = balance1_res) %>%
-  add_column(exp_act_res = exp_act_res) %>%
-  add_column(exp_inh_res = exp_inh_res)
+  res = dplyr::bind_rows(data)
+  return(res)
+}
 
+get_stats = function(num_reg) {
+  stopifnot(num_reg > 1)
 
-truth_density_andnot = 100 * sum(and_not_res)/length(and_not_res)
-truth_density_ornot = 100 * sum(or_not_res)/length(or_not_res)
-truth_density_balance1 = 100 * sum(balance1_res)/length(balance1_res)
+  d = list()
+  index = 1
+  for(num in 2:num_reg) {
+    d[[index]] = get_data(num)
+    index = index + 1
+  }
 
-############################################
-# manual method (you have to write down the variables: the names of the regulators)
-d3 = d3 %>%
-  mutate(and_not = (a | b) &! (c)) %>%
-  mutate(or_not = (a | b) |! (c)) %>%
-  mutate(balance1 = (a | b) & (!c))
-d3 = d3 %>%
-  mutate(and_not = (a) &! (b | c)) %>%
-  mutate(or_not = (a) |! (b | c)) %>%
-  mutate(balance1 = (a) & (!b | !c))
+  res = dplyr::bind_rows(d)
+  return(res)
+}
 
-d3 = d3 %>% mutate_all(as.numeric)
-active_res = d3 %>%
-  summarise_at(.vars = c('and_not', 'or_not', 'balance1'),
-    .funs = c(function(x) {sum(x)/n()}))
+# do parallel processing using all available cores (the more the better)
+cores = detectCores()
+cl = makeCluster(cores)
+registerDoParallel(cl)
 
+# For 20 regulators it should take ~30 min (for 16, ~ 1min!)
+stats = get_stats(num_reg = 16)
 
-d = permutations(v = bool_values, n = 2, r = 4, repeats.allowed = TRUE)
-colnames(d) = c('a','b','c','d')
-d = as_tibble(d)
+# release cluster
+stopCluster(cl)
 
-d = d %>%
-  mutate(and_not = (a | b) &! (c | d)) %>%
-  mutate(or_not = (a | b) |! (c | d)) %>%
-  mutate(new1 = (a | b) & (!c | !d))
-active_res_2 = d %>%
-  summarise_at(.vars = c('and_not', 'or_not', 'new1'),
-    .funs = c(function(x) {sum(x)/n()}))
-
-# TRUE = 1, FALSE = 0
-d = d %>% mutate_all(as.numeric)
-
-
-
-
-
+# save result
+saveRDS(stats, file = "stats.rds")

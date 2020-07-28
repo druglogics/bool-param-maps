@@ -28,7 +28,7 @@ library(ggpubr)
 
 ## Link Operators {-}
 
-Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ activators $x=\{x_i\}_{i=1}^{m}$ and $k$ inhibitors $y=\{y_i\}_{i=1}^{k}$.
+Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$.
 For a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
 We next describe what each link operator looks like in the general form of $f$:
 
@@ -48,7 +48,7 @@ We next describe what each link operator looks like in the general form of $f$:
 *Truth Density* of a boolean equation/expression, given it's equivalent truth table, is pretty much the **number of rows that the expression is active** divided to **the total number of rows**.
 :::
 
-# Truth Density Data Analysis
+# Truth Density Data Analysis {-}
 
 I created every possible truth table for up to $20$ variables (variables here means *regulators* for us) and calculated the `AND-NOT`, `OR-NOT`, `BalanceOp1`, `exp_act_win`, `exp_inh_win` results for every possible configuration of the number of activators and inhibitors that added up to the number of regulators.
 Then, from the truth tables I calculated the **truth density** of each operator in each particular configuration:
@@ -81,11 +81,8 @@ all(stats %>% pull(td_or_not) == formula_td_or_not)
 ```
 
 ```{r}
-stats
 
 ```
-
-# Conclusion {-}
 
 
 # R session info {-}

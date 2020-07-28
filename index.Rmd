@@ -3,8 +3,8 @@ title: "Balance Mutations in Logical Modeling"
 author: "[John Zobolas](https://github.com/bblodfon)"
 date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
 description: "Investigations for Balance logical operators paper"
-url: 'https\://yyyyyyy.github.io/xxxxxxxx/'
-github-repo: "yyyyyyy/xxxxxxxxxr"
+url: 'https\://bblodfon.github.io/balance-paper/'
+github-repo: "bblodfon/balance-paper"
 bibliography: references.bib
 link-citations: true
 site: bookdown::bookdown_site
@@ -12,16 +12,78 @@ site: bookdown::bookdown_site
 
 # Intro {-}
 
+Several analyses/investigations relating to the balance logical operators paper.
 
 # Input {-}
 
 Loading libraries:
 ```{r Load libraries, message = FALSE}
 library(xfun)
+library(knitr)
+library(dplyr)
+library(ggpubr)
 ```
 
 # Analysis {-}
 
+## Link Operators {-}
+
+Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ activators $x=\{x_i\}_{i=1}^{m}$ and $k$ inhibitors $y=\{y_i\}_{i=1}^{k}$.
+For a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
+We next describe what each link operator looks like in the general form of $f$:
+
+- `AND-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \land \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
+- `OR-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \lor \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
+- `BalanceOp1`: $$f(x,y) = \bigvee_{\forall (i,j)}^{m,k}(x_i\land \lnot y_j) = \left(\bigvee_{i=1}^{m} x_i\right) \land \left(\bigvee_{i=1}^{k} \lnot y_i\right)$$
+- `exp_act_win`: $$f(x,y)=\begin{cases}
+        1, & \text{for } \sum_{i=1}^{m} x_i \ge \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
+        0, & \text{otherwise}
+        \end{cases}$$
+- `exp_inh_win`: $$f(x,y)=\begin{cases}
+        1, & \text{for } \sum_{i=1}^{m} x_i \gt \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
+        0, & \text{otherwise}
+        \end{cases}$$
+
+:::{.blue-box}
+*Truth Density* of a boolean equation/expression, given it's equivalent truth table, is pretty much the **number of rows that the expression is active** divided to **the total number of rows**.
+:::
+
+# Truth Density Data Analysis
+
+I created every possible truth table for up to $20$ variables (variables here means *regulators* for us) and calculated the `AND-NOT`, `OR-NOT`, `BalanceOp1`, `exp_act_win`, `exp_inh_win` results for every possible configuration of the number of activators and inhibitors that added up to the number of regulators.
+Then, from the truth tables I calculated the **truth density** of each operator in each particular configuration:
+```{r load-data}
+stats = readRDS(file = "stats.rds")
+stats[1:5,1:8] %>% kable(caption = "Thuth Density Data", digits = 2)
+```
+
+Also, I have proved the exact formulas for the truth densities in the case of the `AND-NOT` and `OR-NOT` link operators (see [here](TO-ADD) for a sketch)
+These are:
+
+- `AND-NOT`: $$TD_{AND-NOT}=\frac{2^m-1}{2^n} \xrightarrow{n \text{ large}} \frac{1}{2^k}$$
+- `OR-NOT`:  $$TD_{OR-NOT}=\frac{2^n-2^k}{2^n} \xrightarrow{n \text{ large}} 1-\frac{1}{2^m}$$
+
+We can use the data above to validate the formulas from the proof (up to $n=20$):
+```{r validate-formulas}
+# Validate AND-NOT Truth Density formula
+formula_td_and_not = stats %>% 
+  mutate(formula_td_and_not = (2^num_act - 1)/(2^num_reg)) %>%
+  pull(formula_td_and_not)
+
+all(stats %>% pull(td_and_not) == formula_td_and_not)
+
+# Validate OR-NOT Truth Density formula
+formula_td_or_not = stats %>% 
+  mutate(formula_td_or_not = (((2^num_act - 1) * (2^num_inh)) + 1)/(2^num_reg)) %>%
+  pull(formula_td_or_not)
+
+all(stats %>% pull(td_or_not) == formula_td_or_not)
+```
+
+```{r}
+stats
+
+```
 
 # Conclusion {-}
 

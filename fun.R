@@ -128,7 +128,7 @@ cl = makeCluster(cores)
 registerDoParallel(cl)
 
 # For 20 regulators it should take ~30 min (for 16, ~ 1min!)
-stats = get_stats(num_reg = 16)
+stats = get_stats(num_reg = 20)
 
 # release cluster
 stopCluster(cl)

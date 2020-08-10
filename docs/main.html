@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Balance Mutations in Logical Modeling</title>
-  <meta name="description" content="Investigations for Balance logical operators paper" />
+  <meta name="description" content="Investigations for Balance link operators paper" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Balance Mutations in Logical Modeling" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://bblodfon.github.io/balance-paper/" />
   
-  <meta property="og:description" content="Investigations for Balance logical operators paper" />
+  <meta property="og:description" content="Investigations for Balance link operators paper" />
   <meta name="github-repo" content="bblodfon/balance-paper" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Balance Mutations in Logical Modeling" />
   
-  <meta name="twitter:description" content="Investigations for Balance logical operators paper" />
+  <meta name="twitter:description" content="Investigations for Balance link operators paper" />
   
 
 <meta name="author" content="John Zobolas" />
@@ -890,7 +890,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Balance Mutations in Logical Modeling</h1>
 <p class="author"><em><a href="https://github.com/bblodfon">John Zobolas</a></em></p>
-<p class="date"><em>Last updated: 28 July, 2020</em></p>
+<p class="date"><em>Last updated: 10 August, 2020</em></p>
 </div>
 <div id="intro" class="section level1 unnumbered" number="">
 <h1>Intro</h1>
@@ -902,51 +902,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(xfun)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(knitr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(ggpubr)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(ggpubr)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
 </div>
 <div id="analysis" class="section level1 unnumbered" number="">
 <h1>Analysis</h1>
 <div id="link-operators" class="section level2 unnumbered" number="">
 <h2>Link Operators</h2>
-<p>Let <span class="math inline">\(f\)</span> be a boolean function <span class="math inline">\(f(x,y):\{0,1\}^n \rightarrow \{0,1\}\)</span>, with <span class="math inline">\(m\)</span> <strong>activators</strong> <span class="math inline">\(x=\{x_i\}_{i=1}^{m}\)</span> and <span class="math inline">\(k\)</span> <strong>inhibitors</strong> <span class="math inline">\(y=\{y_i\}_{i=1}^{k}\)</span>.
+<p>Let <span class="math inline">\(f\)</span> be a boolean function <span class="math inline">\(f(x,y):\{0,1\}^n \rightarrow \{0,1\}\)</span>, with <span class="math inline">\(m\)</span> <strong>activators</strong> <span class="math inline">\(x=\{x_i\}_{i=1}^{m}\)</span> and <span class="math inline">\(k\)</span> <strong>inhibitors</strong> <span class="math inline">\(y=\{y_i\}_{i=1}^{k}\)</span>, that is a total of <span class="math inline">\(n=m+k\)</span> regulators.
 For a link operator to make sense, we have that <span class="math inline">\(m,k \ge 1\)</span> (at least one regulator in each category).
 We next describe what each link operator looks like in the general form of <span class="math inline">\(f\)</span>:</p>
 <ul>
 <li><code>AND-NOT</code>: <span class="math display">\[f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \land \lnot \left(\bigvee_{i=1}^{k} y_i\right)\]</span></li>
 <li><code>OR-NOT</code>: <span class="math display">\[f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \lor \lnot \left(\bigvee_{i=1}^{k} y_i\right)\]</span></li>
 <li><code>BalanceOp1</code>: <span class="math display">\[f(x,y) = \bigvee_{\forall (i,j)}^{m,k}(x_i\land \lnot y_j) = \left(\bigvee_{i=1}^{m} x_i\right) \land \left(\bigvee_{i=1}^{k} \lnot y_i\right)\]</span></li>
-<li><code>exp_act_win</code>: <span class="math display">\[f(x,y)=\begin{cases}
+<li><code>exp_act_win</code>: <span class="math display">\[f_{act-win}(x,y)=\begin{cases}
       1, &amp; \text{for } \sum_{i=1}^{m} x_i \ge \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
       0, &amp; \text{otherwise}
       \end{cases}\]</span></li>
-<li><code>exp_inh_win</code>: <span class="math display">\[f(x,y)=\begin{cases}
+<li><code>exp_inh_win</code>: <span class="math display">\[f_{inh-win}(x,y)=\begin{cases}
       1, &amp; \text{for } \sum_{i=1}^{m} x_i \gt \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
       0, &amp; \text{otherwise}
       \end{cases}\]</span></li>
 </ul>
-<div class="blue-box">
-<p><em>Truth Density</em> of a boolean equation/expression, given it’s equivalent truth table, is pretty much the <strong>number of rows that the expression is active</strong> divided to <strong>the total number of rows</strong>.</p>
-</div>
+<p>Note that: <span class="math inline">\(f_{inh-win}(x,y) = \lnot f_{act-win}(y,x)\)</span>.
+I searched for an analytical formula for the two last functions (they get pertty big!).
+See discussion on <a href="https://math.stackexchange.com/questions/3767774/identify-boolean-function-that-satisfies-some-constrains/">math.stackexchange</a>.</p>
 </div>
 </div>
 <div id="truth-density-data-analysis" class="section level1 unnumbered" number="">
 <h1>Truth Density Data Analysis</h1>
+<div class="blue-box">
+<p><em>Truth Density</em> of a boolean equation/expression, given it’s equivalent truth table, is the <strong>number of rows that the expression is active</strong> divided to <strong>the total number of rows</strong> <span class="math inline">\((2^n)\)</span>.</p>
+</div>
 <p>I created every possible truth table for up to <span class="math inline">\(20\)</span> variables (variables here means <em>regulators</em> for us) and calculated the <code>AND-NOT</code>, <code>OR-NOT</code>, <code>BalanceOp1</code>, <code>exp_act_win</code>, <code>exp_inh_win</code> results for every possible configuration of the number of activators and inhibitors that added up to the number of regulators.
-Then, from the truth tables I calculated the <strong>truth density</strong> of each operator in each particular configuration:</p>
+Then, from the truth tables I calculated the <strong>truth density</strong> of each operator in each particular configuration.
+See part of the data below:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;stats.rds&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>stats[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Thuth Density Data&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a>stats[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Thuth Density Data&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:load-data">Table 1: </span>Thuth Density Data</caption>
-<colgroup>
-<col width="9%" />
-<col width="9%" />
-<col width="9%" />
-<col width="13%" />
-<col width="12%" />
-<col width="17%" />
-<col width="13%" />
-<col width="13%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th align="right">num_reg</th>
@@ -955,8 +951,6 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <th align="right">td_and_not</th>
 <th align="right">td_or_not</th>
 <th align="right">td_balance_op</th>
-<th align="right">td_exp_act</th>
-<th align="right">td_exp_inh</th>
 </tr>
 </thead>
 <tbody>
@@ -967,8 +961,6 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <td align="right">0.25</td>
 <td align="right">0.75</td>
 <td align="right">0.25</td>
-<td align="right">0.50</td>
-<td align="right">0.25</td>
 </tr>
 <tr class="even">
 <td align="right">3</td>
@@ -977,8 +969,6 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <td align="right">0.12</td>
 <td align="right">0.62</td>
 <td align="right">0.38</td>
-<td align="right">0.38</td>
-<td align="right">0.12</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
@@ -987,8 +977,6 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <td align="right">0.38</td>
 <td align="right">0.88</td>
 <td align="right">0.38</td>
-<td align="right">0.75</td>
-<td align="right">0.50</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
@@ -997,8 +985,6 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <td align="right">0.06</td>
 <td align="right">0.56</td>
 <td align="right">0.44</td>
-<td align="right">0.25</td>
-<td align="right">0.06</td>
 </tr>
 <tr class="odd">
 <td align="right">4</td>
@@ -1007,17 +993,19 @@ Then, from the truth tables I calculated the <strong>truth density</strong> of e
 <td align="right">0.19</td>
 <td align="right">0.81</td>
 <td align="right">0.56</td>
-<td align="right">0.62</td>
-<td align="right">0.31</td>
 </tr>
 </tbody>
 </table>
-<p>Also, I have proved the exact formulas for the truth densities in the case of the <code>AND-NOT</code> and <code>OR-NOT</code> link operators (see <a href="TO-ADD">here</a> for a sketch)
-These are:</p>
+<div class="orange-box">
+<p>Use the <a href="https://github.com/bblodfon/balance-paper/blob/master/fun.R">fun.R</a> script to reproduce this data.</p>
+</div>
+<p>Also, I have proved the exact formulas for the truth densities in the case of the <code>AND-NOT</code> and <code>OR-NOT</code> link operators (see <a href="http://tiny.cc/link-proofs">here</a> for a proof sketch).
+I write them here explicitly, as well as their long-term behaviour (for large <span class="math inline">\(n\)</span>):</p>
 <ul>
 <li><code>AND-NOT</code>: <span class="math display">\[TD_{AND-NOT}=\frac{2^m-1}{2^n} \xrightarrow{n \text{ large}} \frac{1}{2^k}\]</span></li>
 <li><code>OR-NOT</code>: <span class="math display">\[TD_{OR-NOT}=\frac{2^n-2^k}{2^n} \xrightarrow{n \text{ large}} 1-\frac{1}{2^m}\]</span></li>
 </ul>
+<p>So, if there are a lot of regulators in a boolean equation and <strong>only one of them is an inhibitor (activator)</strong> the truth density of the <code>AND-NOT</code> (<code>OR-NOT</code>) equation case will converge to <span class="math inline">\(1/2\)</span>.</p>
 <p>We can use the data above to validate the formulas from the proof (up to <span class="math inline">\(n=20\)</span>):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Validate AND-NOT Truth Density formula</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>formula_td_and_not =<span class="st"> </span>stats <span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -1025,21 +1013,50 @@ These are:</p>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">pull</span>(formula_td_and_not)</span>
 <span id="cb3-5"><a href="#cb3-5"></a></span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="kw">all</span>(stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(td_and_not) <span class="op">==</span><span class="st"> </span>formula_td_and_not)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<pre><code>[1] TRUE</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Validate OR-NOT Truth Density formula</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>formula_td_or_not =<span class="st"> </span>stats <span class="op">%&gt;%</span><span class="st"> </span></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">formula_td_or_not =</span> (((<span class="dv">2</span><span class="op">^</span>num_act <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>(<span class="dv">2</span><span class="op">^</span>num_inh)) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)<span class="op">/</span>(<span class="dv">2</span><span class="op">^</span>num_reg)) <span class="op">%&gt;%</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">pull</span>(formula_td_or_not)</span>
 <span id="cb5-5"><a href="#cb5-5"></a></span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="kw">all</span>(stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(td_or_not) <span class="op">==</span><span class="st"> </span>formula_td_or_not)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<pre><code>[1] TRUE</code></pre>
+<p>Comparing the <code>AND-NOT</code> and <code>OR-NOT</code> truth densities across the number of regulators:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># tidy up data</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>stats_and_or =<span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">data =</span> stats, <span class="dt">cols =</span> <span class="kw">c</span>(td_and_not, td_or_not), </span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">names_to =</span> <span class="st">&quot;lo&quot;</span>, <span class="dt">values_to =</span> <span class="st">&quot;td&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">select</span>(num_reg, lo, td) <span class="op">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">lo =</span> <span class="kw">replace</span>(<span class="dt">x =</span> lo, <span class="dt">list =</span> lo <span class="op">==</span><span class="st"> &quot;td_and_not&quot;</span>, <span class="dt">values =</span> <span class="st">&quot;AND-NOT&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">lo =</span> <span class="kw">replace</span>(<span class="dt">x =</span> lo, <span class="dt">list =</span> lo <span class="op">==</span><span class="st"> &quot;td_or_not&quot;</span>, <span class="dt">values =</span> <span class="st">&quot;OR-NOT&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">`</span><span class="dt">Link Operator</span><span class="st">`</span> =<span class="st"> </span>lo)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="kw">ggboxplot</span>(<span class="dt">data =</span> stats_and_or, <span class="dt">x =</span> <span class="st">&quot;num_reg&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;td&quot;</span>, </span>
+<span id="cb7-10"><a href="#cb7-10"></a>  <span class="dt">color =</span> <span class="st">&quot;Link Operator&quot;</span>, <span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>  <span class="dt">title =</span> <span class="st">&quot;AND-NOT vs OR-NOT Truth Densities&quot;</span>, </span>
+<span id="cb7-12"><a href="#cb7-12"></a>  <span class="dt">xlab =</span> <span class="st">&quot;Number of regulators&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Truth Density&quot;</span>) <span class="op">+</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:fig-and-or-not"></span>
+<img src="index_files/figure-html/fig-and-or-not-1.png" alt="AND-NOT vs OR-NOT Truth Densities across all possible activators and inhibitors combinations up to 20 regulators" width="672" />
+<p class="caption">
+Figure 1: AND-NOT vs OR-NOT Truth Densities across all possible activators and inhibitors combinations up to 20 regulators
+</p>
+</div>
+<div class="green-box">
+<ul>
+<li><strong>The more regulators</strong> there are, the more likely it is that the <code>AND-NOT</code> link operator in the boolean equation will result in an <strong>inhibited</strong> target and that the <code>OR-NOT</code> link operator in an <strong>active</strong> target.</li>
+<li>For <span class="math inline">\(n&gt;6\)</span>, the points outside the boxplots (with a truth density of <span class="math inline">\(\frac{1}{2}, \frac{1}{4}, 1-\frac{1}{4},\frac{1}{8},1-\frac{1}{8},...\)</span>) correspond to the <strong>long-term behaviour</strong> of the truth density formulas shown above, where there is <strong>large imbalance between the number of activators and inhibitors</strong>.</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># ggboxplot(data = stats, x = &quot;num_reg&quot;, y = &quot;td_balance_op&quot;)</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># ggboxplot(data = stats, x = &quot;num_reg&quot;, y = &quot;td_exp_act&quot;)</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co"># ggboxplot(data = stats, x = &quot;num_reg&quot;, y = &quot;td_exp_inh&quot;)</span></span></code></pre></div>
 </div>
 <div id="r-session-info" class="section level1 unnumbered" number="">
 <h1>R session info</h1>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>xfun<span class="op">::</span><span class="kw">session_info</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>xfun<span class="op">::</span><span class="kw">session_info</span>()</span></code></pre></div>
 <pre><code>R version 3.6.3 (2020-02-29)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 18.04.4 LTS
+Running under: Ubuntu 18.04.5 LTS
 
 Locale:
   LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              

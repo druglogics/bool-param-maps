@@ -30,11 +30,11 @@ library(ggpubr)
 
 # Analysis {-}
 
-## Link Operators {-}
+## Balance boolean functions {-}
 
 Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$, that is a total of $n=m+k$ regulators.
 For a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
-We next describe what each link operator looks like in the general form of $f$:
+We next describe what each link operator (`AND-NOT`, `OR-NOT`) looks like in the general form of $f$ and propose 3 more boolean balance functions:
 
 - `AND-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \land \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
 - `OR-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \lor \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
@@ -53,6 +53,8 @@ I searched for an analytical formula for the two last functions (they get pretty
 More info and discussion about these 2 last formulas, see the [math.stackexchange question](https://math.stackexchange.com/questions/3767774/identify-boolean-function-that-satisfies-some-constrains/).
 
 # Truth Density Data Analysis {-}
+
+## Data {-}
 
 :::{.blue-box}
 *Truth Density (TD)* of a boolean equation/expression, given it's equivalent truth table, is the **number of rows that the expression is active** divided to **the total number of rows** $(2^n)$.
@@ -83,13 +85,15 @@ Table: (\#tab:load-data)Thuth Density Data
 Use the [fun.R](https://github.com/bblodfon/balance-paper/blob/master/fun.R) script to reproduce this data.
 :::
 
+## Truth Density formulas {-}
+
 Also, I have proved the exact formulas for the truth densities in the case of the `AND-NOT` and `OR-NOT` link operators (see [here](http://tiny.cc/link-proofs) for a proof sketch).
 I write them here explicitly, as well as their long-term behaviour (for large $n$. number of regulators):
 
 - `AND-NOT`: $$TD_{AND-NOT}=\frac{2^m-1}{2^n} \xrightarrow{n \text{ large}} \frac{1}{2^k}$$
 - `OR-NOT`:  $$TD_{OR-NOT}=\frac{2^n-2^k}{2^n} \xrightarrow{n \text{ large}} 1-\frac{1}{2^m}$$
 
-For large $n$, the $TD_{AND-NOT}$ depends only on the number of inhibitors while the $TD_{OR-NOT}$ depends only on the number of activators.
+For large $n$, the $TD_{AND-NOT}$ depends only **on the number of inhibitors** while the $TD_{OR-NOT}$ depends only **on the number of activators**.
 
 Also, again for large $n$, the extreme case of having a TD value equal to $0.5$ is a result of having **only one of the regulators being an inhibitor (activator)** of the `AND-NOT` (`OR-NOT`) equation.
 
@@ -121,6 +125,8 @@ all(stats %>% pull(td_or_not) == formula_td_or_not)
 [1] TRUE
 ```
 
+## *AND-NOT* vs *OR-NOT* {-}
+
 Comparing the `AND-NOT` and `OR-NOT` truth densities across the number of regulators:
 
 ```r
@@ -149,7 +155,52 @@ ggboxplot(data = stats_and_or, x = "num_reg", y = "td",
 - For $n>6$, the points outside the boxplots (with a truth density of $\frac{1}{2}, \frac{1}{4}, 1-\frac{1}{4},\frac{1}{8},1-\frac{1}{8},...$) correspond to the **long-term behaviour** of the truth density formulas shown above, but where there is also **large imbalance between the number of activators and inhibitors**.
 :::
 
-If we add the `BalanceOp1` formual's TD results to the above plot we have:
+We can also check the relation between TD and number of activators and inhibitors in each case.
+The following two figures show us why **the number of inhibitors** are more decisive in the `AND-NOT` case:
+
+```r
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_and_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "AND-NOT TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_and_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "AND-NOT TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+<div class="figure">
+<img src="index_files/figure-html/and-not-reg-plot-1.png" alt="AND-NOT TD vs Number of Activators and Inhibitors" width="50%" /><img src="index_files/figure-html/and-not-reg-plot-2.png" alt="AND-NOT TD vs Number of Activators and Inhibitors" width="50%" />
+<p class="caption">(\#fig:and-not-reg-plot)AND-NOT TD vs Number of Activators and Inhibitors</p>
+</div>
+
+In the `OR-NOT` case the number of activators is more important:
+
+```r
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_or_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "OR-NOT TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_or_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "OR-NOT TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+<div class="figure">
+<img src="index_files/figure-html/or-not-reg-plot-1.png" alt="OR-NOT TD vs Number of Activators and Inhibitors" width="50%" /><img src="index_files/figure-html/or-not-reg-plot-2.png" alt="OR-NOT TD vs Number of Activators and Inhibitors" width="50%" />
+<p class="caption">(\#fig:or-not-reg-plot)OR-NOT TD vs Number of Activators and Inhibitors</p>
+</div>
+
+## *BalanceOp1* TD {-}
+
+If we add the `BalanceOp1` formuls's TD results to the first plot we have:
 
 ```r
 # tidy up data
@@ -178,6 +229,29 @@ ggboxplot(data = stats_and_or_balance, x = "num_reg", y = "td",
 - The `BalanceOp1` is less *biased* compared to the `OR-NOT` link operator, but still for large $n$ (regulators) it practically **makes the target activated**.
 :::
 
+As we can see in the following two figures, the `BalanceOp1` shows a more balanced dependency between the number of activators and inhibitors:
+
+```r
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_balance_op", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "BalanceOp1 TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_balance_op", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "BalanceOp1 TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+<div class="figure">
+<img src="index_files/figure-html/balanceOp1-reg-plot-1.png" alt="BalanceOp1 TD vs Number of Activators and Inhibitors" width="50%" /><img src="index_files/figure-html/balanceOp1-reg-plot-2.png" alt="BalanceOp1 TD vs Number of Activators and Inhibitors" width="50%" />
+<p class="caption">(\#fig:balanceOp1-reg-plot)BalanceOp1 TD vs Number of Activators and Inhibitors</p>
+</div>
+
+## *exp_act_win* and *exp_inh_win* TD {-}
+
 In contrast, if we check the truth density of the $f_{act-win}(x,y)$ and $f_{inh-win}(x,y)$ boolean functions we have:
 
 ```r
@@ -204,7 +278,7 @@ ggboxplot(data = stats_functions, x = "num_reg", y = "td",
 :::{.green-box}
 - Both boolean functions have a **large variance of truth densities** irrespective of the number of regulators.
 - The median values seem to converge to $0.5$ for both formulas.
-- The median value of truth density for the $f_{act-win}(x,y)$ is always larger than the $f_{inh-win}(x,y)$.
+- The median value of truth density for the $f_{act-win}(x,y)$ is always larger than the $f_{inh-win}(x,y)$ (as expected).
 :::
 
 We will now check the *correlation* between each pair of operators/proposed functions, as well as the number of regulators, inhibitors and activators:
@@ -223,7 +297,8 @@ corrplot(corr = M, type = "upper", p.mat = res$p, sig.level = c(.001, .01, .05),
 
 :::{.green-box}
 - The two functions results $f_{act-win}(x,y), f_{inh-win}(x,y)$ are highly correlated as expected.
-- `AND-NOT` TD values highly correlate with number of inhibitors 
+- Higher `AND-NOT` TD values highly correlate with *lower* number of inhibitors
+- Higher `OR-NOT` TD values highly correlate with *higher* number of activators
 :::
 
 # R session info {-}
@@ -251,43 +326,42 @@ Package version:
   base64enc_0.1.3     BH_1.72.0.3         bookdown_0.20      
   boot_1.3.25         broom_0.5.6         callr_3.4.3        
   car_3.0-8           carData_3.0-4       cellranger_1.1.0   
-  cli_2.0.2           clipr_0.7.0         codetools_0.2-16   
-  colorspace_1.4-1    compiler_3.6.3      corrplot_0.84      
-  cowplot_1.0.0       crayon_1.3.4        curl_4.3           
-  data.table_1.12.8   desc_1.2.0          digest_0.6.25      
-  dplyr_1.0.0         ellipsis_0.3.1      evaluate_0.14      
-  fansi_0.4.1         farver_2.0.3        forcats_0.5.0      
-  foreign_0.8-75      generics_0.0.2      ggplot2_3.3.2      
-  ggpubr_0.4.0        ggrepel_0.8.2       ggsci_2.9          
-  ggsignif_0.6.0      glue_1.4.1          graphics_3.6.3     
-  grDevices_3.6.3     grid_3.6.3          gridExtra_2.3      
-  gtable_0.3.0        haven_2.3.1         highr_0.8          
-  hms_0.5.3           htmltools_0.5.0     isoband_0.2.2      
-  jsonlite_1.7.0      knitr_1.29          labeling_0.3       
-  latex2exp_0.4.0     lattice_0.20-41     lifecycle_0.2.0    
-  lme4_1.1.23         magrittr_1.5        maptools_1.0.1     
-  markdown_1.1        MASS_7.3.51.6       Matrix_1.2.18      
-  MatrixModels_0.4.1  methods_3.6.3       mgcv_1.8.31        
-  mime_0.9            minqa_1.2.4         munsell_0.5.0      
-  nlme_3.1-148        nloptr_1.2.2.1      nnet_7.3.14        
-  openxlsx_4.1.5      parallel_3.6.3      pbkrtest_0.4.8.6   
-  pillar_1.4.4        pkgbuild_1.0.8      pkgconfig_2.0.3    
-  pkgload_1.1.0       plyr_1.8.6          polynom_1.4.0      
-  praise_1.0.0        prettyunits_1.1.1   processx_3.4.2     
-  progress_1.2.2      ps_1.3.3            purrr_0.3.4        
-  quantreg_5.55       R6_2.4.1            RColorBrewer_1.1.2 
-  Rcpp_1.0.4.6        RcppEigen_0.3.3.7.0 readr_1.3.1        
-  readxl_1.3.1        rematch_1.0.1       reshape2_1.4.4     
-  rio_0.5.16          rlang_0.4.6         rmarkdown_2.3      
-  rprojroot_1.3.2     rstatix_0.6.0       rstudioapi_0.11    
-  scales_1.1.1        sp_1.4.2            SparseM_1.78       
-  splines_3.6.3       statmod_1.4.34      stats_3.6.3        
-  stringi_1.4.6       stringr_1.4.0       testthat_2.3.2     
-  tibble_3.0.1        tidyr_1.1.0         tidyselect_1.1.0   
-  tinytex_0.24        tools_3.6.3         utf8_1.1.4         
-  utils_3.6.3         vctrs_0.3.1         viridisLite_0.3.0  
-  withr_2.2.0         xfun_0.15           yaml_2.2.1         
-  zip_2.0.4          
+  cli_2.0.2           clipr_0.7.0         colorspace_1.4-1   
+  compiler_3.6.3      corrplot_0.84       cowplot_1.0.0      
+  crayon_1.3.4        curl_4.3            data.table_1.12.8  
+  desc_1.2.0          digest_0.6.25       dplyr_1.0.0        
+  ellipsis_0.3.1      evaluate_0.14       fansi_0.4.1        
+  farver_2.0.3        forcats_0.5.0       foreign_0.8-75     
+  generics_0.0.2      ggplot2_3.3.2       ggpubr_0.4.0       
+  ggrepel_0.8.2       ggsci_2.9           ggsignif_0.6.0     
+  glue_1.4.1          graphics_3.6.3      grDevices_3.6.3    
+  grid_3.6.3          gridExtra_2.3       gtable_0.3.0       
+  haven_2.3.1         highr_0.8           hms_0.5.3          
+  htmltools_0.5.0     isoband_0.2.2       jsonlite_1.7.0     
+  knitr_1.29          labeling_0.3        latex2exp_0.4.0    
+  lattice_0.20-41     lifecycle_0.2.0     lme4_1.1.23        
+  magrittr_1.5        maptools_1.0.1      markdown_1.1       
+  MASS_7.3.51.6       Matrix_1.2.18       MatrixModels_0.4.1 
+  methods_3.6.3       mgcv_1.8.31         mime_0.9           
+  minqa_1.2.4         munsell_0.5.0       nlme_3.1-148       
+  nloptr_1.2.2.1      nnet_7.3.14         openxlsx_4.1.5     
+  parallel_3.6.3      pbkrtest_0.4.8.6    pillar_1.4.4       
+  pkgbuild_1.0.8      pkgconfig_2.0.3     pkgload_1.1.0      
+  plyr_1.8.6          polynom_1.4.0       praise_1.0.0       
+  prettyunits_1.1.1   processx_3.4.2      progress_1.2.2     
+  ps_1.3.3            purrr_0.3.4         quantreg_5.55      
+  R6_2.4.1            RColorBrewer_1.1.2  Rcpp_1.0.4.6       
+  RcppEigen_0.3.3.7.0 readr_1.3.1         readxl_1.3.1       
+  rematch_1.0.1       reshape2_1.4.4      rio_0.5.16         
+  rlang_0.4.6         rmarkdown_2.3       rprojroot_1.3.2    
+  rstatix_0.6.0       rstudioapi_0.11     scales_1.1.1       
+  sp_1.4.2            SparseM_1.78        splines_3.6.3      
+  statmod_1.4.34      stats_3.6.3         stringi_1.4.6      
+  stringr_1.4.0       testthat_2.3.2      tibble_3.0.1       
+  tidyr_1.1.0         tidyselect_1.1.0    tinytex_0.24       
+  tools_3.6.3         utf8_1.1.4          utils_3.6.3        
+  vctrs_0.3.1         viridisLite_0.3.0   withr_2.2.0        
+  xfun_0.15           yaml_2.2.1          zip_2.0.4          
 ```
 
 # References {-}

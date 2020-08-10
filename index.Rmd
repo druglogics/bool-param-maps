@@ -29,11 +29,11 @@ library(ggpubr)
 
 # Analysis {-}
 
-## Link Operators {-}
+## Balance boolean functions {-}
 
 Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$, that is a total of $n=m+k$ regulators.
 For a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
-We next describe what each link operator looks like in the general form of $f$:
+We next describe what each link operator (`AND-NOT`, `OR-NOT`) looks like in the general form of $f$ and propose 3 more boolean balance functions:
 
 - `AND-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \land \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
 - `OR-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \lor \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
@@ -53,6 +53,8 @@ More info and discussion about these 2 last formulas, see the [math.stackexchang
 
 # Truth Density Data Analysis {-}
 
+## Data {-}
+
 :::{.blue-box}
 *Truth Density (TD)* of a boolean equation/expression, given it's equivalent truth table, is the **number of rows that the expression is active** divided to **the total number of rows** $(2^n)$.
 :::
@@ -69,13 +71,15 @@ stats[1:5,] %>% kable(caption = "Thuth Density Data", digits = 2)
 Use the [fun.R](https://github.com/bblodfon/balance-paper/blob/master/fun.R) script to reproduce this data.
 :::
 
+## Truth Density formulas {-}
+
 Also, I have proved the exact formulas for the truth densities in the case of the `AND-NOT` and `OR-NOT` link operators (see [here](http://tiny.cc/link-proofs) for a proof sketch).
 I write them here explicitly, as well as their long-term behaviour (for large $n$. number of regulators):
 
 - `AND-NOT`: $$TD_{AND-NOT}=\frac{2^m-1}{2^n} \xrightarrow{n \text{ large}} \frac{1}{2^k}$$
 - `OR-NOT`:  $$TD_{OR-NOT}=\frac{2^n-2^k}{2^n} \xrightarrow{n \text{ large}} 1-\frac{1}{2^m}$$
 
-For large $n$, the $TD_{AND-NOT}$ depends only on the number of inhibitors while the $TD_{OR-NOT}$ depends only on the number of activators.
+For large $n$, the $TD_{AND-NOT}$ depends only **on the number of inhibitors** while the $TD_{OR-NOT}$ depends only **on the number of activators**.
 
 Also, again for large $n$, the extreme case of having a TD value equal to $0.5$ is a result of having **only one of the regulators being an inhibitor (activator)** of the `AND-NOT` (`OR-NOT`) equation.
 
@@ -95,6 +99,8 @@ formula_td_or_not = stats %>%
 
 all(stats %>% pull(td_or_not) == formula_td_or_not)
 ```
+
+## *AND-NOT* vs *OR-NOT* {-}
 
 Comparing the `AND-NOT` and `OR-NOT` truth densities across the number of regulators:
 ```{r fig-and-or-not, fig.align='center', dpi=300, cache=TRUE, fig.cap="AND-NOT vs OR-NOT Truth Densities across all possible activators and inhibitors combinations up to 20 regulators"}
@@ -118,7 +124,40 @@ ggboxplot(data = stats_and_or, x = "num_reg", y = "td",
 - For $n>6$, the points outside the boxplots (with a truth density of $\frac{1}{2}, \frac{1}{4}, 1-\frac{1}{4},\frac{1}{8},1-\frac{1}{8},...$) correspond to the **long-term behaviour** of the truth density formulas shown above, but where there is also **large imbalance between the number of activators and inhibitors**.
 :::
 
-If we add the `BalanceOp1` formual's TD results to the above plot we have:
+We can also check the relation between TD and number of activators and inhibitors in each case.
+The following two figures show us why **the number of inhibitors** are more decisive in the `AND-NOT` case:
+```{r and-not-reg-plot, dpi=300, cache=TRUE, fig.show='hold', out.width='50%', fig.cap="AND-NOT TD vs Number of Activators and Inhibitors"}
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_and_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "AND-NOT TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_and_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "AND-NOT TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+In the `OR-NOT` case the number of activators is more important:
+```{r or-not-reg-plot, dpi=300, cache=TRUE, fig.show='hold', out.width='50%', fig.cap="OR-NOT TD vs Number of Activators and Inhibitors"}
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_or_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "OR-NOT TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_or_not", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "OR-NOT TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## *BalanceOp1* TD {-}
+
+If we add the `BalanceOp1` formuls's TD results to the first plot we have:
 ```{r fig-and-or-not-balanceop, fig.align='center', dpi=300, cache=TRUE, fig.cap="AND-NOT vs OR-NOT vs BalanceOp1 Truth Densities across all possible activators and inhibitors combinations up to 20 regulators"}
 # tidy up data
 stats_and_or_balance = pivot_longer(data = stats, cols = c(td_and_not, td_or_not, td_balance_op), 
@@ -140,6 +179,23 @@ ggboxplot(data = stats_and_or_balance, x = "num_reg", y = "td",
 - The `BalanceOp1` TD values are closer to the TD values of the `OR-NOT` formula compared to the `AND-NOT` one.
 - The `BalanceOp1` is less *biased* compared to the `OR-NOT` link operator, but still for large $n$ (regulators) it practically **makes the target activated**.
 :::
+
+As we can see in the following two figures, the `BalanceOp1` shows a more balanced dependency between the number of activators and inhibitors:
+```{r balanceOp1-reg-plot, dpi=300, cache=TRUE, fig.show='hold', out.width='50%', fig.cap="BalanceOp1 TD vs Number of Activators and Inhibitors"}
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_inh", 
+  y = "td_balance_op", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Inhibitors", 
+  title = "BalanceOp1 TD vs Number of Inhibitors") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act", 
+  y = "td_balance_op", color = "#Regulators",
+  ylab = "Truth Density", xlab = "Number of Activators", 
+  title = "BalanceOp1 TD vs Number of Activators") + 
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## *exp_act_win* and *exp_inh_win* TD {-}
 
 In contrast, if we check the truth density of the $f_{act-win}(x,y)$ and $f_{inh-win}(x,y)$ boolean functions we have:
 ```{r fig-two-bool-formulas, fig.align='center', dpi=300, cache=TRUE, fig.cap="Truth Desities of two robust boolean formulas across all possible activators and inhibitors combinations up to 20 regulators"}

@@ -88,20 +88,9 @@ get_data = function(num_reg) {
     td_exp_act    = sum(exp_act_res)/length(exp_act_res)
     td_exp_inh    = sum(exp_inh_res)/length(exp_inh_res)
 
-    # Calculate the matches between the expected balance formulas
-    and_not_act_match = usefun::get_percentage_of_matches(and_not_res, exp_act_res)
-    and_not_inh_match = usefun::get_percentage_of_matches(and_not_res, exp_inh_res)
-    or_not_act_match = usefun::get_percentage_of_matches(or_not_res, exp_act_res)
-    or_not_inh_match = usefun::get_percentage_of_matches(or_not_res, exp_inh_res)
-    balance_op_act_match = usefun::get_percentage_of_matches(balance_op_res, exp_act_res)
-    balance_op_inh_match = usefun::get_percentage_of_matches(balance_op_res, exp_inh_res)
-
     dplyr::bind_cols(num_reg = num_reg, num_act = num_act,
       num_inh = num_inh, td_and_not = td_and_not, td_or_not = td_or_not,
-      td_balance_op = td_balance_op, td_exp_act = td_exp_act, td_exp_inh = td_exp_inh,
-      and_not_act_match = and_not_act_match, and_not_inh_match = and_not_inh_match,
-      or_not_act_match = or_not_act_match, or_not_inh_match = or_not_inh_match,
-      balance_op_act_match = balance_op_act_match, balance_op_inh_match = balance_op_inh_match)
+      td_balance_op = td_balance_op, td_exp_act = td_exp_act, td_exp_inh = td_exp_inh)
   }
 
   res = dplyr::bind_rows(data)

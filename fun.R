@@ -41,19 +41,17 @@ or_not = function(lv, num_act, num_inh) {
 balance_op = function(lv, num_act, num_inh) {
   apply_operator(lv[1:num_act], 'or') & apply_operator(!lv[(num_act+1):(num_act+num_inh)], 'or')
 }
-
 # activators win on equality (more activators always win)
 exp_act_win = function(lv, num_act, num_inh) {
   act_sum = sum(lv[1:num_act])
-  if (act_sum == 0) return(FALSE)
+  #if (act_sum == 0) return(FALSE)
   inh_sum = sum(lv[(num_act+1):(num_act+num_inh)])
   if (act_sum >= inh_sum) return(TRUE) else return(FALSE)
 }
-
 # inhibitors win on equality (more activators always win)
 exp_inh_win = function(lv, num_act, num_inh) {
   act_sum = sum(lv[1:num_act])
-  if (act_sum == 0) return(FALSE)
+  #if (act_sum == 0) return(FALSE)
   inh_sum = sum(lv[(num_act+1):(num_act+num_inh)])
   if (act_sum > inh_sum) return(TRUE) else return(FALSE)
 }

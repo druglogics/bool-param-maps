@@ -14,8 +14,6 @@ site: bookdown::bookdown_site
 
 Several analyses/investigations relating to the balance logical operators paper.
 
-# Input {-}
-
 Loading libraries:
 ```{r Load libraries, message = FALSE}
 library(xfun)
@@ -25,35 +23,51 @@ library(tidyr)
 library(corrplot)
 library(latex2exp)
 library(ggpubr)
+library(DT)
 ```
 
-# Analysis {-}
+# BBR Function Analysis {-}
 
-## Balance boolean functions {-}
+## Balance Boolean Regulatory Functions (BBRs) {-}
+
+:::{.green-box}
+BBR => Balance Boolean Regulatory Functions
+:::
 
 Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$, that is a total of $n=m+k$ regulators.
-For a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
-We next describe what each link operator (`AND-NOT`, `OR-NOT`) looks like in the general form of $f$ and propose 3 more boolean balance functions:
+A subset of BBRs have a non-DNF representation that puts the different category regulators in separate groups and a *link boolean operator* in between them.
+As such, for a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
+An example of such a function that has been used in the literature [@Mendoza2006] is the formula with the `AND-NOT` link operator: 
 
 - `AND-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \land \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
+
+A **variant** of that one that shifts the balance in favor of the activators (as we will see the truth density significantly increases) is the function with the `OR-NOT` link operator:
+
 - `OR-NOT`: $$f(x,y) = \left(\bigvee_{i=1}^{m} x_i\right) \lor \lnot \left(\bigvee_{i=1}^{k} y_i\right)$$
+
+Another one of this type of functions is the next one:
+
 - `BalanceOp1`: $$f(x,y) = \bigvee_{\forall (i,j)}^{m,k}(x_i\land \lnot y_j) = \left(\bigvee_{i=1}^{m} x_i\right) \land \left(\bigvee_{i=1}^{k} \lnot y_i\right)$$
+
+Next, we introduce some **threshold functions** with *pseudo-Boolean constraints*:
+
 - `exp_act_win`: $$f_{act-win}(x,y)=\begin{cases}
-        1, & \text{for } \sum_{i=1}^{m} x_i \ge \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
+        1, & \text{for } \sum_{i=1}^{m} x_i \ge \sum_{i=1}^{k} y_i\\
         0, & \text{otherwise}
         \end{cases}$$
 - `exp_inh_win`: $$f_{inh-win}(x,y)=\begin{cases}
-        1, & \text{for } \sum_{i=1}^{m} x_i \gt \sum_{i=1}^{k} y_i, \text{ with } \sum_{i=1}^{m} x_i \ne 0\\
+        1, & \text{for } \sum_{i=1}^{m} x_i \gt \sum_{i=1}^{k} y_i\\
         0, & \text{otherwise}
         \end{cases}$$
 
 Note that: $f_{inh-win}(x,y) = \lnot f_{act-win}(y,x)$.
+
 I searched for an analytical formula for the two last functions (they get pretty big!).
 More info and discussion about these 2 last formulas, see the [math.stackexchange question](https://math.stackexchange.com/questions/3767774/identify-boolean-function-that-satisfies-some-constrains/).
 
-# Truth Density Data Analysis {-}
+## Truth Density Data Analysis {-}
 
-## Data {-}
+### Data {-}
 
 :::{.blue-box}
 *Truth Density (TD)* of a boolean equation/expression, given it's equivalent truth table, is the **number of rows that the expression is active** divided to **the total number of rows** $(2^n)$.
@@ -71,7 +85,7 @@ stats[1:5,] %>% kable(caption = "Thuth Density Data", digits = 2)
 Use the [fun.R](https://github.com/bblodfon/balance-paper/blob/master/fun.R) script to reproduce this data.
 :::
 
-## Truth Density formulas {-}
+### Truth Density formulas {-}
 
 Also, I have proved the exact formulas for the truth densities in the case of the `AND-NOT` and `OR-NOT` link operators (see [here](http://tiny.cc/link-proofs) for a proof sketch).
 I write them here explicitly, as well as their long-term behaviour (for large $n$. number of regulators):
@@ -100,7 +114,7 @@ formula_td_or_not = stats %>%
 all(stats %>% pull(td_or_not) == formula_td_or_not)
 ```
 
-## *AND-NOT* vs *OR-NOT* {-}
+### *AND-NOT* vs *OR-NOT* {-}
 
 Comparing the `AND-NOT` and `OR-NOT` truth densities across the number of regulators:
 ```{r fig-and-or-not, fig.align='center', dpi=300, cache=TRUE, fig.cap="AND-NOT vs OR-NOT Truth Densities across all possible activators and inhibitors combinations up to 20 regulators"}
@@ -155,7 +169,7 @@ ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act",
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-## *BalanceOp1* TD {-}
+### *BalanceOp1* TD {-}
 
 If we add the `BalanceOp1` formuls's TD results to the first plot we have:
 ```{r fig-and-or-not-balanceop, fig.align='center', dpi=300, cache=TRUE, fig.cap="AND-NOT vs OR-NOT vs BalanceOp1 Truth Densities across all possible activators and inhibitors combinations up to 20 regulators"}
@@ -195,7 +209,7 @@ ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act",
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-## *exp_act_win* and *exp_inh_win* TD {-}
+### Threshold Functions TD {-}
 
 In contrast, if we check the truth density of the $f_{act-win}(x,y)$ and $f_{inh-win}(x,y)$ boolean functions we have:
 ```{r fig-two-bool-formulas, fig.align='center', dpi=300, cache=TRUE, fig.cap="Truth Desities of two robust boolean formulas across all possible activators and inhibitors combinations up to 20 regulators"}
@@ -220,6 +234,49 @@ ggboxplot(data = stats_functions, x = "num_reg", y = "td",
 - The median value of truth density for the $f_{act-win}(x,y)$ is always larger than the $f_{inh-win}(x,y)$ (as expected).
 :::
 
+### TD Data Distance {-}
+
+We check how close are the truth density values of the different proposed BBRs, also compared to the **proportion of activators**, e.g. if a BBR has 1 activator and 5 inhibitors (resp. 5 activators and 1 inhibitor) I would expect my regulatory function's output to be statistically more inhibited (resp. activated).
+We find the *euclidean distance* between the different truth density values and show them in a table and dendrogram format:
+
+```{r td-values-distance}
+act_prop = stats %>% mutate(act_prop = num_act/num_reg) %>% pull(act_prop)
+td_and_not = stats %>% pull(td_and_not)
+td_or_not = stats %>% pull(td_or_not)
+td_balance_op = stats %>% pull(td_balance_op)
+td_exp_act = stats %>% pull(td_exp_act)
+td_exp_inh = stats %>% pull(td_exp_inh)
+
+d = dist(rbind(act_prop, td_and_not, td_or_not, td_balance_op, td_exp_act, td_exp_inh))
+```
+
+```{r dist-table}
+# color `act_prop` column
+breaks = quantile(unname(as.matrix(d)[, "act_prop"]), probs = seq(.05, .95, .05), na.rm = TRUE)
+col = round(seq(255, 40, length.out = length(breaks) + 1), 0) %>%
+  {paste0("rgb(255,", ., ",", ., ")")} # red
+
+caption.title = "Table 1: Euclidean Distances between vectors of truth density values (Symmetric)"
+DT::datatable(data = d %>% as.matrix(), options = list(dom = "t", scrollX = TRUE),
+  caption = htmltools::tags$caption(caption.title, style="color:#dd4814; font-size: 18px")) %>% 
+  formatRound(1:6, digits = 3) %>%
+  formatStyle(columns = c("act_prop"), backgroundColor = styleInterval(breaks, col))
+```
+
+```{r dist-dendogram, fig.height=7, fig.align='center'}
+plot(hclust(dist(d)), main = "Distance Dendogram of Thruth Densities",
+  ylab = "Euclidean Distance", sub = "BBR Truth Densities", xlab = "")
+```
+
+:::{.green-box}
+- The **threshold functions** have truth densities values that are **closer to the proportion of activators** for a varying number of regulators, compared to the `AND-NOT` and `OR-NOT` formulas.
+As such they represent more realistic candidates for regulatory functions from a statistical point of view.
+- The TD values of `OR-NOT` and `BalanceOp1` are in general very close (as we've also seen in previous Figure)
+- 
+:::
+
+### Correlation {-}
+
 We will now check the *correlation* between each pair of operators/proposed functions, as well as the number of regulators, inhibitors and activators:
 ```{r cor-plot, fig.align='center', dpi=300, cache=TRUE, fig.cap="Correlation Matrix of Truth Densities and number of regulators"}
 M = cor(stats, method = "kendall")
@@ -229,10 +286,16 @@ corrplot(corr = M, type = "upper", p.mat = res$p, sig.level = c(.001, .01, .05),
 ```
 
 :::{.green-box}
-- The two functions results $f_{act-win}(x,y), f_{inh-win}(x,y)$ are highly correlated as expected.
-- Higher `AND-NOT` TD values highly correlate with *lower* number of inhibitors
+- The two functions results $f_{act-win}(x,y), f_{inh-win}(x,y)$ are highly correlated as expected
+- Lower `AND-NOT` TD values highly correlate with *higher* number of inhibitors
 - Higher `OR-NOT` TD values highly correlate with *higher* number of activators
 :::
+
+# CASCADE 1.0 Analysis {-}
+
+
+
+
 
 # R session info {-}
 

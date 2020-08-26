@@ -1,7 +1,7 @@
 ---
 title: "Balance Mutations in Logical Modeling"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 24 August, 2020"
+date: "Last updated: 26 August, 2020"
 description: "Investigations for Balance link operators paper"
 url: 'https\://bblodfon.github.io/balance-paper/'
 github-repo: "bblodfon/balance-paper"
@@ -21,10 +21,15 @@ library(xfun)
 library(knitr)
 library(dplyr)
 library(tidyr)
+library(tibble)
 library(corrplot)
 library(latex2exp)
 library(ggpubr)
 library(DT)
+library(usefun)
+library(emba)
+library(forcats)
+library(scales)
 ```
 
 # BBR Function Analysis {-}
@@ -79,7 +84,7 @@ Then, from the truth tables I calculated the **truth density** of each operator 
 See part of the data below:
 
 ```r
-stats = readRDS(file = "stats.rds")
+stats = readRDS(file = "data/stats.rds")
 stats[1:5,] %>% kable(caption = "Thuth Density Data", digits = 2)
 ```
 
@@ -96,7 +101,7 @@ Table: (\#tab:load-data)Thuth Density Data
 |       4|       2|       2|       0.19|      0.81|          0.56|       0.69|       0.31|
 
 :::{.orange-box}
-Use the [fun.R](https://github.com/bblodfon/balance-paper/blob/master/fun.R) script to reproduce this data.
+Use the [get_stats.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_stats.R) script to reproduce this data.
 :::
 
 ### Truth Density formulas {-}
@@ -139,7 +144,7 @@ all(stats %>% pull(td_or_not) == formula_td_or_not)
 [1] TRUE
 ```
 
-### *AND-NOT* vs *OR-NOT* {-}
+### *AND-NOT* vs *OR-NOT* TD {-}
 
 Comparing the `AND-NOT` and `OR-NOT` truth densities across the number of regulators:
 
@@ -341,7 +346,6 @@ plot(hclust(dist(d)), main = "Distance Dendogram of Thruth Densities",
 - The **threshold functions** have truth densities values that are **closer to the proportion of activators** for a varying number of regulators, compared to the `AND-NOT` and `OR-NOT` formulas.
 As such they represent more realistic candidates for regulatory functions from a statistical point of view.
 - The TD values of `OR-NOT` and `BalanceOp1` are in general very close (as we've also seen in previous Figure)
-- 
 :::
 
 ### Correlation {-}
@@ -367,6 +371,107 @@ corrplot(corr = M, type = "upper", p.mat = res$p, sig.level = c(.001, .01, .05),
 :::
 
 # CASCADE 1.0 Analysis {-}
+
+## Parameterization and Stable State Agreement {-}
+
+To load the stable state data for the models that have 1 stable state use the Zenodo dataset (**TODO**) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
+
+We calculate the `node_stats` tibble object using the [get_node_stats.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_node_stats.R) script.
+This object includes the agreement statistics information for each node that has a link operator (i.e. it is targeted by both activators and inhibitors).
+
+Load the `node_stats`:
+
+```r
+node_stats = readRDS(file = "data/node_stats.rds")
+```
+
+---
+
+We are interested in two variables of interest:
+
+- **Parameterization** of a link operator node: `AND-NOT` (0) vs `OR-NOT` (1)
+- **Stable State** of a node: *inhibited* (0) vs *active* (1)
+
+There exist are 4 different possibilities related to 2 cases:
+
+1. `0-0`, `1-1` => parameterization and stable state match (e.g. node had `OR-NOT` and its state was active)
+2. `1-0`, `0-1` => parameterization and stable state differ (e.g. node had `AND-NOT` and its state was active)
+
+In the next Figure we show the **total observed proportionate agreement** for each node, which is the number of models for which parameterization and stable state matched (case 1 above) divided by the total amount of models:
+
+```r
+node_stats %>% mutate(node = forcats::fct_reorder(node, desc(num_reg))) %>% 
+  ggplot(aes(x = node, y = obs_prop_agreement, fill = as.factor(num_reg))) +
+    geom_bar(stat = "identity") +
+    scale_y_continuous(labels=scales::percent) +
+    labs(title = "Agreement between Link Operator Parameterization and Stable State Activity", x = "Target Nodes with both activating and inhibiting regulators", y = "Observed Proportionate Agreement") +
+    theme_classic() + theme(axis.text.x = element_text(angle = 90)) +
+    scale_fill_brewer(guide = guide_legend(reverse=TRUE, title = "#Regulators"), palette = "Set1")
+```
+
+<div class="figure" style="text-align: center">
+<img src="index_files/figure-html/ss-lo-agreement-prop-1.png" alt="Parameterization and Stable State activity agreement" width="2100" />
+<p class="caption">(\#fig:ss-lo-agreement-prop)Parameterization and Stable State activity agreement</p>
+</div>
+
+:::{.green-box}
+The total barplot area covered (i.e. the **total agreement score** so to speak) is **77.7294779%**.
+
+The above score means that the is a higher probability than chance to assign a node the `AND-NOT` (resp. `OR-NOT`) link operator in its respective boolean equation and that node at the same time having an inhibited (resp. activated) stable state of 0 (.resp 1) in any CASCADE 1.0 link operator parameterized model.
+
+As such, even though the number of regulators are **less than 6**, we find that there is **strong agreement** between *link operator* and *stable state activity* across all the nodes that have both types of regulators (activators and inhibitors).
+This agreement can be seen stronger for some nodes than others.
+:::
+
+Next, we calculate per node, the proportion of link operator assignments that retained their expected (i.e. keeping the same digit) stable state activity (e.g. the proportion of models corresponding to the cases `0-0`/(`0-0` + `0-1`) for the `AND-NOT` link operator - similar for `OR-NOT`):
+
+```r
+node_stats %>% 
+  mutate(and_not_0ss_prop = and_not_0ss_agreement/(and_not_0ss_agreement + and_not_1ss_disagreement)) %>% 
+  mutate(or_not_1ss_prop  = or_not_1ss_agreement/(or_not_1ss_agreement + or_not_0ss_disagreement)) %>%
+  select(node, num_reg, and_not_0ss_prop, or_not_1ss_prop, active_prop) %>%
+  rename(`AND-NOT` = and_not_0ss_prop, `OR-NOT` = or_not_1ss_prop) %>%
+  mutate(node = forcats::fct_reorder(node, desc(num_reg))) %>%
+  pivot_longer(cols = c(`AND-NOT`, `OR-NOT`)) %>%
+  ggplot(aes(x = node, y = value, fill = name)) +
+    geom_bar(position = "dodge", stat = "identity") +
+    scale_y_continuous(labels=scales::percent) +
+    labs(title = "Link Operator Parameterization Agreement with Stable State Activity", 
+      x = "Target Nodes with both activating and inhibiting regulators", 
+      y = "Observed Proportionate Agreement") +
+    theme_classic() + theme(axis.text.x = element_text(angle = 90)) + 
+    scale_fill_brewer(guide = guide_legend(title = "Link Operator"), palette = "Set1") + 
+    geom_line(aes(y = active_prop, color = active_prop), group = 1, size = 1.2) +
+    scale_color_gradient(labels=scales::percent, low="grey", high="green", 
+      name = "%Models:active node", limits = c(0,1)) + 
+    theme(legend.title = element_text(size = 10))
+```
+
+<div class="figure" style="text-align: center">
+<img src="index_files/figure-html/ss-comp-agreement-props-1.png" alt="Parameterization and Stable State activity agreement 2" width="2100" />
+<p class="caption">(\#fig:ss-comp-agreement-props)Parameterization and Stable State activity agreement 2</p>
+</div>
+
+:::{.green-box}
+- Higher proportional activity for a node correlates with higher `OR-NOT`-activated state agreement.
+- `LRP_f` has 4 activators and 1 inhibitor and from the previous statistical analysis with found that $TD_{AND-NOT,4+1}=0.469$, $TD_{OR-NOT,4+1}=0.969$, numbers which correspond really well with the proportionate agreement scores found across all the CASCADE 1.0 models.
+- `TSC_f` has 1 activator and 4 inhibitors (which corresponds well to it's total inhibition profile in all the models).
+- `TSC_f` and `mTORC2_c` are always found inhibited and thus the agreement with the `AND-NOT`-inhibited state is perfect and the `OR-NOT`-activated state agreement zero.
+:::
+
+In the above Figure, wherever there is less than **0.5 disagreement**, we can always explain it with the *activity* proportion value and the number of activators being more (or less resp.) than the number of inhibitors - see following table:
+
+
+```r
+caption.title = "Table 2: Link Operator Statistics"
+DT::datatable(data = node_stats %>% select(node, num_reg, num_act, num_inh), 
+  caption = htmltools::tags$caption(caption.title, style="color:#dd4814; font-size: 18px"),
+  options = list(order = list(list(2, "desc")))) %>% 
+  formatRound(5:6, digits = 3)
+```
+
+<!--html_preserve--><div id="htmlwidget-595affc4f25ab85bf888" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-595affc4f25ab85bf888">{"x":{"filter":"none","caption":"<caption style=\"color:#dd4814; font-size: 18px\">Table 2: Link Operator Statistics<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"],["mTORC2_c","JNK_f","MAPK14","RTPK_f","MEK_f","SHC1","PTEN","SOS1","ERK_f","RAF_f","mTORC1_c","GAB_f","PDPK1","IKBKB","TSC_f","TP53","MDM2","CYCS","CFLAR","LRP_f","CTNNB1","TCF7_f","DKK_g"],[2,3,3,4,3,2,2,2,2,4,3,2,2,2,5,2,3,2,2,5,2,2,2],[1,2,2,2,2,1,1,1,1,1,2,1,1,1,1,1,2,1,1,4,1,1,1],[1,1,1,2,1,1,1,1,1,3,1,1,1,1,4,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>node<\/th>\n      <th>num_reg<\/th>\n      <th>num_act<\/th>\n      <th>num_inh<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"order":[[2,"desc"]],"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"targets":6,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0}],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script><!--/html_preserve-->
 
 
 
@@ -394,46 +499,49 @@ Locale:
 
 Package version:
   abind_1.4-5         assertthat_0.2.1    backports_1.1.8    
-  base64enc_0.1.3     BH_1.72.0.3         bookdown_0.20      
-  boot_1.3.25         broom_0.5.6         callr_3.4.3        
-  car_3.0-8           carData_3.0-4       cellranger_1.1.0   
-  cli_2.0.2           clipr_0.7.0         colorspace_1.4-1   
-  compiler_3.6.3      corrplot_0.84       cowplot_1.0.0      
-  crayon_1.3.4        crosstalk_1.1.0.1   curl_4.3           
-  data.table_1.12.8   desc_1.2.0          digest_0.6.25      
-  dplyr_1.0.0         DT_0.14             ellipsis_0.3.1     
+  base64enc_0.1.3     BH_1.72.0.3         bibtex_0.4.2.2     
+  bookdown_0.20       boot_1.3.25         broom_0.5.6        
+  callr_3.4.3         car_3.0-8           carData_3.0-4      
+  cellranger_1.1.0    Ckmeans.1d.dp_4.3.2 cli_2.0.2          
+  clipr_0.7.0         colorspace_1.4-1    compiler_3.6.3     
+  corrplot_0.84       cowplot_1.0.0       crayon_1.3.4       
+  crosstalk_1.1.0.1   curl_4.3            data.table_1.12.8  
+  desc_1.2.0          digest_0.6.25       dplyr_1.0.0        
+  DT_0.14             ellipsis_0.3.1      emba_0.1.7         
   evaluate_0.14       fansi_0.4.1         farver_2.0.3       
-  forcats_0.5.0       foreign_0.8-75      generics_0.0.2     
-  ggplot2_3.3.2       ggpubr_0.4.0        ggrepel_0.8.2      
-  ggsci_2.9           ggsignif_0.6.0      glue_1.4.1         
-  graphics_3.6.3      grDevices_3.6.3     grid_3.6.3         
-  gridExtra_2.3       gtable_0.3.0        haven_2.3.1        
-  highr_0.8           hms_0.5.3           htmltools_0.5.0    
-  htmlwidgets_1.5.1   isoband_0.2.2       jsonlite_1.7.0     
-  knitr_1.29          labeling_0.3        later_1.1.0.1      
-  latex2exp_0.4.0     lattice_0.20-41     lazyeval_0.2.2     
-  lifecycle_0.2.0     lme4_1.1.23         magrittr_1.5       
-  maptools_1.0.1      markdown_1.1        MASS_7.3.51.6      
-  Matrix_1.2.18       MatrixModels_0.4.1  methods_3.6.3      
-  mgcv_1.8.31         mime_0.9            minqa_1.2.4        
-  munsell_0.5.0       nlme_3.1-148        nloptr_1.2.2.1     
-  nnet_7.3.14         openxlsx_4.1.5      parallel_3.6.3     
-  pbkrtest_0.4.8.6    pillar_1.4.4        pkgbuild_1.0.8     
-  pkgconfig_2.0.3     pkgload_1.1.0       plyr_1.8.6         
-  polynom_1.4.0       praise_1.0.0        prettyunits_1.1.1  
-  processx_3.4.2      progress_1.2.2      promises_1.1.1     
-  ps_1.3.3            purrr_0.3.4         quantreg_5.55      
-  R6_2.4.1            RColorBrewer_1.1.2  Rcpp_1.0.4.6       
-  RcppEigen_0.3.3.7.0 readr_1.3.1         readxl_1.3.1       
+  forcats_0.5.0       foreign_0.8-75      gbRd_0.4-11        
+  generics_0.0.2      ggplot2_3.3.2       ggpubr_0.4.0       
+  ggrepel_0.8.2       ggsci_2.9           ggsignif_0.6.0     
+  glue_1.4.1          graphics_3.6.3      grDevices_3.6.3    
+  grid_3.6.3          gridExtra_2.3       gtable_0.3.0       
+  haven_2.3.1         highr_0.8           hms_0.5.3          
+  htmltools_0.5.0     htmlwidgets_1.5.1   igraph_1.2.5       
+  isoband_0.2.2       jsonlite_1.7.0      knitr_1.29         
+  labeling_0.3        later_1.1.0.1       latex2exp_0.4.0    
+  lattice_0.20-41     lazyeval_0.2.2      lifecycle_0.2.0    
+  lme4_1.1.23         magrittr_1.5        maptools_1.0.1     
+  markdown_1.1        MASS_7.3.51.6       Matrix_1.2.18      
+  MatrixModels_0.4.1  methods_3.6.3       mgcv_1.8.31        
+  mime_0.9            minqa_1.2.4         munsell_0.5.0      
+  nlme_3.1-148        nloptr_1.2.2.1      nnet_7.3.14        
+  openxlsx_4.1.5      parallel_3.6.3      pbkrtest_0.4.8.6   
+  pillar_1.4.4        pkgbuild_1.0.8      pkgconfig_2.0.3    
+  pkgload_1.1.0       plyr_1.8.6          polynom_1.4.0      
+  praise_1.0.0        prettyunits_1.1.1   processx_3.4.2     
+  progress_1.2.2      promises_1.1.1      ps_1.3.3           
+  purrr_0.3.4         quantreg_5.55       R6_2.4.1           
+  RColorBrewer_1.1.2  Rcpp_1.0.4.6        RcppEigen_0.3.3.7.0
+  Rdpack_1.0.0        readr_1.3.1         readxl_1.3.1       
   rematch_1.0.1       reshape2_1.4.4      rio_0.5.16         
-  rlang_0.4.6         rmarkdown_2.3       rprojroot_1.3.2    
-  rstatix_0.6.0       rstudioapi_0.11     scales_1.1.1       
-  sp_1.4.2            SparseM_1.78        splines_3.6.3      
-  statmod_1.4.34      stats_3.6.3         stringi_1.4.6      
-  stringr_1.4.0       testthat_2.3.2      tibble_3.0.1       
-  tidyr_1.1.0         tidyselect_1.1.0    tinytex_0.24       
-  tools_3.6.3         utf8_1.1.4          utils_3.6.3        
-  vctrs_0.3.1         viridisLite_0.3.0   withr_2.2.0        
+  rje_1.10.16         rlang_0.4.6         rmarkdown_2.3      
+  rprojroot_1.3.2     rstatix_0.6.0       rstudioapi_0.11    
+  scales_1.1.1        sp_1.4.2            SparseM_1.78       
+  splines_3.6.3       statmod_1.4.34      stats_3.6.3        
+  stringi_1.4.6       stringr_1.4.0       testthat_2.3.2     
+  tibble_3.0.1        tidyr_1.1.0         tidyselect_1.1.0   
+  tinytex_0.24        tools_3.6.3         usefun_0.4.8       
+  utf8_1.1.4          utils_3.6.3         vctrs_0.3.1        
+  viridisLite_0.3.0   visNetwork_2.0.9    withr_2.2.0        
   xfun_0.15           yaml_2.2.1          zip_2.0.4          
 ```
 

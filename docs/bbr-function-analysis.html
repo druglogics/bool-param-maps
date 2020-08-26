@@ -874,14 +874,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#data"><i class="fa fa-check"></i>Data</a></li>
 <li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#truth-density-formulas"><i class="fa fa-check"></i>Truth Density formulas</a></li>
-<li><a href="bbr-function-analysis.html#and-not-vs-or-not"><em>AND-NOT</em> vs <em>OR-NOT</em></a></li>
+<li><a href="bbr-function-analysis.html#and-not-vs-or-not-td"><em>AND-NOT</em> vs <em>OR-NOT</em> TD</a></li>
 <li><a href="bbr-function-analysis.html#balanceop1-td"><em>BalanceOp1</em> TD</a></li>
 <li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#threshold-functions-td"><i class="fa fa-check"></i>Threshold Functions TD</a></li>
 <li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#td-data-distance"><i class="fa fa-check"></i>TD Data Distance</a></li>
 <li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#correlation"><i class="fa fa-check"></i>Correlation</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis</a>
+<ul>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#parameterization-and-stable-state-agreement"><i class="fa fa-check"></i>Parameterization and Stable State Agreement</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="r-session-info.html"><a href="r-session-info.html"><i class="fa fa-check"></i>R session info</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -951,7 +954,7 @@ More info and discussion about these 2 last formulas, see the <a href="https://m
 <p>I created every possible truth table for up to <span class="math inline">\(20\)</span> variables (variables here means <em>regulators</em> for us) and calculated the <code>AND-NOT</code>, <code>OR-NOT</code>, <code>BalanceOp1</code>, <code>exp_act_win</code>, <code>exp_inh_win</code> results for every possible configuration of the number of activators and inhibitors that added up to the number of regulators.
 Then, from the truth tables I calculated the <strong>truth density</strong> of each operator in each particular configuration.
 See part of the data below:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="bbr-function-analysis.html#cb2-1"></a>stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;stats.rds&quot;</span>)</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="bbr-function-analysis.html#cb2-1"></a>stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/stats.rds&quot;</span>)</span>
 <span id="cb2-2"><a href="bbr-function-analysis.html#cb2-2"></a>stats[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Thuth Density Data&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:load-data">Table 1: </span>Thuth Density Data</caption>
@@ -1031,7 +1034,7 @@ See part of the data below:</p>
 </tbody>
 </table>
 <div class="orange-box">
-<p>Use the <a href="https://github.com/bblodfon/balance-paper/blob/master/fun.R">fun.R</a> script to reproduce this data.</p>
+<p>Use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/get_stats.R">get_stats.R</a> script to reproduce this data.</p>
 </div>
 </div>
 <div id="truth-density-formulas" class="section level3 unnumbered" number="">
@@ -1060,8 +1063,8 @@ I write them here explicitly, as well as their long-term behaviour (for large <s
 <span id="cb5-6"><a href="bbr-function-analysis.html#cb5-6"></a><span class="kw">all</span>(stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(td_or_not) <span class="op">==</span><span class="st"> </span>formula_td_or_not)</span></code></pre></div>
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div id="and-not-vs-or-not" class="section level3 unnumbered" number="">
-<h3><em>AND-NOT</em> vs <em>OR-NOT</em></h3>
+<div id="and-not-vs-or-not-td" class="section level3 unnumbered" number="">
+<h3><em>AND-NOT</em> vs <em>OR-NOT</em> TD</h3>
 <p>Comparing the <code>AND-NOT</code> and <code>OR-NOT</code> truth densities across the number of regulators:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="bbr-function-analysis.html#cb7-1"></a><span class="co"># tidy up data</span></span>
 <span id="cb7-2"><a href="bbr-function-analysis.html#cb7-2"></a>stats_and_or =<span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">data =</span> stats, <span class="dt">cols =</span> <span class="kw">c</span>(td_and_not, td_or_not), </span>
@@ -1236,7 +1239,6 @@ We find the <em>euclidean distance</em> between the different truth density valu
 <li>The <strong>threshold functions</strong> have truth densities values that are <strong>closer to the proportion of activators</strong> for a varying number of regulators, compared to the <code>AND-NOT</code> and <code>OR-NOT</code> formulas.
 As such they represent more realistic candidates for regulatory functions from a statistical point of view.</li>
 <li>The TD values of <code>OR-NOT</code> and <code>BalanceOp1</code> are in general very close (as we’ve also seen in previous Figure)</li>
-<li></li>
 </ul>
 </div>
 </div>

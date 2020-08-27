@@ -9,17 +9,19 @@ model_index = 1
 data_list = list()
 data_index = 1
 for (model_dir in model_dirs) {
-  print(paste0("Reading directory: ", model_dir, " (", index, ")"))
+  print(paste0("Reading directory: ", model_dir, " (", model_index, ")"))
+
+  # filter only the gitsbe files
   gitsbe_files = stringr::str_subset(string =
       list.files(path = model_dir, full.names = TRUE), pattern = ".gitsbe")
+
   for (file in gitsbe_files) {
-    # read first 6 lines, no more should be needed
+    # read first 6 lines, no more are needed
     lines = readLines(con = file, n = 6)
     model_number = stringr::str_remove(string =
         lines[stringr::str_which(lines, "network_")], pattern = "modelname: network_")
     ss_num = sum(stringr::str_count(string = lines, pattern = "stablestate"))
-    data_list[[data_index]] = dplyr::bind_cols(
-      model_number = model_number, ss_num = ss_num)
+    data_list[[data_index]] = dplyr::bind_cols(model_number = as.integer(model_number), ss_num = ss_num)
     data_index = data_index + 1
   }
 

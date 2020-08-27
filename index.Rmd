@@ -24,6 +24,7 @@ library(tibble)
 library(corrplot)
 library(latex2exp)
 library(ggpubr)
+library(ggplot2)
 library(DT)
 library(usefun)
 library(emba)
@@ -83,7 +84,11 @@ Then, from the truth tables I calculated the **truth density** of each operator 
 See part of the data below:
 ```{r load-data}
 stats = readRDS(file = "data/stats.rds")
-stats[1:5,] %>% kable(caption = "Thuth Density Data", digits = 2)
+
+DT::datatable(data = stats,
+  caption = htmltools::tags$caption("Truth Density Data", style="color:#dd4814; font-size: 18px"),
+  options = list(pageLength = 6, scrollX = TRUE, order = list(list(1, "asc")))) %>% 
+  formatRound(4:8, digits = 2)
 ```
 
 :::{.orange-box}
@@ -261,7 +266,7 @@ breaks = quantile(unname(as.matrix(d)[, "act_prop"]), probs = seq(.05, .95, .05)
 col = round(seq(255, 40, length.out = length(breaks) + 1), 0) %>%
   {paste0("rgb(255,", ., ",", ., ")")} # red
 
-caption.title = "Table 1: Euclidean Distances between vectors of truth density values (Symmetric)"
+caption.title = "Euclidean Distances between vectors of truth density values (Symmetric)"
 DT::datatable(data = d %>% as.matrix(), options = list(dom = "t", scrollX = TRUE),
   caption = htmltools::tags$caption(caption.title, style="color:#dd4814; font-size: 18px")) %>% 
   formatRound(1:6, digits = 3) %>%
@@ -297,20 +302,76 @@ corrplot(corr = M, type = "upper", p.mat = res$p, sig.level = c(.001, .01, .05),
 
 # CASCADE 1.0 Analysis {-}
 
-## Parameterization and Stable State Agreement {-}
+## Scale-free Properties {-}
 
-To load the stable state data for the models that have 1 stable state use the Zenodo dataset (**TODO**) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
+:::{.blue-box}
+In this section we demonstrate the **scale-free properties of the CASCADE 1.0 network**.
+We show that both in- and out-degree distributions are asymptotically power-law.
+:::
+
+Use the script [get_distribution_stats.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_distribution_stats.R) to generate the degree distribution stats.
+We load the results:
+
+```{r load-degree-distribution-stats}
+dd_stats = readRDS(file = "data/dd_stats.rds")
+```
+
+```{r in-degree-fig, warning=FALSE, message=FALSE, fig.align='center', cache=TRUE, dpi=300, fig.cap='In Degree Distribution (CASCADE 1.0)'}
+dd_stats %>% group_by(in_degree) %>% tally() %>%
+  ggplot(aes(x = in_degree, y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue", width = 0.7) + 
+  geom_smooth(aes(color = "red"), se = FALSE, show.legend = FALSE) + 
+  theme_classic() +
+  labs(title = "In-Degree Distribution (CASCADE 1.0)", x = "In Degree", y = "Number of Nodes")
+```
+
+```{r out-degree-fig, fig.align='center', message=FALSE, cache=TRUE, dpi=300, fig.cap='Out Degree Distribution (CASCADE 1.0)'}
+dd_stats %>% group_by(out_degree) %>% tally() %>%
+  ggplot(aes(x = out_degree, y = n)) +
+  geom_bar(stat = "identity", fill = "steelblue") + 
+  geom_smooth(aes(color = "red"), se = FALSE, span = 0.58, show.legend = FALSE) + 
+  theme_classic() +
+  labs(title = "Out-Degree Distribution (CASCADE 1.0)", x = "Out Degree", y = "Number of Nodes")
+```
+
+## Model Stable State Statistics {-}
+
+Using [abmlog](https://github.com/druglogics/abmlog) we generated all $2^{23} = 8388608$ possible link operator mutated models for the CASCADE 1.0 topology.
+The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [TOADD]. 
+The `gitsbe` files include also the fixpoint attractors.
+Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_model_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R)).
+The model stable state (fixpoint) statistics are as follows:
+
+```{r ss-stats-all, fig.align='center', dpi=300, cache=TRUE, fig.cap='Stable States Distribution across all link-operator parameterized models (CASCADE 1.0)', eval=FALSE}
+models_ss_stats = readRDS(file = "data/models_ss_stats.rds")
+
+models_ss_stats %>% group_by(ss_num) %>% tally() %>%
+  ggplot(aes(x = ss_num, y = n, fill = as.factor(ss_num))) +
+  geom_bar(stat = "identity", show.legend = FALSE) + 
+  geom_text(aes(label = n), vjust = -0.5) +
+  theme_classic2() +
+  labs(title = "Stable States Distribution", x = "Number of Stable States", y = "Number of models")
+```
+
+## Stable States Data {-}
+
+:::{.note}
+To load the stable state data for the models that have **1 stable state** use the Zenodo dataset (**TODO**) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-p
+aper/blob/master/scripts/tidy_ss_data.R)
+:::
+
+## Parameterization and Stable State Agreement {-}
 
 We calculate the `node_stats` tibble object using the [get_node_stats.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_node_stats.R) script.
 This object includes the agreement statistics information for each node that has a link operator (i.e. it is targeted by both activators and inhibitors).
+Only the **models that had 1 stable state** are considered in this analysis section.
 
 Load the `node_stats`:
 ```{r load_node_stats}
 node_stats = readRDS(file = "data/node_stats.rds")
 ```
 
----
-
+:::{.note}
 We are interested in two variables of interest:
 
 - **Parameterization** of a link operator node: `AND-NOT` (0) vs `OR-NOT` (1)
@@ -318,8 +379,9 @@ We are interested in two variables of interest:
 
 There exist are 4 different possibilities related to 2 cases:
 
-1. `0-0`, `1-1` => parameterization and stable state match (e.g. node had `OR-NOT` and its state was active)
-2. `1-0`, `0-1` => parameterization and stable state differ (e.g. node had `AND-NOT` and its state was active)
+1. `0-0`, `1-1` => parameterization and stable state match (e.g. node was parameterized with `AND-NOT` and it's state was inhibited or it had `OR-NOT` and its state was active)
+2. `1-0`, `0-1` => parameterization and stable state differ (e.g. node had `OR-NOT` and its state was inhibited, or `AND-NOT` and it's state was active)
+:::
 
 In the next Figure we show the **total observed proportionate agreement** for each node, which is the number of models for which parameterization and stable state matched (case 1 above) divided by the total amount of models:
 ```{r ss-lo-agreement-prop, fig.align='center', dpi=300, cache=TRUE, fig.cap="Parameterization and Stable State activity agreement"}
@@ -336,6 +398,7 @@ node_stats %>% mutate(node = forcats::fct_reorder(node, desc(num_reg))) %>%
 The total barplot area covered (i.e. the **total agreement score** so to speak) is **`r node_stats %>% summarise(100 * sum(obs_prop_agreement)/n()) %>% pull()`%**.
 
 The above score means that the is a higher probability than chance to assign a node the `AND-NOT` (resp. `OR-NOT`) link operator in its respective boolean equation and that node at the same time having an inhibited (resp. activated) stable state of 0 (.resp 1) in any CASCADE 1.0 link operator parameterized model.
+This suggests that the corresponding boolean formula used **is biased** and the previous analysis in this report showed that for larger networks this behaviour will become statistically more prevalent.
 
 As such, even though the number of regulators are **less than 6**, we find that there is **strong agreement** between *link operator* and *stable state activity* across all the nodes that have both types of regulators (activators and inhibitors).
 This agreement can be seen stronger for some nodes than others.
@@ -374,7 +437,7 @@ node_stats %>%
 In the above Figure, wherever there is less than **0.5 disagreement**, we can always explain it with the *activity* proportion value and the number of activators being more (or less resp.) than the number of inhibitors - see following table:
 
 ```{r lo-stats-table}
-caption.title = "Table 2: Link Operator Statistics"
+caption.title = "Link Operator Statistics"
 DT::datatable(data = node_stats %>% select(node, num_reg, num_act, num_inh), 
   caption = htmltools::tags$caption(caption.title, style="color:#dd4814; font-size: 18px"),
   options = list(order = list(list(2, "desc")))) %>% 

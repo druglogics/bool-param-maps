@@ -24,12 +24,17 @@ library(tibble)
 library(corrplot)
 library(latex2exp)
 library(ggpubr)
+library(stringr)
 library(ggplot2)
 library(DT)
 library(usefun)
 library(emba)
 library(forcats)
 library(scales)
+library(gtools)
+library(ComplexHeatmap)
+library(glmnet)
+library(randomForest)
 ```
 
 # BBR Function Analysis {-}
@@ -83,7 +88,7 @@ I created every possible truth table for up to $20$ variables (variables here me
 Then, from the truth tables I calculated the **truth density** of each operator in each particular configuration.
 See part of the data below:
 ```{r load-data}
-stats = readRDS(file = "data/stats.rds")
+stats = readRDS(file = "data/td_stats.rds")
 
 DT::datatable(data = stats,
   caption = htmltools::tags$caption("Truth Density Data", style="color:#dd4814; font-size: 18px"),
@@ -355,10 +360,185 @@ models_ss_stats %>% group_by(ss_num) %>% tally() %>%
   labs(title = "Stable States Distribution", x = "Number of Stable States", y = "Number of models")
 ```
 
+:::{.green-box}
+Less than $50\%$ of the total possible parameterized models have a single fixpoint attractor which corresponds to a single stable phenotype behaviour.
+:::
+
 ## Stable States Data {-}
 
 :::{.note}
 To load the stable state data for the models that have **1 stable state** use the Zenodo dataset (**TODO**) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
+:::
+
+## Parameterization vs #fixpoints {-}
+
+:::{.blue-box}
+In this subsection we identidy the **key nodes** whose parameterization affects the *change of dynamics* of the CASCADE 1.0 network, i.e. are responsible for the **change in the number of fixpoint attractors (0,1 and 2)** across all link-operator mutated models.
+:::
+
+We will use several statistical methods, in each of the sub-sections below.
+
+The training data is a **link-operator matrix**, where rows are models ($2^{23}$), columns are link-operator nodes ($23$ in total) and parameterization values correspond to $0$ (`AND-NOT`) or $1$ (`OR-NOT`). 
+The ternary response for each model is a number denoting the number of fixpoints ($0,1$ or $2$).
+The matrix we can generate with the script [get_lo_mat.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_model_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R).
+
+### Glmnet {-}
+
+Use the script [param_ss_glmnet.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_glmnet.R) to fit a **multinomial LASSO model** for the data.
+We now simply load the result object:
+```{r param-ss-glmnet}
+fit_a1 = readRDS(file = "data/fit_a1.rds")
+plot(fit_a1, xvar = "dev", type.coef = "2norm")
+plot(fit_a1, xvar = "lambda", type.coef = "2norm")
+```
+
+As we can see there is no $\lambda$ that could explain more than $44\%$ of the deviance and there are a lot of non-zero coefficients associated with smaller values of $\lambda$.
+For example, choosing  $\lambda = 0.0142$ (tested prediction accuracy $\approx 0.72$ on a random subset of the data), we have the following coefficients, shown in a heatmap:
+```{r param-ss-glmnet-2, cache=TRUE, dpi=300, fig.align='center', fig.cap='Heatmap of coefficients of multinomial model (glmnet)'}
+# choose a lambda
+lambda1 = fit_a1$lambda[32]
+
+fit_a1_coef = coef(fit_a1, s = lambda1) %>%
+  lapply(as.matrix) %>%
+  Reduce(cbind, x = .) %>% t()
+rownames(fit_a1_coef) = names(coef(fit_a1, s = lambda1)) # 0, 1 and 2 stable states
+
+imp_nodes_colors = rep("black", length(colnames(fit_a1_coef)))
+names(imp_nodes_colors) = colnames(fit_a1_coef)
+imp_nodes_colors[names(imp_nodes_colors) %in% c("MEK_f", "PTEN", "MAPK14")] = "green4"
+
+ComplexHeatmap::Heatmap(matrix = fit_a1_coef, name = "Coef", row_title = "Number of Fixpoints", 
+  row_names_side = "right", row_dend_side = "right", row_title_side = "right",
+  column_title = "Glmnet Coefficient Scores (λ = 0.0142)",
+  column_dend_height = unit(20, "mm"), column_names_gp = gpar(col = imp_nodes_colors))
+
+# check accuracy
+# lo_mat = readRDS(file = "data/lo_mat.rds")
+# models_ss_stats = readRDS(file = "data/models_ss_stats.rds")
+# ss_num = models_ss_stats %>% pull(ss_num)
+# set.seed(42)
+# model_indexes = sample(x = 1:nrow(lo_mat), size = 100000)
+# pred = predict(object = fit_a1, newx = lo_mat[model_indexes, ],
+#   type = "class", s = lambda1) %>% as.integer()
+# acc = sum(pred == ss_num[model_indexes])/length(pred)
+# print(acc) # should be ~ 0.72
+```
+
+:::{.green-box}
+Even thought the *glmnet* classifier might not be accurate enough, we still find that the nodes `PTEN` and `MAPK14` are the **most important (larger coefficients)** for distinguishing between the models with different number of fixpoints.
+Additional nodes (like `MEK_f` and `CTNNB1`) are likely to be importane as well.
+:::
+
+If we cross-validate the regularization parameter $\lambda$ (using the same script, we randomly selected smaller model samples - $100000$, $20$ times in total), and choose the $\lambda_{1se}$ for each different run to get the coefficients, the results can be visualized as follows:
+```{r param-ss-glmnet-cv-data}
+cvfit_data = readRDS(file = "data/cvfit_data.rds")
+cvfit_mat_list = lapply(cvfit_data, function(cvfit) {
+  co = coef(cvfit) %>% 
+    lapply(as.matrix) %>%
+    Reduce(cbind, x = .) %>% 
+    t()
+  rownames(co) = names(coef(cvfit)) # 0,1 and 2 stable states
+  return(co)
+})
+
+cvfit_mat = do.call(rbind, cvfit_mat_list)
+```
+
+```{r param-ss-glmnet-cv-fig, cache=TRUE, dpi=300, fig.align='center', fig.cap='Heatmap of coefficients of multinomial model (glmnet - 20 CV models)'}
+imp_nodes_colors = rep("black", length(colnames(cvfit_mat)))
+names(imp_nodes_colors) = colnames(cvfit_mat)
+imp_nodes_colors[names(imp_nodes_colors) %in% c("MEK_f", "PTEN", "MAPK14", "CTNNB1", "mTORC1_c")] = "green4"
+
+ComplexHeatmap::Heatmap(matrix = cvfit_mat, name = "Coef", row_title = "Number of Fixpoints", 
+  row_dend_side = "right", row_title_side = "left",
+  column_title = "Glmnet Coefficient Scores", row_km = 3, row_km_repeats = 10, 
+  show_row_names = FALSE, column_dend_height = unit(20, "mm"),
+  column_names_gp = gpar(col = imp_nodes_colors),
+  left_annotation = rowAnnotation(foo = anno_block(
+    labels = c("2", "1", "0"), # with `show_row_names = TRUE` you can check this
+    labels_gp = gpar(col = "black", fontsize = 12))))
+```
+
+:::{.green-box}
+The top 5 most important nodes are seen in green in the above heatmap: `MAPK14`, `PTEN`, `CTNNB1`, `MEK_f` and `mTORC1_c`.
+:::
+
+### Random Forest {-}
+
+We used the [param_ss_randf.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_randf.R) script to tune and train a random forest classifier on the dataset.
+First we tuned the `mtry` parameter, the number of variables randomly selected at each tree split:
+```{r param-ss-rf-mtry, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest Tuning (mtry)'}
+mtry_data = readRDS(file = "data/mtry_data.rds")
+
+mtry_data %>%
+  ggplot(aes(x = mtry, y = OOBError, group = mtry)) +
+  geom_boxplot(fill = "green4") +
+  labs(title = "Tuning Random Forest mtry parameter") +
+  theme_classic(base_size = 14) + theme(plot.title = element_text(hjust = 0.5))
+```
+
+:::{.green-box}
+A value between $14-18$ for `mtry` seems to minimize the Out-Of-Bag Error, so we choose $16$ for the rest of the analysis.
+For the number of trees parameter, we stayed with the default value ($500$) as we observed that they were more than enough after a few test runs.
+:::
+
+Next, we randomly selected $100000$ models from the dataset - a total of $20$ times - to train the random forest classifier and find the **importance score of each node**.
+We load the result data and tidy up a bit:
+```{r param-ss-rf-imp}
+rf_imp_data = readRDS(file = "data/rf_imp_data.rds")
+
+# make a list of tibbles
+tbl_list = lapply(rf_imp_data, function(mat) {
+  nodes = rownames(mat)
+  tibble::as_tibble(mat) %>% mutate(nodes = nodes)
+})
+
+# OneForAll
+imp_res = dplyr::bind_rows(tbl_list)
+
+# Get the importance stats
+imp_stats = imp_res %>% 
+  group_by(nodes) %>% 
+  summarise(mean_acc  = mean(MeanDecreaseAccuracy), 
+            sd_acc    = sd(MeanDecreaseAccuracy), 
+            mean_gini = mean(MeanDecreaseGini), 
+            sd_gini   = sd(MeanDecreaseGini), 
+            .groups = 'keep') %>% 
+  ungroup()
+```
+
+The importance scores for each node were the **mean decrease in accuracy and node impurity** (Gini Index).
+We calculate the mean importance and standard deviation scores across all random samples for both measures of importance:
+```{r param-ss-rf-imp-fig, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest: Mean Decrease Accuracy per node'}
+# color first 5 nodes in x axis
+imp_col = c(rep("green4", 5), rep("grey30", nrow(imp_stats)-5))
+imp_stats %>%
+  mutate(nodes = forcats::fct_reorder(nodes, desc(mean_acc))) %>%
+  ggplot(aes(x = nodes, y = mean_acc, fill = mean_acc)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_fill_gradient(low = "steelblue", high = "red") +
+  geom_errorbar(aes(ymin=mean_acc-sd_acc, ymax=mean_acc+sd_acc), width = 0.2) +
+  theme_classic(base_size = 14) + 
+  theme(axis.text.x = element_text(angle = 90, colour = imp_col)) +
+  labs(title = "Random Forest Variable Importance (Accuracy)", 
+    x = "Nodes", y = "Mean Decrease Accuracy")
+```
+
+```{r param-ss-rf-imp-fig2, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest: Mean Node Impurity (Gini Index)'}
+imp_stats %>%
+  mutate(nodes = forcats::fct_reorder(nodes, desc(mean_gini))) %>%
+  ggplot(aes(x = nodes, y = mean_gini, fill = mean_gini)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_fill_gradient(low = "steelblue", high = "red") +
+  geom_errorbar(aes(ymin = mean_gini-sd_gini, ymax = mean_gini+sd_gini), width = 0.2) +
+  theme_classic(base_size = 14) + 
+  theme(axis.text.x = element_text(angle = 90, colour = imp_col)) +
+  labs(title = "Random Forest Variable Importance (Gini Index)", 
+    x = "Nodes", y = "Mean Decrease in Node Impurity")
+```
+
+:::{.green-box}
+The top 5 important nodes by any of the two importance measures using Random Forests, include the nodes found as important with the LASSO method: `MAPK14`, `ERK_f`, `MEK_f`, `PTEN`, `mTORC1_c`.
 :::
 
 ## Parameterization and Stable State Agreement {-}
@@ -465,6 +645,8 @@ node_stats %>% mutate(node = forcats::fct_reorder(node, desc(num_reg))) %>%
     theme_classic() + theme(axis.text.x = element_text(angle = 90)) +
     scale_fill_brewer(guide = guide_legend(reverse=TRUE, title = "#Regulators"), palette = "Set1")
 ```
+
+
 
 # R session info {-}
 

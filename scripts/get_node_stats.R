@@ -1,6 +1,7 @@
 library(dplyr)
 library(tibble)
 library(emba)
+library(usefun)
 
 # read the models stable state data
 res_ss_df = readRDS(file = "data/1ss_model_data.rds")
@@ -37,7 +38,7 @@ num_bits = nrow(lo_stats)
 # convert model numbers to unique link operator configuration in binary encoding
 # order of the models is the same as `res_ss_df`
 model_numbers = sub(x = rownames(res_ss_df), pattern = "network_", replacement = "") %>% as.integer()
-model_numbers_bin = sapply(model_numbers, dec_to_bin, num_bits)
+model_numbers_bin = sapply(model_numbers, usefun::dec_to_bin, num_bits)
 
 # save model numbers
 saveRDS(model_numbers_bin, file = "data/model_numbers_bin.rds")
@@ -106,4 +107,10 @@ for (node_name in lo_stats %>% pull(node)) {
 add_stats = dplyr::bind_rows(data_list)
 node_stats = dplyr::bind_cols(lo_stats, add_stats)
 
+# save result
+# `node_stats` has a row for each node that has a link operator in its
+# corresponding boolean equation (a total of 23 nodes/rows).
+# The statistics included in each row have to do with the agreement between
+# stable state activity and link operator parameterization for the models of
+# the dataset that have 1 stable state (~3 million)
 saveRDS(node_stats, file = "data/node_stats.rds")

@@ -121,4 +121,6 @@ stats = get_stats(num_reg = 20)
 stopCluster(cl)
 
 # save result
-saveRDS(stats, file = "stats.rds")
+# `stats` has the Truth Density statistics for different boolean regulatory
+# functions and for different number of regulators
+saveRDS(stats, file = "td_stats.rds")

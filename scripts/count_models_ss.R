@@ -28,5 +28,6 @@ for (model_dir in model_dirs) {
   model_index = model_index + 1
 }
 
+# `models_ss_stats` has two columns: `model_number` (decimal) and `ss_num` (0,1 or 2)
 models_ss_stats = dplyr::bind_rows(data_list)
 saveRDS(models_ss_stats, file = "data/models_ss_stats.rds")

@@ -20,4 +20,6 @@ out_degree = sapply(node_names, function(node) { edge_tbl %>% filter(source == n
 # degree distribution stats for CASCADE 1.0
 dd_stats = dplyr::bind_cols(node = node_names, in_degree = in_degree, out_degree = out_degree)
 
+# `dd_stats` has for each node in the CASCADE 1.0 network (a total of 77 nodes/rows)
+# the number of inputs (`in_degree`) and outputs (`out_degree`)
 saveRDS(dd_stats, file = "data/dd_stats.rds")

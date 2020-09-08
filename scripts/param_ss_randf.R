@@ -4,7 +4,6 @@
 
 library(dplyr)
 library(tibble)
-library(usefun)
 library(randomForest)
 
 # read data

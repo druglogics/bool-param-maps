@@ -890,6 +890,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#glmnet"><i class="fa fa-check"></i>Glmnet</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#random-forest"><i class="fa fa-check"></i>Random Forest</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#parameterization-map"><i class="fa fa-check"></i>Parameterization Map</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#embedding-important-nodes-in-the-map"><i class="fa fa-check"></i>Embedding Important Nodes in the Map</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis.html"><a href="cascade-1-0-analysis.html#parameterization-and-stable-state-agreement"><i class="fa fa-check"></i>Parameterization and Stable State Agreement</a></li>
 </ul></li>
@@ -918,7 +920,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Balance Mutations in Logical Modeling</h1>
 <p class="author"><em><a href="https://github.com/bblodfon">John Zobolas</a></em></p>
-<p class="date"><em>Last updated: 04 September, 2020</em></p>
+<p class="date"><em>Last updated: 09 September, 2020</em></p>
 </div>
 <div id="intro" class="section level1 unnumbered" number="">
 <h1>Intro</h1>
@@ -940,9 +942,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-14"><a href="index.html#cb1-14"></a><span class="kw">library</span>(forcats)</span>
 <span id="cb1-15"><a href="index.html#cb1-15"></a><span class="kw">library</span>(scales)</span>
 <span id="cb1-16"><a href="index.html#cb1-16"></a><span class="kw">library</span>(gtools)</span>
-<span id="cb1-17"><a href="index.html#cb1-17"></a><span class="kw">library</span>(ComplexHeatmap)</span>
+<span id="cb1-17"><a href="index.html#cb1-17"></a><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(ComplexHeatmap))</span>
 <span id="cb1-18"><a href="index.html#cb1-18"></a><span class="kw">library</span>(glmnet)</span>
-<span id="cb1-19"><a href="index.html#cb1-19"></a><span class="kw">library</span>(randomForest)</span></code></pre></div>
+<span id="cb1-19"><a href="index.html#cb1-19"></a><span class="kw">library</span>(randomForest)</span>
+<span id="cb1-20"><a href="index.html#cb1-20"></a><span class="kw">library</span>(uwot)</span></code></pre></div>
 </div>
             </section>
 

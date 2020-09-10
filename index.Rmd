@@ -35,6 +35,7 @@ library(gtools)
 suppressPackageStartupMessages(library(ComplexHeatmap))
 library(glmnet)
 library(randomForest)
+library(ranger)
 library(uwot)
 ```
 
@@ -343,7 +344,7 @@ dd_stats %>% group_by(out_degree) %>% tally() %>%
 ## Model Stable State Statistics {-}
 
 Using [abmlog](https://github.com/druglogics/abmlog) we generated all $2^{23} = 8388608$ possible link operator mutated models for the CASCADE 1.0 topology.
-The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [TOADD]. 
+The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783). 
 The `gitsbe` files include also the fixpoint attractors.
 Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_model_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R)).
 The model stable state (fixpoint) statistics are as follows:
@@ -368,7 +369,7 @@ Less than $50\%$ of the total possible parameterized models have a single fixpoi
 ## Stable States Data {-}
 
 :::{.note}
-To load the stable state data for the models that have **1 stable state** use the Zenodo dataset (**TODO**) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
+To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
 :::
 
 ## Parameterization vs #fixpoints {-}
@@ -544,6 +545,24 @@ imp_stats %>%
 :::{.green-box}
 The top 5 important nodes by any of the two importance measures using Random Forests, include the nodes found as important with the LASSO method: `MAPK14`, `ERK_f`, `MEK_f`, `PTEN`, `mTORC1_c`.
 :::
+
+Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely `ranger` [@Wright2017].
+Use the script [param_ss_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R) to reproduce the results ($4000000$ - almost half of the models are used for training and the importance measure calculated was the Gini index):
+```{r param-ss-rf-imp-fig3, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest (ranger): Mean Node Impurity (Gini Index)'}
+ranger_res = readRDS(file = "data/ranger_res.rds")
+imp_res = tibble(nodes = names(ranger_res$variable.importance), 
+  gini_index = ranger_res$variable.importance)
+
+imp_res %>% 
+  mutate(nodes = forcats::fct_reorder(nodes, desc(gini_index))) %>%
+  ggplot(aes(x = nodes, y = gini_index, fill = gini_index)) +
+    geom_bar(stat = "identity", show.legend = FALSE) +
+    scale_fill_gradient(low = "steelblue", high = "red") +
+    theme_classic(base_size = 14) + 
+    theme(axis.text.x = element_text(angle = 90, colour = imp_col)) +
+    labs(title = "Random Forest (Ranger) Variable Importance (Gini Index)", 
+      x = "Nodes", y = "Mean Decrease in Node Impurity")
+```
 
 ### Parameterization Map {-}
 

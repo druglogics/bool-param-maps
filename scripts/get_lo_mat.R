@@ -22,6 +22,6 @@ colnames(lo_mat) = lo_nodes
 
 # save data
 # `lo_mat` has 23 columns for each node, describing all possible
-# link-operator parameterizations (from 0...0 to 1...0). As such,
+# link-operator parameterizations (from 0...0 to 1...1). As such,
 # it has 2^23 rows.
 saveRDS(object = lo_mat, file = "data/lo_mat.rds")

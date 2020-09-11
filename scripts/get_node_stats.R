@@ -40,9 +40,6 @@ num_bits = nrow(lo_stats)
 model_numbers = sub(x = rownames(res_ss_df), pattern = "network_", replacement = "") %>% as.integer()
 model_numbers_bin = sapply(model_numbers, usefun::dec_to_bin, num_bits)
 
-# save model numbers
-saveRDS(model_numbers_bin, file = "data/model_numbers_bin.rds")
-
 # calculate `node_stats`
 # It includes agreement measures between stable states and
 # link operator assignments per node

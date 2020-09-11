@@ -15,7 +15,7 @@ for (model_dir in model_dirs) {
 
 res = dplyr::bind_rows(ss_data)
 
-# `1ss_model_data` is a data.frame with rows the boolean models that had one
+# `res` (`ss_data`) is a data.frame with rows the boolean models that had one
 # stable state (~3 million) and columns the nodes of the CASCADE 1.0 network (77).
 # Each value in the data.frame is either 0 (inhibited state) or 1 (active state).
-saveRDS(res, file = "1ss_model_data.rds")
+saveRDS(res, file = "ss_data.rds")

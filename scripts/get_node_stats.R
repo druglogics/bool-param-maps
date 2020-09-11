@@ -4,7 +4,7 @@ library(emba)
 library(usefun)
 
 # read the models stable state data
-res_ss_df = readRDS(file = "data/1ss_model_data.rds")
+res_ss_df = readRDS(file = "data/ss_data.rds")
 
 # point to the `CASCADE_1.0.sif` topology file in the Zenodo dataset
 edge_mat = emba::get_edges_from_topology_file(topology.file = "/media/disk/abmlog/CASCADE_1.0.sif")

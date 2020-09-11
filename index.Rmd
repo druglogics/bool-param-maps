@@ -369,7 +369,7 @@ Less than $50\%$ of the total possible parameterized models have a single fixpoi
 ## Stable States Data {-}
 
 :::{.note}
-To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [tidy_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/tidy_ss_data.R)
+To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_ss_data.R)
 :::
 
 ## Parameterization vs #fixpoints {-}

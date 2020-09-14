@@ -1,3 +1,8 @@
+###############################################
+# Calculate statistics (parameterization vs ss)
+# for the link operator nodes in CASCADE 1.0
+###############################################
+
 library(dplyr)
 library(tibble)
 library(emba)
@@ -6,8 +11,8 @@ library(usefun)
 # read the models stable state data
 res_ss_df = readRDS(file = "data/ss_data.rds")
 
-# point to the `CASCADE_1.0.sif` topology file in the Zenodo dataset
-edge_mat = emba::get_edges_from_topology_file(topology.file = "/media/disk/abmlog/CASCADE_1.0.sif")
+# point to the `CASCADE_1.0.sif` topology file in the Zenodo dataset or the one in the `data` directory
+edge_mat = emba::get_edges_from_topology_file(topology.file = "data/cascade_1_0.sif")
 edge_tbl = edge_mat %>% as_tibble()
 
 data_list = list()
@@ -41,8 +46,7 @@ model_numbers = sub(x = rownames(res_ss_df), pattern = "network_", replacement =
 model_numbers_bin = sapply(model_numbers, usefun::dec_to_bin, num_bits)
 
 # calculate `node_stats`
-# It includes agreement measures between stable states and
-# link operator assignments per node
+# It includes agreement measures between stable states and link operator assignments per node
 data_list = list()
 index = 1
 for (node_name in lo_stats %>% pull(node)) {

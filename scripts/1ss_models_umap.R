@@ -7,7 +7,7 @@ library(tibble)
 library(ggplot2)
 library(uwot)
 
-lo_data = readRDS(file = "lo_data.rds")
+lo_data = readRDS(file = "data/lo_data.rds")
 
 for(n_neighbors in 2:20) {
   print(n_neighbors)

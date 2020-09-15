@@ -21,8 +21,8 @@ stopifnot(all(rownames(pred_data) == rownames(lo_data)))
 obs_syn = emba::get_observed_synergies(file = "data/observed_synergies_cascade_1.0")
 
 # Performance Biomarker Analysis
-# split models to a different number of MCC classes
-# 14 was the total number of unique MCC scores
+# split models to a different number of MCC classes (the more classes,
+# the more biomarkers will be found). 14 was the total number of unique MCC scores.
 for (mcc_classes in 3:14) {
   print(mcc_classes)
   mcc_res = emba::biomarker_mcc_analysis(

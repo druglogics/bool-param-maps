@@ -15,8 +15,8 @@ for(n_neighbors in 2:20) {
 
   lo_umap = uwot::umap(X = lo_data, metric = "manhattan", n_threads = 8, n_neighbors = n_neighbors)
 
-  # I have saved them all but they take a lot of space, so will just keep
-  # a small number of them in the repo (and to use/color in further analyses)
+  # I have saved them all but they take a lot of space, so I will just keep
+  # a small number of them in the repo, namely for n_neighbors = 2,4,6,8,11 and 14
   saveRDS(object = lo_umap, file = paste0("1ss_lo_umap/lo_umap_1ss_", n_neighbors, "nn.rds"))
 
   lo_umap %>%

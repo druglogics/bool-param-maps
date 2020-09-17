@@ -57,6 +57,9 @@ for (i in n_neighbors) {
     ggplot(aes(x = X, y = Y, colour = is_gitsbe)) +
     geom_point(size = my_sizes, shape = my_shapes, alpha = my_alphas) +
     scale_color_manual(values = c('black', 'red')) +
-    theme_classic()
+    labs(title = paste0("Parameterization Map - ", i, " Neighbours")) +
+    theme_classic() +
+    theme(plot.title = element_text(hjust = 0.5))
+
   ggsave(filename = paste0("img/gitsbe_umaps/", i, "nn.png"), dpi = "print", width = 7, height = 5)
 }

@@ -1,8 +1,8 @@
 ---
-title: "Balance Mutations in Logical Modeling"
+title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
 date: "Last updated: `r format(Sys.time(), '%d %B, %Y')`"
-description: "Investigations for Balance link operators paper"
+description: "Investigations related to link operators mutations in boolean models"
 url: 'https\://bblodfon.github.io/balance-paper/'
 github-repo: "bblodfon/balance-paper"
 bibliography: references.bib
@@ -37,6 +37,7 @@ library(glmnet)
 library(randomForest)
 library(ranger)
 library(uwot)
+library(Ckmeans.1d.dp)
 ```
 
 # BBR Function Analysis {-}
@@ -437,7 +438,7 @@ Additional nodes (like `MEK_f` and `CTNNB1`) are likely to be importane as well.
 :::
 
 If we cross-validate the regularization parameter $\lambda$ (using the same script, we randomly selected smaller model samples - $100000$, $20$ times in total), and choose the $\lambda_{1se}$ for each different run to get the coefficients, the results can be visualized as follows:
-```{r param-ss-glmnet-cv-data}
+```{r param-ss-glmnet-cv-data, cache=TRUE}
 cvfit_data = readRDS(file = "data/cvfit_data.rds")
 cvfit_mat_list = lapply(cvfit_data, function(cvfit) {
   co = coef(cvfit) %>% 
@@ -820,27 +821,27 @@ The images for $\ge 14$ *n_neighbors* are almost exactly the same.
 :::
 
 We present some of these maps below:
-```{r param-maps-1ss-models-1, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (2 and 3 neighbors)'}
+```{r param-maps-1ss-models-1, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (2 and 3 neighbours)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_2.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_3.png")
 ```
 
-```{r param-maps-1ss-models-2, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (4 and 5 neighbors)'}
+```{r param-maps-1ss-models-2, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (4 and 5 neighbours)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_4.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_5.png")
 ```
 
-```{r param-maps-1ss-models-3, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (6 and 8 neighbors)'}
+```{r param-maps-1ss-models-3, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (6 and 8 neighbours)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_6.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_8.png")
 ```
 
-```{r param-maps-1ss-models-4, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (9 and 11 neighbors)'}
+```{r param-maps-1ss-models-4, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (9 and 11 neighbours)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_9.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_11.png")
 ```
 
-```{r param-maps-1ss-models-5, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (12 and 15 neighbors)'}
+```{r param-maps-1ss-models-5, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (12 and 15 neighbours)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_12.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 ```
@@ -851,7 +852,11 @@ knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 
 We used Gitsbe and tested the produced the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
 The calibrated models performed very well in terms of both ROC and PR-AUC.
-All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes).
+All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_models_fit.R) for more info):
+
+```{r gitbse-fit-fig, fig.cap='Gitsbe model fitness to AGS steady state'}
+knitr::include_graphics(path = "img/gitsbe_fit_density.png")
+```
 
 :::{.blue-box}
 Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighbourhood in the parameterization map.
@@ -861,17 +866,17 @@ These are available in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/1
 To generate the next figures (same map, same gitsbe models, different number of neighbours) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R)
 :::
 
-```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbors)'}
+```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbours)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/2nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/4nn.png")
 ```
 
-```{r gitsbe-maps-2, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (6 and 8 neighbors)'}
+```{r gitsbe-maps-2, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (6 and 8 neighbours)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/6nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/8nn.png")
 ```
 
-```{r gitsbe-maps-3, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (11 and 14 neighbors)'}
+```{r gitsbe-maps-3, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (11 and 14 neighbours)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/11nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/14nn.png")
 ```
@@ -881,9 +886,66 @@ Gitsbe-generated models that fit the basal biomarker steady state data for the A
 :::
 
 There are areas in the map that Gitsbe models do not cover, which may as well be high-performance model areas.
-Since, we have generated all possible parameterized models with CASCADE 1.0 we can procced to generate a performance map atop the parameterization one.
+Since, we have generated all possible parameterized models with CASCADE 1.0 we can proceed to generate a performance map atop the parameterization one.
+
+## Performance Maps {-}
+
+Every model generated via `abmlog` ([Model Stable State Statistics]) was tested against the synergy dataset of [@Flobak2015].
+Among $21$ drug combinations, $4$ were found synergistic in that dataset, namely:
+  
+```{r cascade1-obs-synergies, results='asis'}
+obs_syn = emba::get_observed_synergies(file = "data/observed_synergies_cascade_1.0")
+usefun::pretty_print_vector_values(obs_syn, vector.values.str = "synergies")
+```
+
+:::{.blue-box}
+Using the [drabme](https://druglogics.github.io/druglogics-doc/drabme.html) software module, we tested every CASCADE 1.0 model against this dataset and got each model's predictions for each drug combination.
+The *HSA* rule was used to define if a model is synergistic for a particular combination.
+The results are available in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783), file `cascade_1.0_hsa_fixpoints.tar.gz`.
+As previously said, we are going to use the 1 stable state model predictions only.
+:::
+
+We used the [emba](emba-site) R package to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R)).
+Part of the results from the emba analysis is the calculation of the **Matthews correlation coefficient (MCC) performance score** for each model.
+We use these MCC model scores to draw the next figures (see [mcc_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_figures.R) script)
+
+Splitting all the 1 stable state models to $4$ MCC classes we can see that **a lot of models have performance close to random prediction or even worse**:
+
+```{r mcc-histogram, fig.cap = 'MCC Classes Histogram'}
+knitr::include_graphics(path = "img/mcc_hist.png")
+```
+
+If we draw the parameterization maps for different number of neighbours and **color the points/models according to their MCC score**, we get these images:
+
+```{r mcc-maps-1, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (2 and 4 neighbours)'}
+knitr::include_graphics(path = "img/mcc_maps/2nn.png")
+knitr::include_graphics(path = "img/mcc_maps/4nn.png")
+```
+
+```{r mcc-maps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (6 and 8 neighbours)'}
+knitr::include_graphics(path = "img/mcc_maps/6nn.png")
+knitr::include_graphics(path = "img/mcc_maps/8nn.png")
+```
+
+```{r mcc-maps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (11 and 14 neighbours)'}
+knitr::include_graphics(path = "img/mcc_maps/11nn.png")
+knitr::include_graphics(path = "img/mcc_maps/14nn.png")
+```
+
+:::{.green-box}
+We observe the existence of 2 large parameterization superclusters (especially outlined by the figures with $2$ and $\ge 8$ neighbours) which are directly related with the MCC performance metric.
+Specifically, these **2 superclusters dichotomize the models performance landscape** into 2 areas, where only one of them has the majority of good performance models (i.e. those that have an MCC score $>0$).
+This also points us to the **existence of link operator biomarkers** - nodes whose link operator define the performance of the models, i.e. in which supercluster they belong in the simple dichotomous case scenario where we want to distinguish 'good' from 'bad' models.
+
+Comparing the corresponding **Gitsbe parameterization maps with the MCC maps**, we can clearly verify now that the Gitsbe models are not always the best performing ones (in terms of MCC score) since they appear in both superclusters (in somewhat equally proportions).
+This is evidence that suggests that either the genetic algorithm produces *local* optima (which is known since it's a heuristic method) or the training dataset does not provide enough *constraints*, i.e. more nodes whose steady state needs to be fit (or a combination of both).
+:::
 
 ## Performance biomarkers {-}
+
+- The complex heatmap of emba mcc results
+
+- ranger results, important variables
 
 ## Fitness Maps {-}
 

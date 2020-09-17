@@ -580,7 +580,7 @@ First, we randomly choose a subset of our dataset ($6000000$ rows, so $\approx 7
 
 UMAP is given a subset of all binary numbers from $0$ ($23$ $0$'s) to $2^{23}-1$ ($23$ $1$'s) representing each possible link operator mutated model ($0$'s map to `AND-NOT`, $1$'s to `OR-NOT`) and places them in the 2D plane.
 The following figure show us the models, **colored by their decimal (base-10) number** (converted from the binary link-operator model representation):
-```{r umap-unsup-model-num-fig, cache=TRUE, fig.cap='UMAP: Parameterization vs Numerical Model Representation'}
+```{r umap-unsup-model-num-fig, fig.cap='UMAP: Parameterization vs Numerical Model Representation'}
 knitr::include_graphics(path = "img/umap_unsupervised_model_num.png")
 ```
 
@@ -591,7 +591,7 @@ We used the *manhattan* distance metric in the UMAP algorithm and as such, a mod
 :::
 
 Same models, same 2D placement, only now colored by their number of fixpoints:
-```{r umap-unsup-fig, cache=TRUE, fig.cap='UMAP: Parameterization vs Number of fixpoints'}
+```{r umap-unsup-fig, fig.cap='UMAP: Parameterization vs Number of fixpoints'}
 knitr::include_graphics(path = "img/umap_unsupervised.png")
 ```
 
@@ -606,7 +606,7 @@ As such, they can be found cross all the areas of the parameterization map.
 #### Supervised UMAP {-}
 
 Next, we randomly choose $1/3=33\%$ of our dataset and applied **UMAP in supervised mode** (the association between each model and the corresponding fixpoint group was given as input to UMAP):
-```{r umap-sup-fig, cache=TRUE, fig.cap='UMAP Supervised: Parameterization vs Number of fixpoints'}
+```{r umap-sup-fig, fig.cap='UMAP Supervised: Parameterization vs Number of fixpoints'}
 knitr::include_graphics(path = "img/umap_supervised.png")
 ```
 
@@ -617,7 +617,7 @@ So, it seems that the more complex are the models (here we mean dynamical comple
 :::
 
 If we **retain the above fixpoint-class 2D model placement** and color it according to the models numerical representation, we can see the existence of small closely-parameterized clusters within each super-cluster as well as the fact that the models in each super-cluster are spread throughout the parameterization landscape:
-```{r umap-sup-fig-2, cache=TRUE, fig.cap='UMAP Supervised: Parameterization vs Numerical Model Representation'}
+```{r umap-sup-fig-2, fig.cap='UMAP Supervised: Parameterization vs Numerical Model Representation'}
 knitr::include_graphics(path = "img/umap_supervised_model_num.png")
 ```
 
@@ -629,20 +629,20 @@ Using (supervised) UMAP we took a sample of the dataset ($33\%$ of the models) a
 We will now color the [supervised UMAP-generated map](#supervised-umap) with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the [param_ss_umap_sup_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_sup_imp_nodes.R) script).
 
 The 3 most important nodes:
-```{r map-imp-nodes-umap-fig,cache=TRUE}
+```{r map-imp-nodes-umap-fig}
 knitr::include_graphics(path = "img/umap_supervised_MAPK14.png")
 knitr::include_graphics(path = "img/umap_supervised_MEK_f.png")
 knitr::include_graphics(path = "img/umap_supervised_ERK_f.png")
 ```
 
 The next 2 most important nodes:
-```{r map-less-imp-nodes-umap-fig, cache=TRUE}
+```{r map-less-imp-nodes-umap-fig}
 knitr::include_graphics(path = "img/umap_supervised_mTORC1_c.png")
 knitr::include_graphics(path = "img/umap_supervised_PTEN.png")
 ```
 
 **`CFLAR`** was the least important node for assessing the number of fixpoints of a model from its parameterization:
-```{r map-cflar-umap-fig, cache=TRUE}
+```{r map-cflar-umap-fig}
 knitr::include_graphics(path = "img/umap_supervised_CFLAR.png")
 ```
 
@@ -656,7 +656,7 @@ The important nodes can be used to more accurately define **families of closely 
 # CASCADE 1.0 Analysis (1 ss models) {-}
 
 :::{.orange-box}
-In the second part of this analysis, only **the models that have 1 stable state** will be used (see [Stable States Data]).
+In the second part of this analysis, **only the models that have 1 stable state** will be used (see [Stable States Data]).
 All variables of interest (stable state, link-operator parameterization, fitness to steady state, performance MCC score, etc.) will relate only to the 1 stable state models from now on.
 :::
 
@@ -805,6 +805,93 @@ node_stats %>% mutate(node = forcats::fct_reorder(node, desc(num_reg))) %>%
 # node_stats %>% summarise(100 * sum(cohen_k)/n()) %>% pull()
 # 56% Cohen's kappa Statistic
 ```
+
+## 2D Model Parameterization Maps {-}
+
+In this section we present the results of using UMAP [@McInnes2018a] on the link-operator parameterization data of the CASCADE 1.0 models with 1 stable state.
+We created several such *parameterization maps* by adjusting the *n_neighbors* parameter input (from $2$ to $20$), which is responsible for the **size of the local neighborhood** (in terms of number of neighboring sample points) used for the manifold approximation.
+As the documentation says, larger values result in **more global views** of the manifold, while smaller values result in **more local data** being preserved.
+To get these map images and the reduced dimensionality dataset, use the script [1ss_models_umap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/1ss_models_umap.R) for more details.
+
+:::{.blue-box}
+Note that in all these mappings to the 2D space, **models that share similar link-operator parameterization will reside in the same area/cluster in the map**.
+The larger the *n_neighbors* is, the more the smaller clusters merge into larger ones.
+The images for $\ge 14$ *n_neighbors* are almost exactly the same.
+:::
+
+We present some of these maps below:
+```{r param-maps-1ss-models-1, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (2 and 3 neighbors)'}
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_2.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_3.png")
+```
+
+```{r param-maps-1ss-models-2, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (4 and 5 neighbors)'}
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_4.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_5.png")
+```
+
+```{r param-maps-1ss-models-3, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (6 and 8 neighbors)'}
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_6.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_8.png")
+```
+
+```{r param-maps-1ss-models-4, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (9 and 11 neighbors)'}
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_9.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_11.png")
+```
+
+```{r param-maps-1ss-models-5, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (12 and 15 neighbors)'}
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_12.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
+```
+
+## Gitsbe Models on the Map {-}
+
+[Gitsbe](https://druglogics.github.io/druglogics-doc/gitsbe.html) uses a genetic algorithm approach to produce boolean models that are fitted to basal, biomarker training data.
+
+We used Gitsbe and tested the produced the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
+The calibrated models performed very well in terms of both ROC and PR-AUC.
+All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes).
+
+:::{.blue-box}
+Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighbourhood in the parameterization map.
+
+We will use the models from the $1000$ gitsbe simulations, calibrated to steady state, a total of $3000$ models.
+These are available in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3988424.svg)](https://doi.org/10.5281/zenodo.3988424), see the `cascade_1.0` directory in the `sim_res.tar.gz` file.
+To generate the next figures (same map, same gitsbe models, different number of neighbours) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R)
+:::
+
+```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbors)'}
+knitr::include_graphics(path = "img/gitsbe_umaps/2nn.png")
+knitr::include_graphics(path = "img/gitsbe_umaps/4nn.png")
+```
+
+```{r gitsbe-maps-2, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (6 and 8 neighbors)'}
+knitr::include_graphics(path = "img/gitsbe_umaps/6nn.png")
+knitr::include_graphics(path = "img/gitsbe_umaps/8nn.png")
+```
+
+```{r gitsbe-maps-3, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (11 and 14 neighbors)'}
+knitr::include_graphics(path = "img/gitsbe_umaps/11nn.png")
+knitr::include_graphics(path = "img/gitsbe_umaps/14nn.png")
+```
+
+:::{.green-box}
+Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific clusters** (better seen in the Figure with 14 neighbours which gives a more global view of the dataset).
+:::
+
+There are areas in the map that Gitsbe models do not cover, which may as well be high-performance model areas.
+Since, we have generated all possible parameterized models with CASCADE 1.0 we can procced to generate a performance map atop the parameterization one.
+
+## Performance biomarkers {-}
+
+## Fitness Maps {-}
+
+## Performance vs Fitness {-}
+
+## Synergy Maps {-}
+
+## Synergy Biomarkers {-}
 
 # R session info {-}
 

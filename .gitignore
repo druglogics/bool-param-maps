@@ -10,3 +10,17 @@ data/emba_mcc_res/mcc_14_res.rds
 data/emba_mcc_res/mcc_5_res.rds 
 data/emba_mcc_res/mcc_7_res.rds 
 data/emba_mcc_res/mcc_9_res.rds
+data/1ss_lo_umap/lo_umap_1ss_10nn.rds
+data/1ss_lo_umap/lo_umap_1ss_12nn.rds
+data/1ss_lo_umap/lo_umap_1ss_13nn.rds
+data/1ss_lo_umap/lo_umap_1ss_15nn.rds
+data/1ss_lo_umap/lo_umap_1ss_16nn.rds
+data/1ss_lo_umap/lo_umap_1ss_17nn.rds
+data/1ss_lo_umap/lo_umap_1ss_18nn.rds
+data/1ss_lo_umap/lo_umap_1ss_19nn.rds
+data/1ss_lo_umap/lo_umap_1ss_20nn.rds
+data/1ss_lo_umap/lo_umap_1ss_3nn.rds
+data/1ss_lo_umap/lo_umap_1ss_5nn.rds
+data/1ss_lo_umap/lo_umap_1ss_7nn.rds
+data/1ss_lo_umap/lo_umap_1ss_9nn.rds
+

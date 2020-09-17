@@ -4,21 +4,21 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Balance Mutations in Logical Modeling</title>
-  <meta name="description" content="Investigations for Balance link operators paper" />
+  <title>A study in boolean model parameterization</title>
+  <meta name="description" content="Investigations related to link operators mutations in boolean models" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Balance Mutations in Logical Modeling" />
+  <meta property="og:title" content="A study in boolean model parameterization" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://bblodfon.github.io/balance-paper/" />
   
-  <meta property="og:description" content="Investigations for Balance link operators paper" />
+  <meta property="og:description" content="Investigations related to link operators mutations in boolean models" />
   <meta name="github-repo" content="bblodfon/balance-paper" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Balance Mutations in Logical Modeling" />
+  <meta name="twitter:title" content="A study in boolean model parameterization" />
   
-  <meta name="twitter:description" content="Investigations for Balance link operators paper" />
+  <meta name="twitter:description" content="Investigations related to link operators mutations in boolean models" />
   
 
 <meta name="author" content="John Zobolas" />
@@ -900,6 +900,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#parameterization-and-stable-state-agreement-cascade-2.0"><i class="fa fa-check"></i>Parameterization and Stable State Agreement (Cascade 2.0)</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#d-model-parameterization-maps"><i class="fa fa-check"></i>2D Model Parameterization Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#gitsbe-models-on-the-map"><i class="fa fa-check"></i>Gitsbe Models on the Map</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-maps"><i class="fa fa-check"></i>Performance Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-biomarkers"><i class="fa fa-check"></i>Performance biomarkers</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#fitness-maps"><i class="fa fa-check"></i>Fitness Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-vs-fitness"><i class="fa fa-check"></i>Performance vs Fitness</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-maps"><i class="fa fa-check"></i>Synergy Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-biomarkers"><i class="fa fa-check"></i>Synergy Biomarkers</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-session-info.html"><a href="r-session-info.html"><i class="fa fa-check"></i>R session info</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -915,7 +921,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Balance Mutations in Logical Modeling</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A study in boolean model parameterization</a>
           </h1>
         </div>
 
@@ -924,7 +930,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Balance Mutations in Logical Modeling</h1>
+<h1 class="title">A study in boolean model parameterization</h1>
 <p class="author"><em><a href="https://github.com/bblodfon">John Zobolas</a></em></p>
 <p class="date"><em>Last updated: 17 September, 2020</em></p>
 </div>
@@ -952,7 +958,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-18"><a href="index.html#cb1-18"></a><span class="kw">library</span>(glmnet)</span>
 <span id="cb1-19"><a href="index.html#cb1-19"></a><span class="kw">library</span>(randomForest)</span>
 <span id="cb1-20"><a href="index.html#cb1-20"></a><span class="kw">library</span>(ranger)</span>
-<span id="cb1-21"><a href="index.html#cb1-21"></a><span class="kw">library</span>(uwot)</span></code></pre></div>
+<span id="cb1-21"><a href="index.html#cb1-21"></a><span class="kw">library</span>(uwot)</span>
+<span id="cb1-22"><a href="index.html#cb1-22"></a><span class="kw">library</span>(Ckmeans<span class="fl">.1</span>d.dp)</span></code></pre></div>
 </div>
             </section>
 

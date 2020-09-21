@@ -10,14 +10,14 @@ library(ggplot2)
 
 lo_data = readRDS(file = "data/lo_data.rds")
 
-# Zenodo: 10.5281/zenodo.3988424
-lo_gitsbe_models = emba::get_link_operators_from_models_dir(models.dir = "/home/john/tmp/ags_paper_res/cascade_1.0/cascade_1.0_ss_1000sim_fixpoints_hsa_20200609_153545/models")
+# tar -xzvf data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz
+lo_gitsbe_models = emba::get_link_operators_from_models_dir(models.dir = "data/cascade_1.0_ss_1000sim_fixpoints_hsa_20200921_101955/models")
 
 df_args = c(lo_gitsbe_models, sep = "")
 gitsbe_bin_models = do.call(paste, df_args)
 gitsbe_num_models = paste0("network_", base::strtoi(gitsbe_bin_models, base = 2))
 
-# from the total of 3000 models, 2703 have a unique link-operator parameterization
+# from the total of 3000 models, 2566 have a unique link-operator parameterization
 gitsbe_num_models = unique(gitsbe_num_models)
 
 # data check: gitsbe model numerical representation is part of the whole set!

@@ -901,9 +901,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#d-model-parameterization-maps"><i class="fa fa-check"></i>2D Model Parameterization Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#gitsbe-models-on-the-map"><i class="fa fa-check"></i>Gitsbe Models on the Map</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-maps"><i class="fa fa-check"></i>Performance Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-vs-fitness"><i class="fa fa-check"></i>Performance vs Fitness</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#fitness-maps"><i class="fa fa-check"></i>Fitness Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-biomarkers"><i class="fa fa-check"></i>Performance biomarkers</a></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-vs-fitness"><i class="fa fa-check"></i>Performance vs Fitness</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-vs-fitness-1"><i class="fa fa-check"></i>Performance vs Fitness</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-maps"><i class="fa fa-check"></i>Synergy Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-biomarkers"><i class="fa fa-check"></i>Synergy Biomarkers</a></li>
 </ul></li>
@@ -970,7 +971,7 @@ Figure 9: Out Degree Distribution (CASCADE 1.0)
 <p>Using <a href="https://github.com/druglogics/abmlog">abmlog</a> we generated all <span class="math inline">\(2^{23} = 8388608\)</span> possible link operator mutated models for the CASCADE 1.0 topology.
 The models are stored in both <code>.gitsbe</code> and <code>.bnet</code> files in the Zenodo dataset <a href="https://doi.org/10.5281/zenodo.4022783"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg" alt="DOI" /></a>.
 The <code>gitsbe</code> files include also the fixpoint attractors.
-Thus we can find the <em>frequency distribution</em> of the number of fixpoints across all produced models (use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R">count_model_ss.R</a>).
+Thus we can find the <em>frequency distribution</em> of the number of fixpoints across all produced models (use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/count_models_ss.R">count_models_ss.R</a>).
 The model stable state (fixpoint) statistics are as follows:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="cascade-1-0-analysis-all-models.html#cb20-1"></a>models_ss_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/models_ss_stats.rds&quot;</span>)</span>
 <span id="cb20-2"><a href="cascade-1-0-analysis-all-models.html#cb20-2"></a></span>

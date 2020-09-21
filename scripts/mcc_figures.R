@@ -4,7 +4,7 @@ library(dplyr)
 library(tibble)
 library(ggplot2)
 
-# MCC Histogram
+# MCC Histogram 1
 mcc_res = readRDS(file = "data/emba_mcc_res/mcc_4_res.rds")
 models.mcc = mcc_res$models.mcc
 num.of.mcc.classes = 4
@@ -13,6 +13,19 @@ models.cluster.ids = res$cluster
 png(file = "img/mcc_hist.png", units = "in", width = 7, height = 5, res = 300)
 emba::plot_mcc_classes_hist(models.mcc, models.cluster.ids, num.of.mcc.classes)
 dev.off()
+
+# MCC Histogram 2
+bind_cols(MCC = models.mcc, mcc_class = as.factor(models.cluster.ids)) %>%
+  group_by(mcc_class) %>%
+  tally() %>%
+  ggplot(aes(x = mcc_class, y = n, fill = as.factor(mcc_class))) +
+    geom_bar(stat = 'identity') +
+    geom_text(aes(label = n), vjust = -0.5) +
+    guides(fill = guide_legend(title = "MCC Class")) +
+    theme_classic2() +
+    labs(title = "MCC Distribution (All 1 stable models)", x = "MCC Class", y = "Number of models") +
+    theme(plot.title = element_text(hjust = 0.5))
+ggsave(filename = "img/mcc_hist2.png", dpi = "print", width = 7, height = 5)
 
 # MCC Maps
 

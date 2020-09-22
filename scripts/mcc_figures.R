@@ -21,6 +21,7 @@ bind_cols(MCC = models.mcc, mcc_class = as.factor(models.cluster.ids)) %>%
   ggplot(aes(x = mcc_class, y = n, fill = as.factor(mcc_class))) +
     geom_bar(stat = 'identity') +
     geom_text(aes(label = n), vjust = -0.5) +
+  geom_text(aes(label = paste0(100 * round(n/length(models.mcc), digits = 2), "%")), size = 10, vjust = c(2.5, 2.5, -2, -2)) +
     guides(fill = guide_legend(title = "MCC Class")) +
     theme_classic2() +
     labs(title = "MCC Distribution (All 1 stable models)", x = "MCC Class", y = "Number of models") +

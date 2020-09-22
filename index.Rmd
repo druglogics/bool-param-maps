@@ -45,10 +45,11 @@ library(Ckmeans.1d.dp)
 ## Balance Boolean Regulatory Functions (BBRs) {-#bbrs}
 
 :::{.green-box}
-- The **BBRs** (Balance Boolean Regulatory functions) functions have **two sets of regulators*: *activators* (on one side) and *inhibitors* (on the other).
+- The **BBRs** (Balance Boolean Regulatory functions) functions have **two sets of regulators**: *activators* (on one side) and *inhibitors* (on the other).
 - I have observed two main classes of these functions: one that uses logical rules to derive the *combinatorial* activity of the regulators and one that relies on the combined *additive* activity (via pseudo-boolean constrains).
 :::
 
+A lot of 
 Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$, that is a total of $n=m+k$ regulators.
 The BBRs have a (non-DNF) representation that puts the different category regulators in 2 separate groups and a *link boolean operator* between them.
 As such, for a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
@@ -78,8 +79,13 @@ Next, we introduce the **threshold functions** which can be classified as *pseud
 Note that: $f_{inh-win}(x,y) = \lnot f_{act-win}(y,x)$.
 These functions are still categorized as BBRs, since they balance the additive activity of the activators and the inhibitors.
 
-I searched for an analytical formula for the two last functions (they get pretty big!).
-More info and discussion about these 2 last formulas, see the [math.stackexchange question](https://math.stackexchange.com/questions/3767774/identify-boolean-function-that-satisfies-some-constrains/).
+I searched for an analytical formula for the two last functions. 
+The equivalent boolean rule expressions become very large with more regulators but they **always exist** - which means that pretty much we are talking about the same kind of functions (the *combinatorial* vs *additive* distinction is a *sugar* for the theorists :))
+More info and discussion about the last two formulas, see the [math.stackexchange question](https://math.stackexchange.com/questions/3767774/identify-boolean-function-that-satisfies-some-constrains/).
+
+:::{.note}
+Somewhat similar function notations and definitions have been used in the work by [@Cury2019], where they used the equivalent DNF forms.
+:::
 
 ## Truth Density Data Analysis {-}
 
@@ -349,7 +355,7 @@ dd_stats %>% group_by(out_degree) %>% tally() %>%
 Using [abmlog](https://github.com/druglogics/abmlog) we generated all $2^{23} = 8388608$ possible link operator mutated models for the CASCADE 1.0 topology.
 The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783). 
 The `gitsbe` files include also the fixpoint attractors.
-Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_model_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R)).
+Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_models_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_models_ss.R)).
 The model stable state (fixpoint) statistics are as follows:
 
 ```{r ss-stats-all, fig.align='center', dpi=300, cache=TRUE, fig.cap='Stable States Distribution across all link-operator parameterized models (CASCADE 1.0)'}
@@ -846,25 +852,32 @@ knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_12.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 ```
 
+:::{.green-box}
+We observe the existence of **two large families (superclusters) of parameterization models**, especially for more *global* views of the dataset ($\text{n_neighbors}\ge 8$).
+
+**Distinct smaller sub-clusters of closely parameterized models** also manifest for different number of neighbours, which suggests that there is some order in the parameterization of the 1 stable state models (as exemplified by the UMAP method) across multiple visualization scales.
+:::
+
 ## Gitsbe Models on the Map {-}
 
 [Gitsbe](https://druglogics.github.io/druglogics-doc/gitsbe.html) uses a genetic algorithm approach to produce boolean models that are fitted to basal, biomarker training data.
 
-We used Gitsbe and tested the produced the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
+We used Gitsbe and tested the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
 The calibrated models performed very well in terms of both ROC and PR-AUC.
-All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_models_fit.R) for more info):
 
+:::{.blue-box}
+Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighbourhood in the parameterization map.
+:::
+
+We will use models from $1000$ gitsbe simulations, calibrated to steady state (a total of $3000$ models, choosing the best-fit models from each simulation).
+The results are provided in [this data file](https://github.com/bblodfon/balance-paper/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
+
+All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_models_fit.R)):
 ```{r gitbse-fit-fig, fig.cap='Gitsbe model fitness to AGS steady state'}
 knitr::include_graphics(path = "img/gitsbe_fit_density.png")
 ```
 
-:::{.blue-box}
-Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighbourhood in the parameterization map.
-
-We will use the models from the $1000$ gitsbe simulations, calibrated to steady state, a total of $3000$ models.
-These are available in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3988424.svg)](https://doi.org/10.5281/zenodo.3988424), see the `cascade_1.0` directory in the `sim_res.tar.gz` file.
-To generate the next figures (same map, same gitsbe models, different number of neighbours) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R)
-:::
+To generate the next figures (same map, same gitsbe models, different number of neighbours) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R):
 
 ```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbours)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/2nn.png")
@@ -882,11 +895,13 @@ knitr::include_graphics(path = "img/gitsbe_umaps/14nn.png")
 ```
 
 :::{.green-box}
-Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific clusters** (better seen in the Figure with 14 neighbours which gives a more global view of the dataset).
+Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific sub-clusters** (better seen in the Figure with 14 neighbours which gives a more global view of the dataset).
+
+Observing the distribution of the gitsbe models in the parameterization map, we see that most of them are being **placed at one of the two superclusters**.
 :::
 
-There are areas in the map that Gitsbe models do not cover, which may as well be high-performance model areas.
-Since, we have generated all possible parameterized models with CASCADE 1.0 we can proceed to generate a performance map atop the parameterization one.
+Of course, there are areas in the map that Gitsbe models do not cover, which may as well be high-performance model areas.
+Since we have generated all possible link-operator models with CASCADE 1.0, we can proceed to generate a performance map atop the parameterization one and cross-check if the gitsbe models fall into high-performance areas or not.
 
 ## Performance Maps {-}
 
@@ -905,15 +920,20 @@ The results are available in the Zenodo dataset [![DOI](https://zenodo.org/badge
 As previously said, we are going to use the 1 stable state model predictions only.
 :::
 
-We used the [emba](emba-site) R package to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R)).
+We used the emba R package [@emba-site] to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R)).
 Part of the results from the emba analysis is the calculation of the **Matthews correlation coefficient (MCC) performance score** for each model.
 We use these MCC model scores to draw the next figures (see [mcc_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_figures.R) script)
 
 Splitting all the 1 stable state models to $4$ MCC classes we can see that **a lot of models have performance close to random prediction or even worse**:
 
-```{r mcc-histogram, fig.cap = 'MCC Classes Histogram'}
+```{r mcc-histogram, fig.show='hold', out.width='50%', fig.cap = 'MCC Classes Histograms'}
 knitr::include_graphics(path = "img/mcc_hist.png")
+knitr::include_graphics(path = "img/mcc_hist2.png")
 ```
+
+:::{.green-box}
+Most of the 1 stable state models have MCC performance close to random or worse, making it thus difficult for any algorithm to find the *best* performance models (i.e. the 3-4th MCC class models, which amounts to only $5\%$ of the total number of models with 1 stable state, given the standardized boolean equation parameterization inspired by [@Mendoza2006]).
+:::
 
 If we draw the parameterization maps for different number of neighbours and **color the points/models according to their MCC score**, we get these images:
 
@@ -933,12 +953,72 @@ knitr::include_graphics(path = "img/mcc_maps/14nn.png")
 ```
 
 :::{.green-box}
-We observe the existence of 2 large parameterization superclusters (especially outlined by the figures with $2$ and $\ge 8$ neighbours) which are directly related with the MCC performance metric.
+We observe that the two large parameterization superclusters (especially outlined by the figures with $2$ and $\ge 8$ neighbours) are closely related with the MCC performance metric.
 Specifically, these **2 superclusters dichotomize the models performance landscape** into 2 areas, where only one of them has the majority of good performance models (i.e. those that have an MCC score $>0$).
-This also points us to the **existence of link operator biomarkers** - nodes whose link operator define the performance of the models, i.e. in which supercluster they belong in the simple dichotomous case scenario where we want to distinguish 'good' from 'bad' models.
 
-Comparing the corresponding **Gitsbe parameterization maps with the MCC maps**, we can clearly verify now that the Gitsbe models are not always the best performing ones (in terms of MCC score) since they appear in both superclusters (in somewhat equally proportions).
-This is evidence that suggests that either the genetic algorithm produces *local* optima (which is known since it's a heuristic method) or the training dataset does not provide enough *constraints*, i.e. more nodes whose steady state needs to be fit (or a combination of both).
+Also, we observe that closely parameterized models tend to have same performance (**existence of smaller parameterization clusters of same performance models**).
+:::
+
+:::{.orange-box}
+Comparing the corresponding **Gitsbe parameterization maps with the MCC maps**, we can clearly verify now that the Gitsbe models **might not always be the best performing ones** (in terms of MCC score) since they appear in both superclusters (and that's only a first-fine measure for determining performance based on structure) - but at least they **tend to be more in the higher performance supercluster**.
+
+Reasons why the gitsbe models are not always on the high-performance supercluster can be justified by:
+
+- The nature of the genetic algorithm, which is a *heuristic* method and as such produces *local* optima
+- The training dataset does not provide enough *constraints* for the optimization problem, i.e. more steady state nodes are needed to be fitted in the models stable state which will result in models with more strict parameterization patterns
+- A combination of the two above
+:::
+
+## Performance vs Fitness {-}
+
+:::{.blue-box}
+We try to see if there is any correlation between **performance (MCC)** and **fitness to the AGS steady state** ($24$ nodes) for the 1 stable state CASCADE 1.0 models.
+
+Use the [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script to reproduce the figures.
+:::
+
+First, we check that the fitness density of all 1 stable state models covers the whole *fitness spectrum*.
+As we can see in the figure below, most of the models have **at least half of the nodes** in the same state as in the AGS steady state:
+```{r 1ss-models-fit-density-fig, fig.cap='All 1 stable state models fitness to AGS steady state'}
+knitr::include_graphics(path = "img/1ss_models_fit_density.png")
+```
+
+We follow the same classification scheme as [above](#fig:mcc-histogram), i.e. splitting the 1 stable models to $4$ MCC classes and comparing the fitness scores between these classes:
+```{r fit-vs-perf-fig, fig.cap='MCC performance vs Fitness to AGS steady state (All 1 stable state models)'}
+knitr::include_graphics(path = "img/mcc_vs_fit.png")
+```
+
+:::{.green-box}
+The last MCC class has a **statistically significant higher median fitness** to the AGS steady state compared to the lower MCC classes, even though the correlation between fitness and performance is not linear and most of the models have a fitness higher than $0.5$.
+
+The last two figures points us to the fact that more constraints are needed for the fitness calculation of the Gitsbe genetic algorithm or any other for that matter (i.e. more nodes in the AGS steady state - now only $24/77=31\%$ is included) in order to define more restrictive parameterized models that would allow a much more *uniform* fitness density spectrum (or at least **not skewed towards the higher fitness values**).
+Such fitness specturm would (hopefully) allow for more granularity in the corresponding performance behaviour between the different MCC classes, and thus more distinctive correlation.
+:::
+
+## Fitness Maps {-}
+
+If we draw the parameterization maps for different number of neighbours and **color the points/models according to their fitness to the AGS steady state**, we get these images (see [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script):
+
+```{r fit-maps-1, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (2 and 4 neighbours)'}
+knitr::include_graphics(path = "img/fit_maps/2nn.png")
+knitr::include_graphics(path = "img/fit_maps/4nn.png")
+```
+
+```{r fit-maps-2, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (6 and 8 neighbours)'}
+knitr::include_graphics(path = "img/fit_maps/6nn.png")
+knitr::include_graphics(path = "img/fit_maps/8nn.png")
+```
+
+```{r fit-maps-3, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (11 and 14 neighbours)'}
+knitr::include_graphics(path = "img/fit_maps/11nn.png")
+knitr::include_graphics(path = "img/fit_maps/14nn.png")
+```
+
+:::{.green-box}
+Higher fitness models manifest in both superclusters, suggesting again the need for more nodes in the training data (AGS steady state).
+Also, closely parameterized models tend to have same fitness (**existence of smaller parameterization clusters of same fitness models**).
+
+No apparent correlation can be observed between fitness and performance (MCC) maps.
 :::
 
 ## Performance biomarkers {-}
@@ -946,10 +1026,6 @@ This is evidence that suggests that either the genetic algorithm produces *local
 - The complex heatmap of emba mcc results
 
 - ranger results, important variables
-
-## Fitness Maps {-}
-
-## Performance vs Fitness {-}
 
 ## Synergy Maps {-}
 

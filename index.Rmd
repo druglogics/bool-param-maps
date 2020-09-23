@@ -538,7 +538,7 @@ imp_stats %>%
     x = "Nodes", y = "Mean Decrease Accuracy")
 ```
 
-```{r param-ss-rf-imp-fig2, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest: Mean Node Impurity (Gini Index)'}
+```{r param-ss-rf-imp-fig2, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest: Mean Decrease in Node Impurity (Gini Index)'}
 imp_stats %>%
   mutate(nodes = forcats::fct_reorder(nodes, desc(mean_gini))) %>%
   ggplot(aes(x = nodes, y = mean_gini, fill = mean_gini)) +
@@ -556,8 +556,8 @@ The top 5 important nodes by any of the two importance measures using Random For
 :::
 
 Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely `ranger` [@Wright2017].
-Use the script [param_ss_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R) to reproduce the results ($4000000$ - almost half of the models are used for training and the importance measure calculated was the Gini index):
-```{r param-ss-rf-imp-fig3, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest (ranger): Mean Node Impurity (Gini Index)'}
+Use the script [param_ss_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R) to reproduce the results ($4000000$ - almost half of the models are used for training and the importance measure calculated was the mean decrease in the Gini index across all trees in the forest):
+```{r param-ss-rf-imp-fig3, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)'}
 ranger_res = readRDS(file = "data/ranger_res.rds")
 imp_res = tibble(nodes = names(ranger_res$variable.importance), 
   gini_index = ranger_res$variable.importance)

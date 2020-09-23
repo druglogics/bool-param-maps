@@ -1164,16 +1164,16 @@ Figure 14: Random Forest: Mean Decrease Accuracy per node
 <span id="cb30-9"><a href="cascade-1-0-analysis-all-models.html#cb30-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest Variable Importance (Gini Index)&quot;</span>, </span>
 <span id="cb30-10"><a href="cascade-1-0-analysis-all-models.html#cb30-10"></a>    <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-imp-fig2"></span>
-<img src="index_files/figure-html/param-ss-rf-imp-fig2-1.png" alt="Random Forest: Mean Node Impurity (Gini Index)" width="2100" />
+<img src="index_files/figure-html/param-ss-rf-imp-fig2-1.png" alt="Random Forest: Mean Decrease in Node Impurity (Gini Index)" width="2100" />
 <p class="caption">
-Figure 15: Random Forest: Mean Node Impurity (Gini Index)
+Figure 15: Random Forest: Mean Decrease in Node Impurity (Gini Index)
 </p>
 </div>
 <div class="green-box">
 <p>The top 5 important nodes by any of the two importance measures using Random Forests, include the nodes found as important with the LASSO method: <code>MAPK14</code>, <code>ERK_f</code>, <code>MEK_f</code>, <code>PTEN</code>, <code>mTORC1_c</code>.</p>
 </div>
 <p>Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely <code>ranger</code> <span class="citation">(Wright and Ziegler <a href="references.html#ref-Wright2017" role="doc-biblioref">2017</a>)</span>.
-Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R">param_ss_ranger.R</a> to reproduce the results (<span class="math inline">\(4000000\)</span> - almost half of the models are used for training and the importance measure calculated was the Gini index):</p>
+Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R">param_ss_ranger.R</a> to reproduce the results (<span class="math inline">\(4000000\)</span> - almost half of the models are used for training and the importance measure calculated was the mean decrease in the Gini index across all trees in the forest):</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="cascade-1-0-analysis-all-models.html#cb31-1"></a>ranger_res =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/ranger_res.rds&quot;</span>)</span>
 <span id="cb31-2"><a href="cascade-1-0-analysis-all-models.html#cb31-2"></a>imp_res =<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">nodes =</span> <span class="kw">names</span>(ranger_res<span class="op">$</span>variable.importance), </span>
 <span id="cb31-3"><a href="cascade-1-0-analysis-all-models.html#cb31-3"></a>  <span class="dt">gini_index =</span> ranger_res<span class="op">$</span>variable.importance)</span>
@@ -1188,9 +1188,9 @@ Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/sc
 <span id="cb31-12"><a href="cascade-1-0-analysis-all-models.html#cb31-12"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest (Ranger) Variable Importance (Gini Index)&quot;</span>, </span>
 <span id="cb31-13"><a href="cascade-1-0-analysis-all-models.html#cb31-13"></a>      <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-imp-fig3"></span>
-<img src="index_files/figure-html/param-ss-rf-imp-fig3-1.png" alt="Random Forest (ranger): Mean Node Impurity (Gini Index)" width="2100" />
+<img src="index_files/figure-html/param-ss-rf-imp-fig3-1.png" alt="Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)" width="2100" />
 <p class="caption">
-Figure 16: Random Forest (ranger): Mean Node Impurity (Gini Index)
+Figure 16: Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)
 </p>
 </div>
 </div>

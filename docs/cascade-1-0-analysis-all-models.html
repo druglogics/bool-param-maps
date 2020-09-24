@@ -906,7 +906,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-biomarkers"><i class="fa fa-check"></i>Performance biomarkers</a>
 <ul>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#emba-biomarkers"><i class="fa fa-check"></i>emba biomarkers</a></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#random-forest-biomarkers"><i class="fa fa-check"></i>Random forest biomarkers</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#random-forest-biomarkers"><i class="fa fa-check"></i>Random Forest biomarkers</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#emba-vs-rf-results"><i class="fa fa-check"></i>emba vs RF Results</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#embedding-performance-biomarkers-in-the-map"><i class="fa fa-check"></i>Embedding Performance Biomarkers in the Map</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-maps"><i class="fa fa-check"></i>Synergy Maps</a></li>
@@ -1175,7 +1176,7 @@ Figure 15: Random Forest: Mean Decrease in Node Impurity (Gini Index)
 </p>
 </div>
 <div class="green-box">
-<p>The top 5 important nodes by any of the two importance measures using Random Forests, include the nodes found as important with the LASSO method: <code>MAPK14</code>, <code>ERK_f</code>, <code>MEK_f</code>, <code>PTEN</code>, <code>mTORC1_c</code>.</p>
+<p>The top 5 important nodes by any of the two importance measures using random forests, include the nodes found as important with the LASSO method: <code>MAPK14</code>, <code>ERK_f</code>, <code>MEK_f</code>, <code>PTEN</code>, <code>mTORC1_c</code>.</p>
 </div>
 <p>Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely <code>ranger</code> <span class="citation">(Wright and Ziegler <a href="references.html#ref-Wright2017" role="doc-biblioref">2017</a>)</span>.
 Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R">param_ss_ranger.R</a> to reproduce the results (<span class="math inline">\(4000000\)</span> - almost half of the models are used for training and the importance measure calculated was the mean decrease in the Gini index across all trees in the forest):</p>
@@ -1266,19 +1267,16 @@ Figure 20: UMAP Supervised: Parameterization vs Numerical Model Representation
 Using (supervised) UMAP we took a sample of the dataset (<span class="math inline">\(33\%\)</span> of the models) and placed it to the 2D plane, linking closely parameterized models in clusters.</p>
 <p>We will now color the <a href="cascade-1-0-analysis-all-models.html#supervised-umap">supervised UMAP-generated map</a> with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_sup_imp_nodes.R">param_ss_umap_sup_imp_nodes.R</a> script).</p>
 <p>The 3 most important nodes:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cascade-1-0-analysis-all-models.html#cb36-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MAPK14.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_MAPK14.png" width="1050" /></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="cascade-1-0-analysis-all-models.html#cb37-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MEK_f.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_MEK_f.png" width="1050" /></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cascade-1-0-analysis-all-models.html#cb38-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_ERK_f.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_ERK_f.png" width="1050" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cascade-1-0-analysis-all-models.html#cb36-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MAPK14.png&quot;</span>)</span>
+<span id="cb36-2"><a href="cascade-1-0-analysis-all-models.html#cb36-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MEK_f.png&quot;</span>)</span>
+<span id="cb36-3"><a href="cascade-1-0-analysis-all-models.html#cb36-3"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_ERK_f.png&quot;</span>)</span></code></pre></div>
+<p><img src="img/umap_supervised_MAPK14.png" width="33%" /><img src="img/umap_supervised_MEK_f.png" width="33%" /><img src="img/umap_supervised_ERK_f.png" width="33%" /></p>
 <p>The next 2 most important nodes:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="cascade-1-0-analysis-all-models.html#cb39-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_mTORC1_c.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_mTORC1_c.png" width="1050" /></p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="cascade-1-0-analysis-all-models.html#cb40-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_PTEN.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_PTEN.png" width="1050" /></p>
-<p><strong><code>CFLAR</code></strong> was the least important node for assessing the number of fixpoints of a model from its parameterization:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="cascade-1-0-analysis-all-models.html#cb41-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_CFLAR.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="cascade-1-0-analysis-all-models.html#cb37-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_mTORC1_c.png&quot;</span>)</span>
+<span id="cb37-2"><a href="cascade-1-0-analysis-all-models.html#cb37-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_PTEN.png&quot;</span>)</span></code></pre></div>
+<p><img src="img/umap_supervised_mTORC1_c.png" width="50%" /><img src="img/umap_supervised_PTEN.png" width="50%" /></p>
+<p><code>CFLAR</code> was the <strong>least important node</strong> for assessing the number of fixpoints of a model from its parameterization:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cascade-1-0-analysis-all-models.html#cb38-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_CFLAR.png&quot;</span>)</span></code></pre></div>
 <p><img src="img/umap_supervised_CFLAR.png" width="1050" /></p>
 <div class="green-box">
 <p>We can see a <strong>visual link</strong> between node importance (related to #fixpoints) and link operator assignment: the <em>less</em> important a node is, the more <em>randomly distributed</em> it’s link-operator values are across the parameterization map.</p>

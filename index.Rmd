@@ -553,7 +553,7 @@ imp_stats %>%
 ```
 
 :::{.green-box}
-The top 5 important nodes by any of the two importance measures using Random Forests, include the nodes found as important with the LASSO method: `MAPK14`, `ERK_f`, `MEK_f`, `PTEN`, `mTORC1_c`.
+The top 5 important nodes by any of the two importance measures using random forests, include the nodes found as important with the LASSO method: `MAPK14`, `ERK_f`, `MEK_f`, `PTEN`, `mTORC1_c`.
 :::
 
 Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely `ranger` [@Wright2017].
@@ -637,19 +637,19 @@ Using (supervised) UMAP we took a sample of the dataset ($33\%$ of the models) a
 We will now color the [supervised UMAP-generated map](#supervised-umap) with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the [param_ss_umap_sup_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_sup_imp_nodes.R) script).
 
 The 3 most important nodes:
-```{r map-imp-nodes-umap-fig}
+```{r map-imp-nodes-umap-fig, fig.show='hold', out.width='33%'}
 knitr::include_graphics(path = "img/umap_supervised_MAPK14.png")
 knitr::include_graphics(path = "img/umap_supervised_MEK_f.png")
 knitr::include_graphics(path = "img/umap_supervised_ERK_f.png")
 ```
 
 The next 2 most important nodes:
-```{r map-less-imp-nodes-umap-fig}
+```{r map-less-imp-nodes-umap-fig, fig.show='hold', out.width='50%'}
 knitr::include_graphics(path = "img/umap_supervised_mTORC1_c.png")
 knitr::include_graphics(path = "img/umap_supervised_PTEN.png")
 ```
 
-**`CFLAR`** was the least important node for assessing the number of fixpoints of a model from its parameterization:
+`CFLAR` was the **least important node** for assessing the number of fixpoints of a model from its parameterization:
 ```{r map-cflar-umap-fig}
 knitr::include_graphics(path = "img/umap_supervised_CFLAR.png")
 ```
@@ -1025,14 +1025,14 @@ No apparent correlation can be observed between fitness and performance (MCC) ma
 ## Performance biomarkers {-}
 
 :::{.blue-box}
-We assess **important nodes (biomarkers)** whose *activity* or link-operator (*parameterization*) affects the models performance in terms of the achieved MCC score.
+We assess **important nodes (biomarkers)** whose *activity* and/or link-operator (*parameterization*) affects the models performance in terms of the achieved MCC score.
 :::
 
 ### emba biomarkers {-}
 
 We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
 What `emba` does is to group the models to $4$ MCC Classes and compare the average stable state activites and link operator values for each node between **every possible pair of MCC classes**.
-Nodes that have higher average differences (either positively or negatively and between any comparison pair) are annotated as *biomarkers* based on a given threhold.
+Nodes that have **higher average differences** (either positively or negatively and between any comparison pair) are considered as **more important** and are thus annotated as *biomarkers* based on a given threhold.
 
 In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the higher MCC class of the corresponding comparison pair:
 ```{r emba-activity-biomarkers, cache = TRUE, fig.width=7, fig.height=5, fig.align='center', fig.cap='Heatmap of Average State Differences (emba, 4 MCC Classes)'}
@@ -1118,13 +1118,100 @@ This of course relates to the fact that these nodes were found also as *active* 
 Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes indefining the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
 :::
 
-### Random forest biomarkers {-}
+### Random Forest biomarkers {-}
 
-We use the `ranger` R package [@Wright2017] to find **important nodes** based on the stable state model data as well their link operator parameterization.
+We use the `ranger` R package [@Wright2017] to find **important nodes/variables** that determine the difference in performance (MCC score) between the input models.
+Both the stable state data as well the link operator parameterization data will be used as training sets (see the script [biomarkers_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/biomarkers_ranger.R)).
+
+```{r rf-mcc-state-imp, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest Important Nodes for Performance Classification (MCC) based on stable state data'}
+ranger_ss_mcc_res = readRDS(file = "data/ss_mcc_ranger_res.rds")
+
+imp_ss_rf = tibble(nodes = names(ranger_ss_mcc_res$variable.importance), 
+  gini_index = ranger_ss_mcc_res$variable.importance)
+
+# color first 12 nodes in x axis
+imp_col = c(rep("green4", 14), rep("grey30", nrow(imp_ss_rf) - 14))
+
+imp_ss_rf %>% 
+  mutate(nodes = forcats::fct_reorder(nodes, desc(gini_index))) %>%
+  ggplot(aes(x = nodes, y = gini_index, fill = gini_index)) +
+    geom_bar(stat = "identity", show.legend = FALSE) +
+    scale_fill_gradient(low = "steelblue", high = "red") +
+    theme_classic(base_size = 14) + 
+    theme(axis.text.x = element_text(angle = 90, size = 7, colour = imp_col)) +
+    labs(title = "RF Importance for MCC Classification (stable states)", 
+      x = "Nodes", y = "Mean Decrease in Node Impurity")
+```
+
+:::{.green-box}
+We observe a lot of common important activity biomarkers (important nodes) between the random forest results and the `emba` results: `ERK_f`,`MAP3K7`,`MAP2K7`,`NLK`,`TAB_f` to name a few.
+:::
+
+```{r rf-mcc-param-imp, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest Important Nodes for Performance Classification (MCC) based on link operator data)'}
+ranger_lo_mcc_res = readRDS(file = "data/lo_mcc_ranger_res.rds")
+
+imp_lo_rf = tibble(nodes = names(ranger_lo_mcc_res$variable.importance), 
+  gini_index = ranger_lo_mcc_res$variable.importance)
+
+# color first 8 nodes in x axis
+imp_col = c(rep("green4", 8), rep("grey30", nrow(imp_lo_rf) - 8))
+
+imp_lo_rf %>% 
+  mutate(nodes = forcats::fct_reorder(nodes, desc(gini_index))) %>%
+  ggplot(aes(x = nodes, y = gini_index, fill = gini_index)) +
+    geom_bar(stat = "identity", show.legend = FALSE) +
+    scale_fill_gradient(low = "steelblue", high = "red") +
+    theme_classic(base_size = 14) + 
+    theme(axis.text.x = element_text(angle = 90, size = 12, colour = imp_col)) +
+    labs(title = "RF Importance for MCC Classification (parameterization)", 
+      x = "Nodes", y = "Mean Decrease in Node Impurity")
+```
+
+:::{.green-box}
+`ERK_f` is a major link operator biomarker in both `emba` and random forest results
+:::
+
+### emba vs RF Results {-}
+
+We check the correlation between `emba` (sum of absolute state differences for all comparison pairs per node, i.e. summing up the absolute values of the columns in the heatmaps above) and random forest (Gini Index) results:
+```{r cor-emba-rf, cache=TRUE, dpi=300, fig.show='hold', out.width='50%', fig.cap="Correlation between emba and Random Forest Importance Results"}
+# compute total emba importance
+imp_ss_emba = mcc_res$diff.state.mcc.mat %>% abs() %>% colSums()
+imp_lo_emba = mcc_res$diff.link.mcc.mat %>% abs() %>% colSums()
+
+# make sure it's in the same order
+imp_ss_emba = imp_ss_emba[imp_ss_rf %>% pull(nodes)]
+imp_lo_emba = imp_lo_emba[imp_lo_rf %>% pull(nodes)]
+
+imp_ss_rf %>% add_column(emba_score = imp_ss_emba) %>%
+  ggplot(aes(x = emba_score, y = gini_index)) +
+    geom_point() +
+    geom_smooth(formula = y ~ x, method = "lm") + 
+    ggpubr::stat_cor(method = "kendall", cor.coef.name = "tau") +
+    theme_classic() +
+    labs(title = "Random Forest vs emba variable importance results (Activity State)",
+      x = "emba (Sum of absolute state differences)", y = "RF (Gini Index)")
+
+imp_lo_rf %>% add_column(emba_score = imp_lo_emba) %>%
+  ggplot(aes(x = emba_score, y = gini_index)) +
+    geom_point() +
+    geom_smooth(formula = y ~ x, method = "lm") + 
+    ggpubr::stat_cor(method = "kendall", cor.coef.name = "tau") +
+    theme_classic() +
+    labs(title = "Random Forest vs emba variable importance results (Parameterization)",
+      x = "emba (Sum of absolute link operator differences)", y = "RF (Gini Index)")
+```
+
+:::{.green-box}
+- We use the non-parametric Kendall correlation method and it's rank-based correlation coefficient, $\tau$.
+- There is **a correlation between the importance results from the two different methods**, even though the `emba` results are more *artifically-made* (like adding up absolute coefficient scores from linear models as a measure of importance) compared to the impurity metric which is a *built-in* feature of the tree-based algorithms such as random forests.
+As a result for example, we observe a much greater granularity of the importance measurements in the activity state correlation figure.
+- `emba` results are **more verbose** though in the sense that they allow *directionality* in their interpretation: we get which nodes must be activated or inhibited in the higher performance models or which should be parameterized with `OR-NOT` or `AND-NOT`, information which the random forests do not provide.
+- **Larger correlation** is observed **for the activity state** compared to the parameterization results.
+:::
 
 ### Embedding Performance Biomarkers in the Map {-}
 
-ERK_f and MAPK14 vs 
 
 ## Synergy Maps {-}
 

@@ -5,7 +5,7 @@ library(tibble)
 library(ggplot2)
 
 # MCC Histogram 1
-mcc_res = readRDS(file = "data/emba_mcc_res/mcc_4_res.rds")
+mcc_res = readRDS(file = "data/emba_mcc_res/mcc_4_res.rds") # see `emba_analysis.R`
 models.mcc = mcc_res$models.mcc
 num.of.mcc.classes = 4
 res = Ckmeans.1d.dp(x = models.mcc, k = num.of.mcc.classes)

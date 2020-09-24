@@ -33,6 +33,7 @@ library(forcats)
 library(scales)
 library(gtools)
 suppressPackageStartupMessages(library(ComplexHeatmap))
+library(circlize)
 library(glmnet)
 library(randomForest)
 library(ranger)
@@ -989,7 +990,7 @@ knitr::include_graphics(path = "img/mcc_vs_fit.png")
 ```
 
 :::{.green-box}
-The last MCC class has a **statistically significant higher median fitness** to the AGS steady state compared to the lower MCC classes, even though the correlation between fitness and performance is not linear and most of the models have a fitness higher than $0.5$.
+The last MCC class has a **statistically significant higher median fitness** to the AGS steady state compared to all other lower MCC classes, even though the correlation between fitness and performance is not linear and most of the models have a fitness higher than $0.5$.
 
 The last two figures points us to the fact that more constraints are needed for the fitness calculation of the Gitsbe genetic algorithm or any other for that matter (i.e. more nodes in the AGS steady state - now only $24/77=31\%$ is included) in order to define more restrictive parameterized models that would allow a much more *uniform* fitness density spectrum (or at least **not skewed towards the higher fitness values**).
 Such fitness specturm would (hopefully) allow for more granularity in the corresponding performance behaviour between the different MCC classes, and thus more distinctive correlation.
@@ -1023,9 +1024,107 @@ No apparent correlation can be observed between fitness and performance (MCC) ma
 
 ## Performance biomarkers {-}
 
-- The complex heatmap of emba mcc results
+:::{.blue-box}
+We assess **important nodes (biomarkers)** whose *activity* or link-operator (*parameterization*) affects the models performance in terms of the achieved MCC score.
+:::
 
-- ranger results, important variables
+### emba biomarkers {-}
+
+We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
+What `emba` does is to group the models to $4$ MCC Classes and compare the average stable state activites and link operator values for each node between **every possible pair of MCC classes**.
+Nodes that have higher average differences (either positively or negatively and between any comparison pair) are annotated as *biomarkers* based on a given threhold.
+
+In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the higher MCC class of the corresponding comparison pair:
+```{r emba-activity-biomarkers, cache = TRUE, fig.width=7, fig.height=5, fig.align='center', fig.cap='Heatmap of Average State Differences (emba, 4 MCC Classes)'}
+mcc_res = readRDS(file = "data/emba_mcc_res/mcc_4_res.rds")
+
+# color some important nodes and lower the threshold
+activity_biomarkers = emba::get_biomarkers(mcc_res$diff.state.mcc.mat, threshold = 0.48)
+
+imp_nodes_colors = rep("black", ncol(mcc_res$diff.state.mcc.mat))
+names(imp_nodes_colors) = colnames(mcc_res$diff.state.mcc.mat)
+imp_nodes_colors[names(imp_nodes_colors) %in% activity_biomarkers$biomarkers.pos] = "green4"
+imp_nodes_colors[names(imp_nodes_colors) %in% activity_biomarkers$biomarkers.neg] = "red4"
+
+# define coloring function of state differences
+col_fun = circlize::colorRamp2(c(min(mcc_res$diff.state.mcc.mat), 0, max(mcc_res$diff.state.mcc.mat)), 
+  c("red", "white", "green"))
+
+set.seed(42)
+state_heat = ComplexHeatmap::Heatmap(matrix = mcc_res$diff.state.mcc.mat, 
+  name = "State Difference", col = col_fun,
+  row_title = "MCC Classes Pairs", row_names_side = "left", 
+  row_title_side = "left", row_dend_side = "right",
+  column_title = "Average State Differences between MCC Classes", 
+  column_names_gp = gpar(fontsize = 6, col = imp_nodes_colors),
+  heatmap_legend_param = list(direction = "horizontal"))
+
+biomarkers_legend = Legend(title = "Activity State Biomarkers",
+  labels = c("Active", "Inhibited"),
+  legend_gp = gpar(fill = c("green4", "red4")))
+
+draw(state_heat, annotation_legend_list = biomarkers_legend, 
+  heatmap_legend_side = "bottom", annotation_legend_side = "bottom", 
+  merge_legend = TRUE)
+```
+
+So, the following nodes are identified as *active* biomarkers (they tend to be active in the higher performance models):
+```{r active-state-biomarkers, results='asis'} 
+usefun::pretty_print_vector_values(activity_biomarkers$biomarkers.pos)
+```
+
+and the following as *inhibited* biomarkers:
+```{r inhibited-state-biomarkers, results='asis'}
+usefun::pretty_print_vector_values(activity_biomarkers$biomarkers.neg)
+```
+
+Note that some nodes tend to have either no actual state differences between the MCC classes (so they are not important) or they take both negative and positive differences between the different MCC class pair comparisons (without surpassing the given threshold, so also not important for us here).
+
+```{r emba-lo-biomarkers, cache = TRUE, fig.width=7, fig.height=5, fig.align='center', fig.cap='Heatmap of Average Link Operator Differences (emba, 4 MCC Classes)'}
+# color some important nodes and lower the threshold
+param_biomarkers = emba::get_biomarkers(mcc_res$diff.link.mcc.mat, threshold = 0.48)
+
+imp_nodes_colors = rep("black", ncol(mcc_res$diff.link.mcc.mat))
+names(imp_nodes_colors) = colnames(mcc_res$diff.link.mcc.mat)
+imp_nodes_colors[names(imp_nodes_colors) %in% param_biomarkers$biomarkers.pos] = "green4"
+imp_nodes_colors[names(imp_nodes_colors) %in% param_biomarkers$biomarkers.neg] = "red4"
+
+# define coloring function of state differences
+col_fun = circlize::colorRamp2(c(min(mcc_res$diff.link.mcc.mat), 0, max(mcc_res$diff.link.mcc.mat)), 
+  c("red", "white", "green"))
+
+set.seed(42)
+state_heat = ComplexHeatmap::Heatmap(matrix = mcc_res$diff.link.mcc.mat, 
+  name = "LO Difference", col = col_fun,
+  row_title = "MCC Classes Pairs", row_names_side = "left", 
+  row_title_side = "left", row_dend_side = "right",
+  column_title = "Average Link Operator Differences between MCC Classes", 
+  column_names_gp = gpar(fontsize = 11, col = imp_nodes_colors),
+  heatmap_legend_param = list(direction = "horizontal"))
+
+biomarkers_legend = Legend(title = "Link Operator Biomarkers",
+  labels = c("OR-NOT (1)", "AND-NOT (0)"),
+  legend_gp = gpar(fill = c("green4", "red4")))
+
+draw(state_heat, annotation_legend_list = biomarkers_legend, 
+  heatmap_legend_side = "bottom", annotation_legend_side = "bottom", 
+  merge_legend = TRUE)
+```
+
+:::{.green-box}
+We observe that `ERK_f` will have the `OR-NOT` link operator in most of the higher performance models and the `MAPK14` the `AND-NOT` link operator.
+This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [Figure above](#fig:ss-lo-agreement-prop)).
+
+Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes indefining the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
+:::
+
+### Random forest biomarkers {-}
+
+We use the `ranger` R package [@Wright2017] to find **important nodes** based on the stable state model data as well their link operator parameterization.
+
+### Embedding Performance Biomarkers in the Map {-}
+
+ERK_f and MAPK14 vs 
 
 ## Synergy Maps {-}
 

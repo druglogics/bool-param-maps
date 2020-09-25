@@ -22,7 +22,7 @@ mtorc1_index = which(colnames(lo_mat) == "mTORC1_c")
 cflar_index  = which(colnames(lo_mat) == "CFLAR")
 n_bits = ncol(lo_mat) # n_bits = 23
 
-# UMAP supervised results
+# UMAP supervised results (see `param_ss_umap.R`)
 # 3 main clusters corresponding to the 0, 1 and 2 fixpoint models
 lo_sumap = readRDS(file = "data/lo_sumap.rds")
 colnames(lo_sumap) = c('X','Y')

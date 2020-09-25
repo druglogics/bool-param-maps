@@ -608,7 +608,7 @@ Models with **similar parameterization seem to also have the same number of fixp
 We also notice specific subareas being completely covered by such same-structure, same-fixpoint-number models ($0$ or $1$-fixpoint model clusters) showing us that some parameterization families are eligible to the same attractor fate.
 
 The $2$-fixpoint models seem to always lie next to similarly parameterized $1$-fixpoint models (they are like a subcategory of those and not like a separate one) and not in clusters of their own.
-As such, they can be found cross all the areas of the parameterization map.
+As such, they can be found across all the areas of the parameterization map.
 :::
 
 #### Supervised UMAP {-}
@@ -1210,7 +1210,13 @@ As a result for example, we observe a much greater granularity of the importance
 - **Larger correlation** is observed **for the activity state** compared to the parameterization results.
 :::
 
-### Embedding Performance Biomarkers in the Map {-}
+### Embedding Link Operator Biomarkers in the Map {-}
+
+:::{.blue-note}
+We draw the 2D parameterization maps for the 1 stable state models and for different number of neighbours, while coloring the points/models according to the link operator value of some of the link-operator nodes that were found from the above two analyses (`emba` and random forests)
+:::
+
+
 
 
 ## Synergy Maps {-}

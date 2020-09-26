@@ -921,7 +921,7 @@ The results are available in the Zenodo dataset [![DOI](https://zenodo.org/badge
 As previously said, we are going to use the 1 stable state model predictions only.
 :::
 
-We used the emba R package [@emba-site] to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R)).
+We used the emba R package [@Zobolas2020] to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R)).
 Part of the results from the emba analysis is the calculation of the **Matthews correlation coefficient (MCC) performance score** for each model.
 We use these MCC model scores to draw the next figures (see [mcc_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_figures.R) script)
 
@@ -1031,7 +1031,7 @@ We assess **important nodes (biomarkers)** whose *activity* and/or link-operator
 ### emba biomarkers {-}
 
 We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
-What `emba` does is to group the models to $4$ MCC Classes and compare the average stable state activites and link operator values for each node between **every possible pair of MCC classes**.
+What emba [@Zobolas2020] does is to group the models to $4$ MCC Classes and compare the average stable state activites and link operator values for each node between **every possible pair of MCC classes**.
 Nodes that have **higher average differences** (either positively or negatively and between any comparison pair) are considered as **more important** and are thus annotated as *biomarkers* based on a given threhold.
 
 In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the higher MCC class of the corresponding comparison pair:

@@ -33,7 +33,7 @@ library(forcats)
 library(scales)
 library(gtools)
 suppressPackageStartupMessages(library(ComplexHeatmap))
-library(circlize)
+suppressPackageStartupMessages(library(circlize))
 library(glmnet)
 library(randomForest)
 library(ranger)
@@ -655,11 +655,10 @@ knitr::include_graphics(path = "img/umap_supervised_CFLAR.png")
 ```
 
 :::{.green-box}
-We can see a **visual link** between node importance (related to #fixpoints) and link operator assignment: the *less* important a node is, the more *randomly distributed* it's link-operator values are across the parameterization map.
+We can see a **visual link** between node importance (related to #fixpoints) and link operator assignment: **the less important a node is, the more randomly distributed (chaotically) it's link-operator values are across the parameterization map**.
 
 The important nodes can be used to more accurately define **families of closely parameterized models**.
 :::
-
 
 # CASCADE 1.0 Analysis (1 ss models) {-}
 
@@ -1270,11 +1269,40 @@ As a result for example, we observe a much greater granularity of the importance
 ### Embedding Link Operator Biomarkers in the Map {-}
 
 :::{.blue-box}
-We draw the parameterization maps (supervised and unsupervised) for the 1 stable state models, while coloring the points/models according to the link operator value of some of the link-operator nodes that were found from the above two analyses (`emba` and random forests)
+Using as a base the **performance parameterization maps (supervised and unsupervised)** for the 1 stable state models, we color the points (models) according to the **link operator value** of some of the **performance biomarker** that we found in the previous analysis using `emba` and random forests.
 :::
 
+We give some examples of how the distribution of link-operator values looks like in the parameterization maps for the more important nodes (e.g. `ERK_f`, `MAPK14`) but also for the least important ones (e.g. `CYCS`, `CFLAR`).
+See the script [perf_biomarkers_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/perf_biomarkers_embedding.R) for more details.
+All the produced images by the script are accessible [here](https://github.com/bblodfon/balance-paper/blob/master/img/nodes_lo_maps).
 
+Using as a base the **unsupervised parameterization MAP with 14 neighbors**, we have:
+```{r nodes-lo-maps-1, fig.show='hold', out.width='50%', fig.cap='MCC Unsupervised Parameterization maps colored by link-operator values of different performance biomarkers'}
+knitr::include_graphics(path = "img/nodes_lo_maps/unsup_MAPK14.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/unsup_ERK_f.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/unsup_CFLAR.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/unsup_CYCS.png")
+```
 
+Using as a base the **supervised parameterization MAP with 14 neighbors (MCC as continuous variable)**, we have:
+```{r nodes-lo-maps-2, fig.show='hold', out.width='50%', fig.cap='MCC Supervised Parameterization maps (MCC continuous) colored by link-operator values of different performance biomarkers'}
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_cont_MAPK14.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_cont_ERK_f.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_cont_CFLAR.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_cont_CYCS.png")
+```
+
+Using as a base the **supervised parameterization MAP with 14 neighbors (MCC as discrete class variable)**, we have:
+```{r nodes-lo-maps-3, fig.show='hold', out.width='50%', fig.cap='MCC Supervised Parameterization maps (MCC discrete) colored by link-operator values of different performance biomarkers'}
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_MAPK14.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_ERK_f.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_CFLAR.png")
+knitr::include_graphics(path = "img/nodes_lo_maps/sup_CYCS.png")
+```
+
+:::{.green-box}
+We observe that both in the unsupervised parameterization maps and the MCC-supervised ones (especially the continuous one), **the less important a node is, the more chaotically it's link operator value manifests across the map**.
+:::
 
 ## Synergy Maps {-}
 

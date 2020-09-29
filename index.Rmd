@@ -50,7 +50,6 @@ library(Ckmeans.1d.dp)
 - I have observed two main classes of these functions: one that uses logical rules to derive the *combinatorial* activity of the regulators and one that relies on the combined *additive* activity (via pseudo-boolean constrains).
 :::
 
-A lot of 
 Let $f$ be a boolean function $f(x,y):\{0,1\}^n \rightarrow \{0,1\}$, with $m$ **activators** $x=\{x_i\}_{i=1}^{m}$ and $k$ **inhibitors** $y=\{y_i\}_{i=1}^{k}$, that is a total of $n=m+k$ regulators.
 The BBRs have a (non-DNF) representation that puts the different category regulators in 2 separate groups and a *link boolean operator* between them.
 As such, for a link operator to make sense, we have that $m,k \ge 1$ (at least one regulator in each category).
@@ -620,6 +619,7 @@ knitr::include_graphics(path = "img/umap_supervised.png")
 
 :::{.green-box}
 We observe that the $2$-fixpoint model structures are spread out in the Y dimension much less than the corresponding $0$ and $1$-fixpoint models.
+Also, the X dimension can clearly be used to **distinguish between the 3 attractor classes**.
 
 So, it seems that the more complex are the models (here we mean dynamical complexity - i.e. more attractors) the more spread out are in the parameterization map and form many more distinct clusters.
 :::
@@ -936,6 +936,8 @@ knitr::include_graphics(path = "img/mcc_hist2.png")
 Most of the 1 stable state models have MCC performance close to random or worse, making it thus difficult for any algorithm to find the *best* performance models (i.e. the 3-4th MCC class models, which amounts to only $5\%$ of the total number of models with 1 stable state, given the standardized boolean equation parameterization inspired by [@Mendoza2006]).
 :::
 
+### Unsupervised UMAP {-}
+
 If we draw the parameterization maps for different number of neighbours and **color the points/models according to their MCC score**, we get these images:
 
 ```{r mcc-maps-1, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (2 and 4 neighbours)'}
@@ -968,6 +970,61 @@ Reasons why the gitsbe models are not always on the high-performance supercluste
 - The nature of the genetic algorithm, which is a *heuristic* method and as such produces *local* optima
 - The training dataset does not provide enough *constraints* for the optimization problem, i.e. more steady state nodes are needed to be fitted in the models stable state which will result in models with more strict parameterization patterns
 - A combination of the two above
+:::
+
+### Supervised UMAP {-}
+
+:::{.blue-box}
+We perform **supervised dimension reduction** using UMAP on the 1 stable state model dataset. 
+The only difference with the previous performance maps is that we provide UMAP (as an input) the information of the models performance (the MCC score) and not just overlay it (via coloring) afterwards.
+
+The main thing we want to answer here is **if UMAP can do a better job placing the models on the map**, given additional information about their performance.
+:::
+
+We tried UMAP with different *number of neighbors* (from local to a more global view of the dataset), *target weight* (weighting factor between data topology ($0$) and target/response topology ($1$) or somewhere in between) and setting the response either to the MCC score as a continuous, numeric value or to the MCC classes (discrete variable) as [shown above](#fig:mcc-histogram).
+See script [mcc_sumap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_sumap.R) for more details.
+
+First, we show some maps, where the response **MCC was treated as a continuous variable**:
+```{r mcc-sumaps-1, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (4 neighbours, MCC continuous)'}
+knitr::include_graphics(path = "img/mcc_sumaps/4nn_0w.png")
+knitr::include_graphics(path = "img/mcc_sumaps/4nn_0.5w.png")
+knitr::include_graphics(path = "img/mcc_sumaps/4nn_1w.png")
+```
+
+```{r mcc-sumaps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (14 neighbours, MCC continuous)'}
+knitr::include_graphics(path = "img/mcc_sumaps/14nn_0.5w.png")
+knitr::include_graphics(path = "img/mcc_sumaps/14nn_1w.png")
+```
+
+```{r mcc-sumaps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (20 neighbours, MCC continuous)'}
+knitr::include_graphics(path = "img/mcc_sumaps/20nn_0.5w.png")
+knitr::include_graphics(path = "img/mcc_sumaps/20nn_1w.png")
+```
+
+:::{.green-box}
+Very artistic and knotty figures!
+UMAP achieves some sort of distinction between the different MCC values, especially when the topology is heavily based on the response MCC value (*target weight* is $1$)
+:::
+
+Next, we show some maps, where the response **MCC was treated as a categorical variable**, denoting the MCC class the models belong to (higher the better):
+```{r mcc-sumaps-4, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (4 and 6 neighbours, MCC Classes)'}
+knitr::include_graphics(path = "img/mcc_sumaps/class/4nn_0.5w_class.png")
+knitr::include_graphics(path = "img/mcc_sumaps/class/6nn_0.5w_class.png")
+```
+
+```{r mcc-sumaps-5, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (8 and 10 neighbours, MCC Classes)'}
+knitr::include_graphics(path = "img/mcc_sumaps/class/8nn_0.5w_class.png")
+knitr::include_graphics(path = "img/mcc_sumaps/class/10nn_0.5w_class.png")
+```
+
+```{r mcc-sumaps-6, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (14 neighbours, MCC Classes)'}
+knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_0w_class.png")
+knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_0.5w_class.png")
+knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_1w_class.png")
+```
+
+:::{.green-box}
+We observe that the higher the number of neighbors is ($\ge 10$), the better UMAP classifies the models to distinct (super-) clusters representing the different MCC classes.
 :::
 
 ## Performance vs Fitness {-}

@@ -1011,7 +1011,7 @@ Figure 10: Stable States Distribution across all link-operator parameterized mod
 <div id="parameterization-vs-fixpoints" class="section level2 unnumbered" number="">
 <h2>Parameterization vs #fixpoints</h2>
 <div class="blue-box">
-<p>In this subsection we identidy the <strong>key nodes</strong> whose parameterization affects the <em>change of dynamics</em> of the CASCADE 1.0 network, i.e. are responsible for the <strong>change in the number of fixpoint attractors (0,1 and 2)</strong> across all link-operator mutated models.</p>
+<p>In this subsection we identify the <strong>key nodes</strong> whose parameterization affects the <em>change of dynamics</em> of the CASCADE 1.0 network, i.e. are responsible for the <strong>change in the number of fixpoint attractors (0,1 and 2)</strong> across all link-operator mutated models.</p>
 </div>
 <p>We will use several statistical methods, in each of the sub-sections below.</p>
 <div class="orange-box">
@@ -1064,7 +1064,7 @@ Figure 11: Heatmap of coefficients of multinomial model (glmnet)
 <span id="cb24-10"><a href="cascade-1-0-analysis-all-models.html#cb24-10"></a><span class="co"># print(acc) # should be ~ 0.72</span></span></code></pre></div>
 <div class="green-box">
 <p>Even thought the <em>glmnet</em> classifier might not be accurate enough, we still find that the nodes <code>PTEN</code> and <code>MAPK14</code> are the <strong>most important (larger coefficients)</strong> for distinguishing between the models with different number of fixpoints.
-Additional nodes (like <code>MEK_f</code> and <code>CTNNB1</code>) are likely to be importane as well.</p>
+Additional nodes (like <code>MEK_f</code> and <code>CTNNB1</code>) are likely to be important as well.</p>
 </div>
 <p>If we cross-validate the regularization parameter <span class="math inline">\(\lambda\)</span> (using the same script, we randomly selected smaller model samples - <span class="math inline">\(100000\)</span>, <span class="math inline">\(20\)</span> times in total), and choose the <span class="math inline">\(\lambda_{1se}\)</span> for each different run to get the coefficients, the results can be visualized as follows:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="cascade-1-0-analysis-all-models.html#cb25-1"></a>cvfit_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/cvfit_data.rds&quot;</span>)</span>
@@ -1284,7 +1284,7 @@ Using (supervised) UMAP we took a sample of the dataset (<span class="math inlin
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cascade-1-0-analysis-all-models.html#cb38-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_CFLAR.png&quot;</span>)</span></code></pre></div>
 <p><img src="img/umap_supervised_CFLAR.png" width="1050" /></p>
 <div class="green-box">
-<p>We can see a <strong>visual link</strong> between node importance (related to #fixpoints) and link operator assignment: the <em>less</em> important a node is, the more <em>randomly distributed</em> it’s link-operator values are across the parameterization map.</p>
+<p>We can see a <strong>visual link</strong> between node importance (related to #fixpoints) and link operator assignment: <strong>the less important a node is, the more randomly distributed (chaotically) it’s link-operator values are across the parameterization map</strong>.</p>
 <p>The important nodes can be used to more accurately define <strong>families of closely parameterized models</strong>.</p>
 </div>
 </div>

@@ -197,7 +197,7 @@ ggscatter(data = stats %>% rename(`#Regulators` = num_reg), x = "num_act",
 
 ### *BalanceOp1* TD {-}
 
-If we add the `BalanceOp1` formuls's TD results to the first plot we have:
+If we add the `BalanceOp1` formulas's TD results to the first plot we have:
 ```{r fig-and-or-not-balanceop, fig.align='center', dpi=300, cache=TRUE, fig.cap="AND-NOT vs OR-NOT vs BalanceOp1 Truth Densities across all possible activators and inhibitors combinations up to 20 regulators"}
 # tidy up data
 stats_and_or_balance = pivot_longer(data = stats, cols = c(td_and_not, td_or_not, td_balance_op), 
@@ -384,7 +384,7 @@ To load the stable state data for the models that have **1 stable state** use th
 ## Parameterization vs #fixpoints {-}
 
 :::{.blue-box}
-In this subsection we identidy the **key nodes** whose parameterization affects the *change of dynamics* of the CASCADE 1.0 network, i.e. are responsible for the **change in the number of fixpoint attractors (0,1 and 2)** across all link-operator mutated models.
+In this subsection we identify the **key nodes** whose parameterization affects the *change of dynamics* of the CASCADE 1.0 network, i.e. are responsible for the **change in the number of fixpoint attractors (0,1 and 2)** across all link-operator mutated models.
 :::
 
 We will use several statistical methods, in each of the sub-sections below.
@@ -440,7 +440,7 @@ ComplexHeatmap::Heatmap(matrix = fit_a1_coef, name = "Coef", row_title = "Number
 
 :::{.green-box}
 Even thought the *glmnet* classifier might not be accurate enough, we still find that the nodes `PTEN` and `MAPK14` are the **most important (larger coefficients)** for distinguishing between the models with different number of fixpoints.
-Additional nodes (like `MEK_f` and `CTNNB1`) are likely to be importane as well.
+Additional nodes (like `MEK_f` and `CTNNB1`) are likely to be important as well.
 :::
 
 If we cross-validate the regularization parameter $\lambda$ (using the same script, we randomly selected smaller model samples - $100000$, $20$ times in total), and choose the $\lambda_{1se}$ for each different run to get the coefficients, the results can be visualized as follows:
@@ -828,27 +828,27 @@ The images for $\ge 14$ *n_neighbors* are almost exactly the same.
 :::
 
 We present some of these maps below:
-```{r param-maps-1ss-models-1, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (2 and 3 neighbours)'}
+```{r param-maps-1ss-models-1, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (2 and 3 neighbors)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_2.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_3.png")
 ```
 
-```{r param-maps-1ss-models-2, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (4 and 5 neighbours)'}
+```{r param-maps-1ss-models-2, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (4 and 5 neighbors)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_4.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_5.png")
 ```
 
-```{r param-maps-1ss-models-3, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (6 and 8 neighbours)'}
+```{r param-maps-1ss-models-3, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (6 and 8 neighbors)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_6.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_8.png")
 ```
 
-```{r param-maps-1ss-models-4, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (9 and 11 neighbours)'}
+```{r param-maps-1ss-models-4, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (9 and 11 neighbors)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_9.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_11.png")
 ```
 
-```{r param-maps-1ss-models-5, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (12 and 15 neighbours)'}
+```{r param-maps-1ss-models-5, fig.show='hold', out.width='50%', fig.cap='2D Parameterization map for 1 stable state models (12 and 15 neighbors)'}
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_12.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 ```
@@ -856,7 +856,7 @@ knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 :::{.green-box}
 We observe the existence of **two large families (superclusters) of parameterization models**, especially for more *global* views of the dataset ($\text{n_neighbors}\ge 8$).
 
-**Distinct smaller sub-clusters of closely parameterized models** also manifest for different number of neighbours, which suggests that there is some order in the parameterization of the 1 stable state models (as exemplified by the UMAP method) across multiple visualization scales.
+**Distinct smaller sub-clusters of closely parameterized models** also manifest for different number of neighbors, which suggests that there is some order in the parameterization of the 1 stable state models (as exemplified by the UMAP method) across multiple visualization scales.
 :::
 
 ## Gitsbe Models on the Map {-}
@@ -878,25 +878,25 @@ All the Gitsbe models had a large fitness to the steady state AGS data (their st
 knitr::include_graphics(path = "img/gitsbe_fit_density.png")
 ```
 
-To generate the next figures (same map, same gitsbe models, different number of neighbours) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R):
+To generate the next figures (same map, same gitsbe models, different number of neighbors) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R):
 
-```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbours)'}
+```{r gitsbe-maps-1, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (2 and 4 neighbors)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/2nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/4nn.png")
 ```
 
-```{r gitsbe-maps-2, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (6 and 8 neighbours)'}
+```{r gitsbe-maps-2, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (6 and 8 neighbors)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/6nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/8nn.png")
 ```
 
-```{r gitsbe-maps-3, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (11 and 14 neighbours)'}
+```{r gitsbe-maps-3, fig.show='hold', out.width='50%', fig.cap='Gitsbe models in Parameterization map (11 and 14 neighbors)'}
 knitr::include_graphics(path = "img/gitsbe_umaps/11nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/14nn.png")
 ```
 
 :::{.green-box}
-Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific sub-clusters** (better seen in the Figure with 14 neighbours which gives a more global view of the dataset).
+Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific sub-clusters** (better seen in the Figure with 14 neighbors which gives a more global view of the dataset).
 
 Observing the distribution of the gitsbe models in the parameterization map, we see that most of them are being **placed at one of the two superclusters**.
 :::
@@ -938,25 +938,25 @@ Most of the 1 stable state models have MCC performance close to random or worse,
 
 ### Unsupervised UMAP {-}
 
-If we draw the parameterization maps for different number of neighbours and **color the points/models according to their MCC score**, we get these images:
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their MCC score**, we get these images:
 
-```{r mcc-maps-1, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (2 and 4 neighbours)'}
+```{r mcc-maps-1, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (2 and 4 neighbors)'}
 knitr::include_graphics(path = "img/mcc_maps/2nn.png")
 knitr::include_graphics(path = "img/mcc_maps/4nn.png")
 ```
 
-```{r mcc-maps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (6 and 8 neighbours)'}
+```{r mcc-maps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (6 and 8 neighbors)'}
 knitr::include_graphics(path = "img/mcc_maps/6nn.png")
 knitr::include_graphics(path = "img/mcc_maps/8nn.png")
 ```
 
-```{r mcc-maps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (11 and 14 neighbours)'}
+```{r mcc-maps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (11 and 14 neighbors)'}
 knitr::include_graphics(path = "img/mcc_maps/11nn.png")
 knitr::include_graphics(path = "img/mcc_maps/14nn.png")
 ```
 
 :::{.green-box}
-We observe that the two large parameterization superclusters (especially outlined by the figures with $2$ and $\ge 8$ neighbours) are closely related with the MCC performance metric.
+We observe that the two large parameterization superclusters (especially outlined by the figures with $2$ and $\ge 8$ neighbors) are closely related with the MCC performance metric.
 Specifically, these **2 superclusters dichotomize the models performance landscape** into 2 areas, where only one of them has the majority of good performance models (i.e. those that have an MCC score $>0$).
 
 Also, we observe that closely parameterized models tend to have same performance (**existence of smaller parameterization clusters of same performance models**).
@@ -985,18 +985,18 @@ We tried UMAP with different *number of neighbors* (from local to a more global 
 See script [mcc_sumap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_sumap.R) for more details.
 
 First, we show some maps, where the response **MCC was treated as a continuous variable**:
-```{r mcc-sumaps-1, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (4 neighbours, MCC continuous)'}
+```{r mcc-sumaps-1, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (4 neighbors, MCC continuous)'}
 knitr::include_graphics(path = "img/mcc_sumaps/4nn_0w.png")
 knitr::include_graphics(path = "img/mcc_sumaps/4nn_0.5w.png")
 knitr::include_graphics(path = "img/mcc_sumaps/4nn_1w.png")
 ```
 
-```{r mcc-sumaps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (14 neighbours, MCC continuous)'}
+```{r mcc-sumaps-2, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (14 neighbors, MCC continuous)'}
 knitr::include_graphics(path = "img/mcc_sumaps/14nn_0.5w.png")
 knitr::include_graphics(path = "img/mcc_sumaps/14nn_1w.png")
 ```
 
-```{r mcc-sumaps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (20 neighbours, MCC continuous)'}
+```{r mcc-sumaps-3, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (20 neighbors, MCC continuous)'}
 knitr::include_graphics(path = "img/mcc_sumaps/20nn_0.5w.png")
 knitr::include_graphics(path = "img/mcc_sumaps/20nn_1w.png")
 ```
@@ -1007,17 +1007,17 @@ UMAP achieves some sort of distinction between the different MCC values, especia
 :::
 
 Next, we show some maps, where the response **MCC was treated as a categorical variable**, denoting the MCC class the models belong to (higher the better):
-```{r mcc-sumaps-4, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (4 and 6 neighbours, MCC Classes)'}
+```{r mcc-sumaps-4, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (4 and 6 neighbors, MCC Classes)'}
 knitr::include_graphics(path = "img/mcc_sumaps/class/4nn_0.5w_class.png")
 knitr::include_graphics(path = "img/mcc_sumaps/class/6nn_0.5w_class.png")
 ```
 
-```{r mcc-sumaps-5, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (8 and 10 neighbours, MCC Classes)'}
+```{r mcc-sumaps-5, fig.show='hold', out.width='50%', fig.cap='MCC Parameterization map (8 and 10 neighbors, MCC Classes)'}
 knitr::include_graphics(path = "img/mcc_sumaps/class/8nn_0.5w_class.png")
 knitr::include_graphics(path = "img/mcc_sumaps/class/10nn_0.5w_class.png")
 ```
 
-```{r mcc-sumaps-6, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (14 neighbours, MCC Classes)'}
+```{r mcc-sumaps-6, fig.show='hold', out.width='33%', fig.cap='MCC Parameterization map (14 neighbors, MCC Classes)'}
 knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_0w_class.png")
 knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_0.5w_class.png")
 knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_1w_class.png")
@@ -1050,24 +1050,24 @@ knitr::include_graphics(path = "img/mcc_vs_fit.png")
 The last MCC class has a **statistically significant higher median fitness** to the AGS steady state compared to all other lower MCC classes, even though the correlation between fitness and performance is not linear and most of the models have a fitness higher than $0.5$.
 
 The last two figures points us to the fact that more constraints are needed for the fitness calculation of the Gitsbe genetic algorithm or any other for that matter (i.e. more nodes in the AGS steady state - now only $24/77=31\%$ is included) in order to define more restrictive parameterized models that would allow a much more *uniform* fitness density spectrum (or at least **not skewed towards the higher fitness values**).
-Such fitness specturm would (hopefully) allow for more granularity in the corresponding performance behaviour between the different MCC classes, and thus more distinctive correlation.
+Such fitness spectrum would (hopefully) allow for more granularity in the corresponding performance behaviour between the different MCC classes, and thus more distinctive correlation.
 :::
 
 ## Fitness Maps {-}
 
-If we draw the parameterization maps for different number of neighbours and **color the points/models according to their fitness to the AGS steady state**, we get these images (see [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script):
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their fitness to the AGS steady state**, we get these images (see [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script):
 
-```{r fit-maps-1, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (2 and 4 neighbours)'}
+```{r fit-maps-1, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (2 and 4 neighbors)'}
 knitr::include_graphics(path = "img/fit_maps/2nn.png")
 knitr::include_graphics(path = "img/fit_maps/4nn.png")
 ```
 
-```{r fit-maps-2, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (6 and 8 neighbours)'}
+```{r fit-maps-2, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (6 and 8 neighbors)'}
 knitr::include_graphics(path = "img/fit_maps/6nn.png")
 knitr::include_graphics(path = "img/fit_maps/8nn.png")
 ```
 
-```{r fit-maps-3, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (11 and 14 neighbours)'}
+```{r fit-maps-3, fig.show='hold', out.width='50%', fig.cap='Fitness Parameterization map (11 and 14 neighbors)'}
 knitr::include_graphics(path = "img/fit_maps/11nn.png")
 knitr::include_graphics(path = "img/fit_maps/14nn.png")
 ```
@@ -1088,8 +1088,8 @@ We assess **important nodes (biomarkers)** whose *activity* and/or link-operator
 ### emba biomarkers {-}
 
 We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
-What emba [@Zobolas2020] does is to group the models to $4$ MCC Classes and compare the average stable state activites and link operator values for each node between **every possible pair of MCC classes**.
-Nodes that have **higher average differences** (either positively or negatively and between any comparison pair) are considered as **more important** and are thus annotated as *biomarkers* based on a given threhold.
+What emba [@Zobolas2020] does is to group the models to $4$ MCC Classes and compare the average stable state activities and link operator values for each node between **every possible pair of MCC classes**.
+Nodes that have **higher average differences** (either positively or negatively and between any comparison pair) are considered as **more important** and are thus annotated as *biomarkers* based on a given threshold.
 
 In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the higher MCC class of the corresponding comparison pair:
 ```{r emba-activity-biomarkers, cache = TRUE, fig.width=7, fig.height=5, fig.align='center', fig.cap='Heatmap of Average State Differences (emba, 4 MCC Classes)'}
@@ -1172,13 +1172,13 @@ draw(state_heat, annotation_legend_list = biomarkers_legend,
 We observe that `ERK_f` will have the `OR-NOT` link operator in most of the higher performance models and the `MAPK14` the `AND-NOT` link operator.
 This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [Figure above](#fig:ss-lo-agreement-prop)).
 
-Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes indefining the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
+Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes influencing the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
 :::
 
 ### Random Forest biomarkers {-}
 
 We use the `ranger` R package [@Wright2017] to find **important nodes/variables** that determine the difference in performance (MCC score) between the input models.
-Both the stable state data as well the link operator parameterization data will be used as training sets (see the script [biomarkers_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/biomarkers_ranger.R)).
+Both the stable state data as well the link operator parameterization data will be used as training sets (see the script [perf_biomarkers_ranger.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/perf_biomarkers_ranger.R)).
 
 ```{r rf-mcc-state-imp, warning=FALSE, cache=TRUE, dpi=300, fig.align='center', fig.cap='Random Forest Important Nodes for Performance Classification (MCC) based on stable state data'}
 ranger_ss_mcc_res = readRDS(file = "data/ss_mcc_ranger_res.rds")
@@ -1261,7 +1261,7 @@ imp_lo_rf %>% add_column(emba_score = imp_lo_emba) %>%
 
 :::{.green-box}
 - We use the non-parametric Kendall correlation method and it's rank-based correlation coefficient, $\tau$.
-- There is **a correlation between the importance results from the two different methods**, even though the `emba` results are more *artifically-made* (like adding up absolute coefficient scores from linear models as a measure of importance) compared to the impurity metric which is a *built-in* feature of the tree-based algorithms such as random forests.
+- There is **a correlation between the importance results from the two different methods**, even though the `emba` results are more *artificially-made* (like adding up absolute coefficient scores from linear models as a measure of importance) compared to the impurity metric which is a *built-in* feature of the tree-based algorithms such as random forests.
 As a result for example, we observe a much greater granularity of the importance measurements in the activity state correlation figure.
 - `emba` results are **more verbose** though in the sense that they allow *directionality* in their interpretation: we get which nodes must be activated or inhibited in the higher performance models or which should be parameterized with `OR-NOT` or `AND-NOT`, information which the random forests do not provide.
 - **Larger correlation** is observed **for the activity state** compared to the parameterization results.
@@ -1269,8 +1269,8 @@ As a result for example, we observe a much greater granularity of the importance
 
 ### Embedding Link Operator Biomarkers in the Map {-}
 
-:::{.blue-note}
-We draw the 2D parameterization maps for the 1 stable state models and for different number of neighbours, while coloring the points/models according to the link operator value of some of the link-operator nodes that were found from the above two analyses (`emba` and random forests)
+:::{.blue-box}
+We draw the parameterization maps (supervised and unsupervised) for the 1 stable state models, while coloring the points/models according to the link operator value of some of the link-operator nodes that were found from the above two analyses (`emba` and random forests)
 :::
 
 

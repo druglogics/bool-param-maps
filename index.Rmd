@@ -1307,7 +1307,7 @@ We observe that both in the unsupervised parameterization maps and the MCC-super
 ## Synergy Maps {-}
 
 As stated in a [previous section](#performance-maps), the CASCADE 1.0 models produced by `abmlog` were tested for synergy against the drug combination dataset in @Flobak2015.
-Using the *HSA* method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics:
+Using the *HSA* method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics (see script [synergy_maps.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/synergy_maps.R)):
 ```{r syn-stats, fig.cap='Synergy Statistics across all CASCADE 1.0 models with 1 stable state'}
 knitr::include_graphics(path = 'img/synergy_stats.png')
 ```
@@ -1344,6 +1344,27 @@ As we have seen, the UMAP results with higher number of neighbors cluster the si
 This makes it easier to spot the **small clusters** which include models that can predict each of the respective observed synergies as *synergistic*.
 
 We note that all of these **synergistic sub-clusters** are part of the **high-performance supercluster** (right one in the images above).
+:::
+
+Interestingly, if we see consider **all possible observed synergy subsets** we see that there are models that can predict the double synergy set `PI-PD,PD-AK` and the `PI-5Z,AK-5Z`, but there is literally **no model that can predict three or four (all) of the observed synergies**:
+```{r syn-subset-stats, results='asis'}
+synergy_subset_stats = readRDS(file = "data/synergy_subset_stats.rds")
+usefun::pretty_print_vector_names_and_values(synergy_subset_stats)
+```
+
+This is another proof that this parameterization is *restrictive* since there is not even one possible parameterization which represents biological reality (i.e. treatment with the previously mentioned four drug combinations is synergistic). 
+
+Also, looking at the numbers of models for each set of synergies, we see that the models predicting the `PD-AK` synergy form a proper subset of the `PI-PD,PD-AK` models and the same for `PI-5Z` and `PI-5Z,AK-5Z`.
+Thus we include only the parent sets in the next synergy maps, where we have combined all synergies in one:
+
+```{r syn-maps-5, fig.show='hold', out.width='50%', fig.cap='Combined Synergy Parameterization Maps'}
+knitr::include_graphics(path = "img/synergy_maps/all_syn_11nn.png")
+knitr::include_graphics(path = "img/synergy_maps/all_syn_14nn.png")
+```
+
+:::{.green-box}
+We observe that there are **two synergy sub-clusters**, one primarily related to the `PD` drug and the other to the `5Z` drug.
+Since the synergies belong to $2$ mutually exclusive (in terms of parameterization) clusters, this is a visual cue that there cannot be a model that predicts all 4 of these synergies.
 :::
 
 ## Synergy Biomarkers {-}

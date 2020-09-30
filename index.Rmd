@@ -1306,6 +1306,46 @@ We observe that both in the unsupervised parameterization maps and the MCC-super
 
 ## Synergy Maps {-}
 
+As stated in a [previous section](#performance-maps), the CASCADE 1.0 models produced by `abmlog` were tested for synergy against the drug combination dataset in @Flobak2015.
+Using the *HSA* method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics:
+```{r syn-stats, fig.cap='Synergy Statistics across all CASCADE 1.0 models with 1 stable state'}
+knitr::include_graphics(path = 'img/synergy_stats.png')
+```
+
+:::{.orange-box}
+For the 'NA' models, either one of the two single-drug perturbed models or the double-perturbed model, did not have any fixpoint attractors.
+:::
+
+We observe that **only a very few models** (compared to the total parameterization space) can predict the observed drug combinations as *synergistic*.
+This can be visualized also in the next synergy maps:
+
+```{r syn-maps-1, fig.show='hold', out.width='50%', fig.cap='AK-PZ Synergy Parameterization Maps'}
+knitr::include_graphics(path = "img/synergy_maps/AK-5Z_2nn.png")
+knitr::include_graphics(path = "img/synergy_maps/AK-5Z_14nn.png")
+```
+
+```{r syn-maps-2, fig.show='hold', out.width='50%', fig.cap='PD-AK Synergy Parameterization Maps'}
+knitr::include_graphics(path = "img/synergy_maps/PD-AK_2nn.png")
+knitr::include_graphics(path = "img/synergy_maps/PD-AK_14nn.png")
+```
+
+```{r syn-maps-3, fig.show='hold', out.width='50%', fig.cap='PI-PD Synergy Parameterization Maps'}
+knitr::include_graphics(path = "img/synergy_maps/PI-PD_2nn.png")
+knitr::include_graphics(path = "img/synergy_maps/PI-PD_14nn.png")
+```
+
+```{r syn-maps-4, fig.show='hold', out.width='50%', fig.cap='PI-PZ Synergy Parameterization Maps'}
+knitr::include_graphics(path = "img/synergy_maps/PI-5Z_2nn.png")
+knitr::include_graphics(path = "img/synergy_maps/PI-5Z_14nn.png")
+```
+
+:::{.green-box}
+As we have seen, the UMAP results with higher number of neighbors cluster the similarly parameterized models better.
+This makes it easier to spot the **small clusters** which include models that can predict each of the respective observed synergies as *synergistic*.
+
+We note that all of these **synergistic sub-clusters** are part of the **high-performance supercluster** (right one in the images above).
+:::
+
 ## Synergy Biomarkers {-}
 
 # R session info {-}

@@ -18,6 +18,14 @@ stopifnot(rownames(lo_data) == rownames(pred_data))
 # observed synergies
 obs_syn = emba::get_observed_synergies(file = "data/observed_synergies_cascade_1.0")
 
+# Find the number of models that predicted all poassible observed synergy subsets
+synergy_subset_stats = emba::get_synergy_subset_stats(
+  model.predictions = pred_data %>% select(all_of(obs_syn)),
+  synergies = obs_syn)
+# remove the subsets where no model predicted them
+synergy_subset_stats = synergy_subset_stats[synergy_subset_stats > 0]
+saveRDS(object = synergy_subset_stats, file = "data/synergy_subset_stats.rds")
+
 # Tidy models prediction synergy data
 pred_data = pred_data %>%
   as_tibble() %>% # removes model names
@@ -83,4 +91,44 @@ for (i in n_neighbors) {
 
     ggsave(filename = paste0("img/synergy_maps/", drug_combo, "_", i, "nn.png"), dpi = "print", width = 7, height = 5)
   }
+}
+
+############################
+# All synergies in one map #
+############################
+
+# from `synergy_subset_stats` we know that the only subsets predicted are:
+# `PI-PD`, `PI-5Z`, `PD-AK`, `AK-5Z`, `PI-PD,PD-AK` and `PI-5Z,AK-5Z`
+# Also, the models predicting `PD-AK` form a proper subset of the `PI-PD,PD-AK`
+# models and the same for `PI-5Z` and `PI-5Z,AK-5Z`
+which_syn_set = pred_data %>%
+  mutate(syn_set = case_when(
+    `PI-5Z` == 1 ~ "PI-5Z,AK-5Z",
+    `AK-5Z` == 1 ~ "AK-5Z", # this does not include the models that have also `PI-5Z` == 1
+    `PD-AK` == 1 ~ "PI-PD,PD-AK",
+    `PI-PD` == 1 ~ "PI-PD", # this does not include the models that have also `PD-AK` == 1
+    TRUE ~ "none")) %>%
+  pull(syn_set) %>%
+  forcats::as_factor()
+which_syn_set = factor(which_syn_set, levels(which_syn_set)[c(1,3,2,4,5)])
+
+for (i in n_neighbors) {
+  print(paste0("#Neighbors: ", i))
+
+  lo_umap = readRDS(file = paste0("data/1ss_lo_umap/lo_umap_1ss_", i, "nn.rds"))
+
+  lo_umap %>%
+    `colnames<-` (c("X", "Y")) %>%
+    tibble::as_tibble() %>%
+    tibble::add_column(which_syn_set = which_syn_set) %>%
+    ggplot(aes(x = X, y = Y, colour = which_syn_set)) +
+    geom_point(shape = '.') +
+    scale_colour_manual(values = c("black", "magenta", "green", "yellow", "steelblue")) +
+    guides(colour = guide_legend(title = "Synergy Subsets", label.theme = element_text(size = 12),
+      override.aes = list(shape = 19, size = 12))) +
+    labs(title = paste0("Synergy Parameterization Map - ", i, " Neighbours")) +
+    theme_classic() +
+    theme(plot.title = element_text(hjust = 0.5))
+
+  ggsave(filename = paste0("img/synergy_maps/all_syn_", i, "nn.png"), dpi = "print", width = 7, height = 5)
 }

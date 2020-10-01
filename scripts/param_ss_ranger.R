@@ -14,10 +14,8 @@ ss_num = models_ss_stats %>% pull(ss_num) %>% as.factor()
 
 # Run ranger RF
 set.seed(42)
-model_samples_indexes = sample(x = 1:nrow(lo_mat), size = 4000000)
-ranger_res = ranger::ranger(x = lo_mat[model_samples_indexes,],
-  y = ss_num[model_samples_indexes],
-  num.trees = 300, mtry = 16,
-  num.threads = 4, importance = 'impurity')
+ranger_res = ranger::ranger(x = lo_mat, y = ss_num, write.forest = FALSE,
+  num.trees = 500, mtry = 16, num.threads = 8, importance = 'impurity', verbose = TRUE)
 
+# Save result
 saveRDS(object = ranger_res, file = "data/ranger_res.rds")

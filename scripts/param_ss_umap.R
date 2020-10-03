@@ -17,16 +17,21 @@ lo_mat = readRDS(file = "data/lo_mat.rds") # see `get_lo_mat.R`
 ################
 
 # set neighbors
-n_neighbors = c(2,8,14,20) # local to global
+n_neighbors = c(8,14,20) # local to global
 
 for (i in n_neighbors) {
   print(paste0("#Neighbors: ", i))
 
-  #indx = sample(x = 1:nrow(lo_mat), size = 50000)
   set.seed(42)
   lo_umap = uwot::umap(X = lo_mat, n_threads = 8, n_neighbors = i, verbose = TRUE)
   saveRDS(object = lo_umap, file = paste0("data/lo_umap/lo_umap_", i, "nn.rds"))
 }
+
+# run once with hamming distance
+set.seed(42)
+lo_umap = uwot::umap(X = lo_mat, n_threads = 8, n_neighbors = 14,
+  metric = "hamming", min_dist = 0.5, verbose = TRUE)
+saveRDS(object = lo_umap, file = paste0("data/lo_umap/lo_umap_14nn_ham_0_5_min_dist.rds"))
 
 ##############
 # Supervised #
@@ -42,3 +47,9 @@ for (i in n_neighbors) {
   lo_sumap = uwot::umap(X = lo_mat, y = ss_num, n_threads = 8, n_neighbors = i, verbose = TRUE)
   saveRDS(object = lo_sumap, file = paste0("data/lo_umap/lo_sumap_", i, "nn.rds"))
 }
+
+# run once with `euclidean` distance, 14 `n_neighbors` and `min_dist` = 0.3
+set.seed(42)
+lo_sumap = uwot::umap(X = lo_mat, y = ss_num, n_threads = 8, n_neighbors = 14,
+  min_dist = 0.3, verbose = TRUE)
+saveRDS(object = lo_sumap, file = "data/lo_umap/lo_sumap_14nn_0_3_min_dist.rds")

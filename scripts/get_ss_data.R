@@ -18,4 +18,4 @@ res = dplyr::bind_rows(ss_data)
 # `res` (`ss_data`) is a data.frame with rows the boolean models that had one
 # stable state (~3 million) and columns the nodes of the CASCADE 1.0 network (77).
 # Each value in the data.frame is either 0 (inhibited state) or 1 (active state).
-saveRDS(res, file = "ss_data.rds")
+saveRDS(res, file = "data/ss_data.rds")

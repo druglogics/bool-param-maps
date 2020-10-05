@@ -1,7 +1,10 @@
+#################################################
+# Get 1 stable state model data for CASCADE 1.0 #
+#################################################
 library(dplyr)
 library(emba)
 
-# point to the `models` directory in the Zenodo dataset
+# point to the `models` directory in the Zenodo dataset (https://doi.org/10.5281/zenodo.4022783)
 data_dir = "/media/disk/abmlog/abmlog_cascade_1.0_models_fixpoints/models"
 model_dirs = list.dirs(path = data_dir, recursive = FALSE)
 

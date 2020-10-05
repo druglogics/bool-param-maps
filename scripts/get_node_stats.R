@@ -8,7 +8,7 @@ library(tibble)
 library(emba)
 library(usefun)
 
-# read the models stable state data
+# read the models stable state data (see `get_ss_data.R`)
 res_ss_df = readRDS(file = "data/ss_data.rds")
 
 # point to the `CASCADE_1.0.sif` topology file in the Zenodo dataset or the one in the `data` directory

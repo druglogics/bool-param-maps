@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="bbr-function-analysis.html"/>
+<link rel="prev" href="index.html"/>
 <link rel="next" href="cascade-1-0-analysis-1-ss-models.html"/>
 <script src="libs/header-attrs-2.3/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
@@ -51,14 +51,6 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.15/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 
 <script>
 /* ========================================================================
@@ -866,21 +858,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Sections</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Intro</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html"><i class="fa fa-check"></i>BBR Function Analysis</a>
-<ul>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#bbrs"><i class="fa fa-check"></i>Balance Boolean Regulatory Functions (BBRs)</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#truth-density-data-analysis"><i class="fa fa-check"></i>Truth Density Data Analysis</a>
-<ul>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#data"><i class="fa fa-check"></i>Data</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#truth-density-formulas"><i class="fa fa-check"></i>Truth Density formulas</a></li>
-<li><a href="bbr-function-analysis.html#stand-eq-bias"><em>AND-NOT</em> vs <em>OR-NOT</em> TD</a></li>
-<li><a href="bbr-function-analysis.html#balanceop1-td"><em>BalanceOp1</em> TD</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#threshold-functions-td"><i class="fa fa-check"></i>Threshold Functions TD</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#td-data-distance"><i class="fa fa-check"></i>TD Data Distance</a></li>
-<li class="chapter" data-level="" data-path="bbr-function-analysis.html"><a href="bbr-function-analysis.html#correlation"><i class="fa fa-check"></i>Correlation</a></li>
-</ul></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Input Libraries</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-all-models.html"><a href="cascade-1-0-analysis-all-models.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis (All models)</a>
 <ul>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-all-models.html"><a href="cascade-1-0-analysis-all-models.html#network-properties"><i class="fa fa-check"></i>Network Properties</a></li>
@@ -896,8 +874,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis (1 ss models)</a>
 <ul>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#parameterization-and-stable-state-agreement"><i class="fa fa-check"></i>Parameterization and Stable State Agreement</a></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#parameterization-and-stable-state-agreement-cascade-2.0"><i class="fa fa-check"></i>Parameterization and Stable State Agreement (Cascade 2.0)</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#d-model-parameterization-maps"><i class="fa fa-check"></i>2D Model Parameterization Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#gitsbe-models-on-the-map"><i class="fa fa-check"></i>Gitsbe Models on the Map</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-maps"><i class="fa fa-check"></i>Performance Maps</a>
@@ -949,29 +925,29 @@ We show that both in- and out-degree distributions are asymptotically power-law.
 </div>
 <p>Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/get_distribution_stats.R">get_distribution_stats.R</a> to generate the degree distribution stats.
 We load the results:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="cascade-1-0-analysis-all-models.html#cb17-1"></a>dd_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/dd_stats.rds&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="cascade-1-0-analysis-all-models.html#cb18-1"></a>dd_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(in_degree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
-<span id="cb18-2"><a href="cascade-1-0-analysis-all-models.html#cb18-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> in_degree, <span class="dt">y =</span> n)) <span class="op">+</span></span>
-<span id="cb18-3"><a href="cascade-1-0-analysis-all-models.html#cb18-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">width =</span> <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-4"><a href="cascade-1-0-analysis-all-models.html#cb18-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-5"><a href="cascade-1-0-analysis-all-models.html#cb18-5"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
-<span id="cb18-6"><a href="cascade-1-0-analysis-all-models.html#cb18-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;In-Degree Distribution (CASCADE 1.0)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;In Degree&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of Nodes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="cascade-1-0-analysis-all-models.html#cb2-1"></a>dd_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/dd_stats.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="cascade-1-0-analysis-all-models.html#cb3-1"></a>dd_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(in_degree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="cascade-1-0-analysis-all-models.html#cb3-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> in_degree, <span class="dt">y =</span> n)) <span class="op">+</span></span>
+<span id="cb3-3"><a href="cascade-1-0-analysis-all-models.html#cb3-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">width =</span> <span class="fl">0.7</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb3-4"><a href="cascade-1-0-analysis-all-models.html#cb3-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb3-5"><a href="cascade-1-0-analysis-all-models.html#cb3-5"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
+<span id="cb3-6"><a href="cascade-1-0-analysis-all-models.html#cb3-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;In-Degree Distribution (CASCADE 1.0)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;In Degree&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of Nodes&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:in-degree-fig"></span>
 <img src="index_files/figure-html/in-degree-fig-1.png" alt="In Degree Distribution (CASCADE 1.0)" width="2100" />
 <p class="caption">
-Figure 8: In Degree Distribution (CASCADE 1.0)
+Figure 1: In Degree Distribution (CASCADE 1.0)
 </p>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="cascade-1-0-analysis-all-models.html#cb19-1"></a>dd_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(out_degree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
-<span id="cb19-2"><a href="cascade-1-0-analysis-all-models.html#cb19-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> out_degree, <span class="dt">y =</span> n)) <span class="op">+</span></span>
-<span id="cb19-3"><a href="cascade-1-0-analysis-all-models.html#cb19-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb19-4"><a href="cascade-1-0-analysis-all-models.html#cb19-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">span =</span> <span class="fl">0.58</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb19-5"><a href="cascade-1-0-analysis-all-models.html#cb19-5"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
-<span id="cb19-6"><a href="cascade-1-0-analysis-all-models.html#cb19-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Out-Degree Distribution (CASCADE 1.0)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Out Degree&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of Nodes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="cascade-1-0-analysis-all-models.html#cb4-1"></a>dd_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(out_degree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-2"><a href="cascade-1-0-analysis-all-models.html#cb4-2"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> out_degree, <span class="dt">y =</span> n)) <span class="op">+</span></span>
+<span id="cb4-3"><a href="cascade-1-0-analysis-all-models.html#cb4-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-4"><a href="cascade-1-0-analysis-all-models.html#cb4-4"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">color =</span> <span class="st">&quot;red&quot;</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">span =</span> <span class="fl">0.58</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb4-5"><a href="cascade-1-0-analysis-all-models.html#cb4-5"></a><span class="st">  </span><span class="kw">theme_classic</span>() <span class="op">+</span></span>
+<span id="cb4-6"><a href="cascade-1-0-analysis-all-models.html#cb4-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Out-Degree Distribution (CASCADE 1.0)&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Out Degree&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of Nodes&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:out-degree-fig"></span>
 <img src="index_files/figure-html/out-degree-fig-1.png" alt="Out Degree Distribution (CASCADE 1.0)" width="2100" />
 <p class="caption">
-Figure 9: Out Degree Distribution (CASCADE 1.0)
+Figure 2: Out Degree Distribution (CASCADE 1.0)
 </p>
 </div>
 </div>
@@ -982,24 +958,24 @@ The models are stored in both <code>.gitsbe</code> and <code>.bnet</code> files 
 The <code>gitsbe</code> files include also the fixpoint attractors.
 Thus we can find the <em>frequency distribution</em> of the number of fixpoints across all produced models (use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/count_models_ss.R">count_models_ss.R</a>).
 The model stable state (fixpoint) statistics are as follows:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="cascade-1-0-analysis-all-models.html#cb20-1"></a>models_ss_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/models_ss_stats.rds&quot;</span>)</span>
-<span id="cb20-2"><a href="cascade-1-0-analysis-all-models.html#cb20-2"></a></span>
-<span id="cb20-3"><a href="cascade-1-0-analysis-all-models.html#cb20-3"></a>models_ss_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(ss_num) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
-<span id="cb20-4"><a href="cascade-1-0-analysis-all-models.html#cb20-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> ss_num, <span class="dt">y =</span> n, <span class="dt">fill =</span> <span class="kw">as.factor</span>(ss_num))) <span class="op">+</span></span>
-<span id="cb20-5"><a href="cascade-1-0-analysis-all-models.html#cb20-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb20-6"><a href="cascade-1-0-analysis-all-models.html#cb20-6"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> n), <span class="dt">vjust =</span> <span class="fl">-0.5</span>) <span class="op">+</span></span>
-<span id="cb20-7"><a href="cascade-1-0-analysis-all-models.html#cb20-7"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">paste0</span>(<span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">round</span>(n<span class="op">/</span><span class="kw">nrow</span>(models_ss_stats), <span class="dt">digits =</span> <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>)), <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">vjust =</span> <span class="kw">c</span>(<span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">-2</span>)) <span class="op">+</span></span>
-<span id="cb20-8"><a href="cascade-1-0-analysis-all-models.html#cb20-8"></a><span class="st">  </span><span class="kw">theme_classic2</span>() <span class="op">+</span></span>
-<span id="cb20-9"><a href="cascade-1-0-analysis-all-models.html#cb20-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb20-10"><a href="cascade-1-0-analysis-all-models.html#cb20-10"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Stable States Distribution&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Number of Stable States&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of models&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="cascade-1-0-analysis-all-models.html#cb5-1"></a>models_ss_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/models_ss_stats.rds&quot;</span>)</span>
+<span id="cb5-2"><a href="cascade-1-0-analysis-all-models.html#cb5-2"></a></span>
+<span id="cb5-3"><a href="cascade-1-0-analysis-all-models.html#cb5-3"></a>models_ss_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(ss_num) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
+<span id="cb5-4"><a href="cascade-1-0-analysis-all-models.html#cb5-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> ss_num, <span class="dt">y =</span> n, <span class="dt">fill =</span> <span class="kw">as.factor</span>(ss_num))) <span class="op">+</span></span>
+<span id="cb5-5"><a href="cascade-1-0-analysis-all-models.html#cb5-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb5-6"><a href="cascade-1-0-analysis-all-models.html#cb5-6"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> n), <span class="dt">vjust =</span> <span class="fl">-0.5</span>) <span class="op">+</span></span>
+<span id="cb5-7"><a href="cascade-1-0-analysis-all-models.html#cb5-7"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">paste0</span>(<span class="dv">100</span> <span class="op">*</span><span class="st"> </span><span class="kw">round</span>(n<span class="op">/</span><span class="kw">nrow</span>(models_ss_stats), <span class="dt">digits =</span> <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>)), <span class="dt">size =</span> <span class="dv">10</span>, <span class="dt">vjust =</span> <span class="kw">c</span>(<span class="fl">2.5</span>, <span class="fl">2.5</span>, <span class="dv">-2</span>)) <span class="op">+</span></span>
+<span id="cb5-8"><a href="cascade-1-0-analysis-all-models.html#cb5-8"></a><span class="st">  </span><span class="kw">theme_classic2</span>() <span class="op">+</span></span>
+<span id="cb5-9"><a href="cascade-1-0-analysis-all-models.html#cb5-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb5-10"><a href="cascade-1-0-analysis-all-models.html#cb5-10"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Stable States Distribution&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Number of Stable States&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Number of models&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:ss-stats-all"></span>
 <img src="index_files/figure-html/ss-stats-all-1.png" alt="Stable States Distribution across all link-operator parameterized models (CASCADE 1.0)" width="2100" />
 <p class="caption">
-Figure 10: Stable States Distribution across all link-operator parameterized models (CASCADE 1.0)
+Figure 3: Stable States Distribution across all link-operator parameterized models (CASCADE 1.0)
 </p>
 </div>
 <div class="green-box">
-<p>Less than <span class="math inline">\(50\%\)</span> of the total possible parameterized models have a single fixpoint attractor which corresponds to a single stable phenotype behaviour.</p>
+<p>Less than <span class="math inline">\(50\%\)</span> of the total possible parameterized models have a single fixpoint attractor which corresponds to a single stable phenotype behavior.</p>
 </div>
 </div>
 <div id="stable-states-data" class="section level2 unnumbered" number="">
@@ -1023,77 +999,77 @@ The ternary response for each model is a number denoting the number of fixpoints
 <h3>Glmnet</h3>
 <p>Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_glmnet.R">param_ss_glmnet.R</a> to fit a <strong>multinomial LASSO model</strong> for the data <span class="citation">(Friedman, Hastie, and Tibshirani <a href="references.html#ref-Friedman2010" role="doc-biblioref">2010</a>)</span>.
 We now simply load the result object:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="cascade-1-0-analysis-all-models.html#cb21-1"></a>fit_a1 =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/fit_a1.rds&quot;</span>)</span>
-<span id="cb21-2"><a href="cascade-1-0-analysis-all-models.html#cb21-2"></a><span class="kw">plot</span>(fit_a1, <span class="dt">xvar =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">type.coef =</span> <span class="st">&quot;2norm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="cascade-1-0-analysis-all-models.html#cb6-1"></a>fit_a1 =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/fit_a1.rds&quot;</span>)</span>
+<span id="cb6-2"><a href="cascade-1-0-analysis-all-models.html#cb6-2"></a><span class="kw">plot</span>(fit_a1, <span class="dt">xvar =</span> <span class="st">&quot;dev&quot;</span>, <span class="dt">type.coef =</span> <span class="st">&quot;2norm&quot;</span>)</span></code></pre></div>
 <p><img src="index_files/figure-html/param-ss-glmnet-1.png" width="672" /></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="cascade-1-0-analysis-all-models.html#cb22-1"></a><span class="kw">plot</span>(fit_a1, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">type.coef =</span> <span class="st">&quot;2norm&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="cascade-1-0-analysis-all-models.html#cb7-1"></a><span class="kw">plot</span>(fit_a1, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">type.coef =</span> <span class="st">&quot;2norm&quot;</span>)</span></code></pre></div>
 <p><img src="index_files/figure-html/param-ss-glmnet-2.png" width="672" /></p>
 <p>As we can see there is no <span class="math inline">\(\lambda\)</span> that could explain more than <span class="math inline">\(44\%\)</span> of the deviance and there are a lot of non-zero coefficients associated with smaller values of <span class="math inline">\(\lambda\)</span>.
 For example, choosing <span class="math inline">\(\lambda = 0.0142\)</span> (tested prediction accuracy <span class="math inline">\(\approx 0.72\)</span> on a random subset of the data), we have the following coefficients, shown in a heatmap:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="cascade-1-0-analysis-all-models.html#cb23-1"></a><span class="co"># choose a lambda</span></span>
-<span id="cb23-2"><a href="cascade-1-0-analysis-all-models.html#cb23-2"></a>lambda1 =<span class="st"> </span>fit_a1<span class="op">$</span>lambda[<span class="dv">32</span>]</span>
-<span id="cb23-3"><a href="cascade-1-0-analysis-all-models.html#cb23-3"></a></span>
-<span id="cb23-4"><a href="cascade-1-0-analysis-all-models.html#cb23-4"></a>fit_a1_coef =<span class="st"> </span><span class="kw">coef</span>(fit_a1, <span class="dt">s =</span> lambda1) <span class="op">%&gt;%</span></span>
-<span id="cb23-5"><a href="cascade-1-0-analysis-all-models.html#cb23-5"></a><span class="st">  </span><span class="kw">lapply</span>(as.matrix) <span class="op">%&gt;%</span></span>
-<span id="cb23-6"><a href="cascade-1-0-analysis-all-models.html#cb23-6"></a><span class="st">  </span><span class="kw">Reduce</span>(cbind, <span class="dt">x =</span> .) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">t</span>()</span>
-<span id="cb23-7"><a href="cascade-1-0-analysis-all-models.html#cb23-7"></a><span class="kw">rownames</span>(fit_a1_coef) =<span class="st"> </span><span class="kw">names</span>(<span class="kw">coef</span>(fit_a1, <span class="dt">s =</span> lambda1)) <span class="co"># 0, 1 and 2 stable states</span></span>
-<span id="cb23-8"><a href="cascade-1-0-analysis-all-models.html#cb23-8"></a></span>
-<span id="cb23-9"><a href="cascade-1-0-analysis-all-models.html#cb23-9"></a>imp_nodes_colors =<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;black&quot;</span>, <span class="kw">length</span>(<span class="kw">colnames</span>(fit_a1_coef)))</span>
-<span id="cb23-10"><a href="cascade-1-0-analysis-all-models.html#cb23-10"></a><span class="kw">names</span>(imp_nodes_colors) =<span class="st"> </span><span class="kw">colnames</span>(fit_a1_coef)</span>
-<span id="cb23-11"><a href="cascade-1-0-analysis-all-models.html#cb23-11"></a>imp_nodes_colors[<span class="kw">names</span>(imp_nodes_colors) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MEK_f&quot;</span>, <span class="st">&quot;PTEN&quot;</span>, <span class="st">&quot;MAPK14&quot;</span>)] =<span class="st"> &quot;green4&quot;</span></span>
-<span id="cb23-12"><a href="cascade-1-0-analysis-all-models.html#cb23-12"></a></span>
-<span id="cb23-13"><a href="cascade-1-0-analysis-all-models.html#cb23-13"></a>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> fit_a1_coef, <span class="dt">name =</span> <span class="st">&quot;Coef&quot;</span>, <span class="dt">row_title =</span> <span class="st">&quot;Number of Fixpoints&quot;</span>, </span>
-<span id="cb23-14"><a href="cascade-1-0-analysis-all-models.html#cb23-14"></a>  <span class="dt">row_names_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_title_side =</span> <span class="st">&quot;right&quot;</span>,</span>
-<span id="cb23-15"><a href="cascade-1-0-analysis-all-models.html#cb23-15"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Glmnet Coefficient Scores (λ = 0.0142)&quot;</span>,</span>
-<span id="cb23-16"><a href="cascade-1-0-analysis-all-models.html#cb23-16"></a>  <span class="dt">column_dend_height =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="st">&quot;mm&quot;</span>), <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> imp_nodes_colors))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="cascade-1-0-analysis-all-models.html#cb8-1"></a><span class="co"># choose a lambda</span></span>
+<span id="cb8-2"><a href="cascade-1-0-analysis-all-models.html#cb8-2"></a>lambda1 =<span class="st"> </span>fit_a1<span class="op">$</span>lambda[<span class="dv">32</span>]</span>
+<span id="cb8-3"><a href="cascade-1-0-analysis-all-models.html#cb8-3"></a></span>
+<span id="cb8-4"><a href="cascade-1-0-analysis-all-models.html#cb8-4"></a>fit_a1_coef =<span class="st"> </span><span class="kw">coef</span>(fit_a1, <span class="dt">s =</span> lambda1) <span class="op">%&gt;%</span></span>
+<span id="cb8-5"><a href="cascade-1-0-analysis-all-models.html#cb8-5"></a><span class="st">  </span><span class="kw">lapply</span>(as.matrix) <span class="op">%&gt;%</span></span>
+<span id="cb8-6"><a href="cascade-1-0-analysis-all-models.html#cb8-6"></a><span class="st">  </span><span class="kw">Reduce</span>(cbind, <span class="dt">x =</span> .) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">t</span>()</span>
+<span id="cb8-7"><a href="cascade-1-0-analysis-all-models.html#cb8-7"></a><span class="kw">rownames</span>(fit_a1_coef) =<span class="st"> </span><span class="kw">names</span>(<span class="kw">coef</span>(fit_a1, <span class="dt">s =</span> lambda1)) <span class="co"># 0, 1 and 2 stable states</span></span>
+<span id="cb8-8"><a href="cascade-1-0-analysis-all-models.html#cb8-8"></a></span>
+<span id="cb8-9"><a href="cascade-1-0-analysis-all-models.html#cb8-9"></a>imp_nodes_colors =<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;black&quot;</span>, <span class="kw">length</span>(<span class="kw">colnames</span>(fit_a1_coef)))</span>
+<span id="cb8-10"><a href="cascade-1-0-analysis-all-models.html#cb8-10"></a><span class="kw">names</span>(imp_nodes_colors) =<span class="st"> </span><span class="kw">colnames</span>(fit_a1_coef)</span>
+<span id="cb8-11"><a href="cascade-1-0-analysis-all-models.html#cb8-11"></a>imp_nodes_colors[<span class="kw">names</span>(imp_nodes_colors) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MEK_f&quot;</span>, <span class="st">&quot;PTEN&quot;</span>, <span class="st">&quot;MAPK14&quot;</span>)] =<span class="st"> &quot;green4&quot;</span></span>
+<span id="cb8-12"><a href="cascade-1-0-analysis-all-models.html#cb8-12"></a></span>
+<span id="cb8-13"><a href="cascade-1-0-analysis-all-models.html#cb8-13"></a>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> fit_a1_coef, <span class="dt">name =</span> <span class="st">&quot;Coef&quot;</span>, <span class="dt">row_title =</span> <span class="st">&quot;Number of Fixpoints&quot;</span>, </span>
+<span id="cb8-14"><a href="cascade-1-0-analysis-all-models.html#cb8-14"></a>  <span class="dt">row_names_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_title_side =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb8-15"><a href="cascade-1-0-analysis-all-models.html#cb8-15"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Glmnet Coefficient Scores (λ = 0.0142)&quot;</span>,</span>
+<span id="cb8-16"><a href="cascade-1-0-analysis-all-models.html#cb8-16"></a>  <span class="dt">column_dend_height =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="st">&quot;mm&quot;</span>), <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> imp_nodes_colors))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-glmnet-2"></span>
 <img src="index_files/figure-html/param-ss-glmnet-2-1.png" alt="Heatmap of coefficients of multinomial model (glmnet)" width="2100" />
 <p class="caption">
-Figure 11: Heatmap of coefficients of multinomial model (glmnet)
+Figure 4: Heatmap of coefficients of multinomial model (glmnet)
 </p>
 </div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="cascade-1-0-analysis-all-models.html#cb24-1"></a><span class="co"># check accuracy</span></span>
-<span id="cb24-2"><a href="cascade-1-0-analysis-all-models.html#cb24-2"></a><span class="co"># lo_mat = readRDS(file = &quot;data/lo_mat.rds&quot;)</span></span>
-<span id="cb24-3"><a href="cascade-1-0-analysis-all-models.html#cb24-3"></a><span class="co"># models_ss_stats = readRDS(file = &quot;data/models_ss_stats.rds&quot;)</span></span>
-<span id="cb24-4"><a href="cascade-1-0-analysis-all-models.html#cb24-4"></a><span class="co"># ss_num = models_ss_stats %&gt;% pull(ss_num)</span></span>
-<span id="cb24-5"><a href="cascade-1-0-analysis-all-models.html#cb24-5"></a><span class="co"># set.seed(42)</span></span>
-<span id="cb24-6"><a href="cascade-1-0-analysis-all-models.html#cb24-6"></a><span class="co"># model_indexes = sample(x = 1:nrow(lo_mat), size = 100000)</span></span>
-<span id="cb24-7"><a href="cascade-1-0-analysis-all-models.html#cb24-7"></a><span class="co"># pred = predict(object = fit_a1, newx = lo_mat[model_indexes, ],</span></span>
-<span id="cb24-8"><a href="cascade-1-0-analysis-all-models.html#cb24-8"></a><span class="co">#   type = &quot;class&quot;, s = lambda1) %&gt;% as.integer()</span></span>
-<span id="cb24-9"><a href="cascade-1-0-analysis-all-models.html#cb24-9"></a><span class="co"># acc = sum(pred == ss_num[model_indexes])/length(pred)</span></span>
-<span id="cb24-10"><a href="cascade-1-0-analysis-all-models.html#cb24-10"></a><span class="co"># print(acc) # should be ~ 0.72</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="cascade-1-0-analysis-all-models.html#cb9-1"></a><span class="co"># check accuracy</span></span>
+<span id="cb9-2"><a href="cascade-1-0-analysis-all-models.html#cb9-2"></a><span class="co"># lo_mat = readRDS(file = &quot;data/lo_mat.rds&quot;)</span></span>
+<span id="cb9-3"><a href="cascade-1-0-analysis-all-models.html#cb9-3"></a><span class="co"># models_ss_stats = readRDS(file = &quot;data/models_ss_stats.rds&quot;)</span></span>
+<span id="cb9-4"><a href="cascade-1-0-analysis-all-models.html#cb9-4"></a><span class="co"># ss_num = models_ss_stats %&gt;% pull(ss_num)</span></span>
+<span id="cb9-5"><a href="cascade-1-0-analysis-all-models.html#cb9-5"></a><span class="co"># set.seed(42)</span></span>
+<span id="cb9-6"><a href="cascade-1-0-analysis-all-models.html#cb9-6"></a><span class="co"># model_indexes = sample(x = 1:nrow(lo_mat), size = 100000)</span></span>
+<span id="cb9-7"><a href="cascade-1-0-analysis-all-models.html#cb9-7"></a><span class="co"># pred = predict(object = fit_a1, newx = lo_mat[model_indexes, ],</span></span>
+<span id="cb9-8"><a href="cascade-1-0-analysis-all-models.html#cb9-8"></a><span class="co">#   type = &quot;class&quot;, s = lambda1) %&gt;% as.integer()</span></span>
+<span id="cb9-9"><a href="cascade-1-0-analysis-all-models.html#cb9-9"></a><span class="co"># acc = sum(pred == ss_num[model_indexes])/length(pred)</span></span>
+<span id="cb9-10"><a href="cascade-1-0-analysis-all-models.html#cb9-10"></a><span class="co"># print(acc) # should be ~ 0.72</span></span></code></pre></div>
 <div class="green-box">
 <p>Even thought the <em>glmnet</em> classifier might not be accurate enough, we still find that the nodes <code>PTEN</code> and <code>MAPK14</code> are the <strong>most important (larger coefficients)</strong> for distinguishing between the models with different number of fixpoints.
 Additional nodes (like <code>MEK_f</code> and <code>CTNNB1</code>) are likely to be important as well.</p>
 </div>
 <p>If we cross-validate the regularization parameter <span class="math inline">\(\lambda\)</span> (using the same script, we randomly selected smaller model samples - <span class="math inline">\(100000\)</span>, <span class="math inline">\(20\)</span> times in total), and choose the <span class="math inline">\(\lambda_{1se}\)</span> for each different run to get the coefficients, the results can be visualized as follows:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="cascade-1-0-analysis-all-models.html#cb25-1"></a>cvfit_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/cvfit_data.rds&quot;</span>)</span>
-<span id="cb25-2"><a href="cascade-1-0-analysis-all-models.html#cb25-2"></a>cvfit_mat_list =<span class="st"> </span><span class="kw">lapply</span>(cvfit_data, <span class="cf">function</span>(cvfit) {</span>
-<span id="cb25-3"><a href="cascade-1-0-analysis-all-models.html#cb25-3"></a>  co =<span class="st"> </span><span class="kw">coef</span>(cvfit) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb25-4"><a href="cascade-1-0-analysis-all-models.html#cb25-4"></a><span class="st">    </span><span class="kw">lapply</span>(as.matrix) <span class="op">%&gt;%</span></span>
-<span id="cb25-5"><a href="cascade-1-0-analysis-all-models.html#cb25-5"></a><span class="st">    </span><span class="kw">Reduce</span>(cbind, <span class="dt">x =</span> .) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb25-6"><a href="cascade-1-0-analysis-all-models.html#cb25-6"></a><span class="st">    </span><span class="kw">t</span>()</span>
-<span id="cb25-7"><a href="cascade-1-0-analysis-all-models.html#cb25-7"></a>  <span class="kw">rownames</span>(co) =<span class="st"> </span><span class="kw">names</span>(<span class="kw">coef</span>(cvfit)) <span class="co"># 0,1 and 2 stable states</span></span>
-<span id="cb25-8"><a href="cascade-1-0-analysis-all-models.html#cb25-8"></a>  <span class="kw">return</span>(co)</span>
-<span id="cb25-9"><a href="cascade-1-0-analysis-all-models.html#cb25-9"></a>})</span>
-<span id="cb25-10"><a href="cascade-1-0-analysis-all-models.html#cb25-10"></a></span>
-<span id="cb25-11"><a href="cascade-1-0-analysis-all-models.html#cb25-11"></a>cvfit_mat =<span class="st"> </span><span class="kw">do.call</span>(rbind, cvfit_mat_list)</span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="cascade-1-0-analysis-all-models.html#cb26-1"></a>imp_nodes_colors =<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;black&quot;</span>, <span class="kw">length</span>(<span class="kw">colnames</span>(cvfit_mat)))</span>
-<span id="cb26-2"><a href="cascade-1-0-analysis-all-models.html#cb26-2"></a><span class="kw">names</span>(imp_nodes_colors) =<span class="st"> </span><span class="kw">colnames</span>(cvfit_mat)</span>
-<span id="cb26-3"><a href="cascade-1-0-analysis-all-models.html#cb26-3"></a>imp_nodes_colors[<span class="kw">names</span>(imp_nodes_colors) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MEK_f&quot;</span>, <span class="st">&quot;PTEN&quot;</span>, <span class="st">&quot;MAPK14&quot;</span>, <span class="st">&quot;CTNNB1&quot;</span>, <span class="st">&quot;mTORC1_c&quot;</span>)] =<span class="st"> &quot;green4&quot;</span></span>
-<span id="cb26-4"><a href="cascade-1-0-analysis-all-models.html#cb26-4"></a></span>
-<span id="cb26-5"><a href="cascade-1-0-analysis-all-models.html#cb26-5"></a>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> cvfit_mat, <span class="dt">name =</span> <span class="st">&quot;Coef&quot;</span>, <span class="dt">row_title =</span> <span class="st">&quot;Number of Fixpoints&quot;</span>, </span>
-<span id="cb26-6"><a href="cascade-1-0-analysis-all-models.html#cb26-6"></a>  <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_title_side =</span> <span class="st">&quot;left&quot;</span>,</span>
-<span id="cb26-7"><a href="cascade-1-0-analysis-all-models.html#cb26-7"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Glmnet Coefficient Scores&quot;</span>, <span class="dt">row_km =</span> <span class="dv">3</span>, <span class="dt">row_km_repeats =</span> <span class="dv">10</span>, </span>
-<span id="cb26-8"><a href="cascade-1-0-analysis-all-models.html#cb26-8"></a>  <span class="dt">show_row_names =</span> <span class="ot">FALSE</span>, <span class="dt">column_dend_height =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="st">&quot;mm&quot;</span>),</span>
-<span id="cb26-9"><a href="cascade-1-0-analysis-all-models.html#cb26-9"></a>  <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> imp_nodes_colors),</span>
-<span id="cb26-10"><a href="cascade-1-0-analysis-all-models.html#cb26-10"></a>  <span class="dt">left_annotation =</span> <span class="kw">rowAnnotation</span>(<span class="dt">foo =</span> <span class="kw">anno_block</span>(</span>
-<span id="cb26-11"><a href="cascade-1-0-analysis-all-models.html#cb26-11"></a>    <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>), <span class="co"># with `show_row_names = TRUE` you can check this</span></span>
-<span id="cb26-12"><a href="cascade-1-0-analysis-all-models.html#cb26-12"></a>    <span class="dt">labels_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fontsize =</span> <span class="dv">12</span>))))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cascade-1-0-analysis-all-models.html#cb10-1"></a>cvfit_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/cvfit_data.rds&quot;</span>)</span>
+<span id="cb10-2"><a href="cascade-1-0-analysis-all-models.html#cb10-2"></a>cvfit_mat_list =<span class="st"> </span><span class="kw">lapply</span>(cvfit_data, <span class="cf">function</span>(cvfit) {</span>
+<span id="cb10-3"><a href="cascade-1-0-analysis-all-models.html#cb10-3"></a>  co =<span class="st"> </span><span class="kw">coef</span>(cvfit) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-4"><a href="cascade-1-0-analysis-all-models.html#cb10-4"></a><span class="st">    </span><span class="kw">lapply</span>(as.matrix) <span class="op">%&gt;%</span></span>
+<span id="cb10-5"><a href="cascade-1-0-analysis-all-models.html#cb10-5"></a><span class="st">    </span><span class="kw">Reduce</span>(cbind, <span class="dt">x =</span> .) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-6"><a href="cascade-1-0-analysis-all-models.html#cb10-6"></a><span class="st">    </span><span class="kw">t</span>()</span>
+<span id="cb10-7"><a href="cascade-1-0-analysis-all-models.html#cb10-7"></a>  <span class="kw">rownames</span>(co) =<span class="st"> </span><span class="kw">names</span>(<span class="kw">coef</span>(cvfit)) <span class="co"># 0,1 and 2 stable states</span></span>
+<span id="cb10-8"><a href="cascade-1-0-analysis-all-models.html#cb10-8"></a>  <span class="kw">return</span>(co)</span>
+<span id="cb10-9"><a href="cascade-1-0-analysis-all-models.html#cb10-9"></a>})</span>
+<span id="cb10-10"><a href="cascade-1-0-analysis-all-models.html#cb10-10"></a></span>
+<span id="cb10-11"><a href="cascade-1-0-analysis-all-models.html#cb10-11"></a>cvfit_mat =<span class="st"> </span><span class="kw">do.call</span>(rbind, cvfit_mat_list)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="cascade-1-0-analysis-all-models.html#cb11-1"></a>imp_nodes_colors =<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;black&quot;</span>, <span class="kw">length</span>(<span class="kw">colnames</span>(cvfit_mat)))</span>
+<span id="cb11-2"><a href="cascade-1-0-analysis-all-models.html#cb11-2"></a><span class="kw">names</span>(imp_nodes_colors) =<span class="st"> </span><span class="kw">colnames</span>(cvfit_mat)</span>
+<span id="cb11-3"><a href="cascade-1-0-analysis-all-models.html#cb11-3"></a>imp_nodes_colors[<span class="kw">names</span>(imp_nodes_colors) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;MEK_f&quot;</span>, <span class="st">&quot;PTEN&quot;</span>, <span class="st">&quot;MAPK14&quot;</span>, <span class="st">&quot;CTNNB1&quot;</span>, <span class="st">&quot;mTORC1_c&quot;</span>)] =<span class="st"> &quot;green4&quot;</span></span>
+<span id="cb11-4"><a href="cascade-1-0-analysis-all-models.html#cb11-4"></a></span>
+<span id="cb11-5"><a href="cascade-1-0-analysis-all-models.html#cb11-5"></a>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> cvfit_mat, <span class="dt">name =</span> <span class="st">&quot;Coef&quot;</span>, <span class="dt">row_title =</span> <span class="st">&quot;Number of Fixpoints&quot;</span>, </span>
+<span id="cb11-6"><a href="cascade-1-0-analysis-all-models.html#cb11-6"></a>  <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">row_title_side =</span> <span class="st">&quot;left&quot;</span>,</span>
+<span id="cb11-7"><a href="cascade-1-0-analysis-all-models.html#cb11-7"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Glmnet Coefficient Scores&quot;</span>, <span class="dt">row_km =</span> <span class="dv">3</span>, <span class="dt">row_km_repeats =</span> <span class="dv">10</span>, </span>
+<span id="cb11-8"><a href="cascade-1-0-analysis-all-models.html#cb11-8"></a>  <span class="dt">show_row_names =</span> <span class="ot">FALSE</span>, <span class="dt">column_dend_height =</span> <span class="kw">unit</span>(<span class="dv">20</span>, <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb11-9"><a href="cascade-1-0-analysis-all-models.html#cb11-9"></a>  <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> imp_nodes_colors),</span>
+<span id="cb11-10"><a href="cascade-1-0-analysis-all-models.html#cb11-10"></a>  <span class="dt">left_annotation =</span> <span class="kw">rowAnnotation</span>(<span class="dt">foo =</span> <span class="kw">anno_block</span>(</span>
+<span id="cb11-11"><a href="cascade-1-0-analysis-all-models.html#cb11-11"></a>    <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>), <span class="co"># with `show_row_names = TRUE` you can check this</span></span>
+<span id="cb11-12"><a href="cascade-1-0-analysis-all-models.html#cb11-12"></a>    <span class="dt">labels_gp =</span> <span class="kw">gpar</span>(<span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">fontsize =</span> <span class="dv">12</span>))))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-glmnet-cv-fig"></span>
 <img src="index_files/figure-html/param-ss-glmnet-cv-fig-1.png" alt="Heatmap of coefficients of multinomial model (glmnet - 20 CV models)" width="2100" />
 <p class="caption">
-Figure 12: Heatmap of coefficients of multinomial model (glmnet - 20 CV models)
+Figure 5: Heatmap of coefficients of multinomial model (glmnet - 20 CV models)
 </p>
 </div>
 <div class="green-box">
@@ -1104,17 +1080,17 @@ Figure 12: Heatmap of coefficients of multinomial model (glmnet - 20 CV models)
 <h3>Random Forest</h3>
 <p>We used the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_randf.R">param_ss_randf.R</a> script to tune and train a random forest classifier on the dataset <span class="citation">(Liaw and Wiener <a href="references.html#ref-Liaw2002" role="doc-biblioref">2002</a>)</span>.
 First we tuned the <code>mtry</code> parameter, the number of variables randomly selected at each tree split:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="cascade-1-0-analysis-all-models.html#cb27-1"></a>mtry_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/mtry_data.rds&quot;</span>)</span>
-<span id="cb27-2"><a href="cascade-1-0-analysis-all-models.html#cb27-2"></a></span>
-<span id="cb27-3"><a href="cascade-1-0-analysis-all-models.html#cb27-3"></a>mtry_data <span class="op">%&gt;%</span></span>
-<span id="cb27-4"><a href="cascade-1-0-analysis-all-models.html#cb27-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mtry, <span class="dt">y =</span> OOBError, <span class="dt">group =</span> mtry)) <span class="op">+</span></span>
-<span id="cb27-5"><a href="cascade-1-0-analysis-all-models.html#cb27-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="st">&quot;green4&quot;</span>) <span class="op">+</span></span>
-<span id="cb27-6"><a href="cascade-1-0-analysis-all-models.html#cb27-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Tuning Random Forest mtry parameter&quot;</span>) <span class="op">+</span></span>
-<span id="cb27-7"><a href="cascade-1-0-analysis-all-models.html#cb27-7"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="cascade-1-0-analysis-all-models.html#cb12-1"></a>mtry_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/mtry_data.rds&quot;</span>)</span>
+<span id="cb12-2"><a href="cascade-1-0-analysis-all-models.html#cb12-2"></a></span>
+<span id="cb12-3"><a href="cascade-1-0-analysis-all-models.html#cb12-3"></a>mtry_data <span class="op">%&gt;%</span></span>
+<span id="cb12-4"><a href="cascade-1-0-analysis-all-models.html#cb12-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> mtry, <span class="dt">y =</span> OOBError, <span class="dt">group =</span> mtry)) <span class="op">+</span></span>
+<span id="cb12-5"><a href="cascade-1-0-analysis-all-models.html#cb12-5"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">fill =</span> <span class="st">&quot;green4&quot;</span>) <span class="op">+</span></span>
+<span id="cb12-6"><a href="cascade-1-0-analysis-all-models.html#cb12-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Tuning Random Forest mtry parameter&quot;</span>) <span class="op">+</span></span>
+<span id="cb12-7"><a href="cascade-1-0-analysis-all-models.html#cb12-7"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-mtry"></span>
 <img src="index_files/figure-html/param-ss-rf-mtry-1.png" alt="Random Forest Tuning (mtry)" width="2100" />
 <p class="caption">
-Figure 13: Random Forest Tuning (mtry)
+Figure 6: Random Forest Tuning (mtry)
 </p>
 </div>
 <div class="green-box">
@@ -1123,60 +1099,60 @@ For the number of trees parameter, we stayed with the default value (<span class
 </div>
 <p>Next, we randomly selected <span class="math inline">\(100000\)</span> models from the dataset - a total of <span class="math inline">\(20\)</span> times - to train the random forest classifier and find the <strong>importance score of each node</strong>.
 We load the result data and tidy up a bit:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="cascade-1-0-analysis-all-models.html#cb28-1"></a>rf_imp_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/rf_imp_data.rds&quot;</span>)</span>
-<span id="cb28-2"><a href="cascade-1-0-analysis-all-models.html#cb28-2"></a></span>
-<span id="cb28-3"><a href="cascade-1-0-analysis-all-models.html#cb28-3"></a><span class="co"># make a list of tibbles</span></span>
-<span id="cb28-4"><a href="cascade-1-0-analysis-all-models.html#cb28-4"></a>tbl_list =<span class="st"> </span><span class="kw">lapply</span>(rf_imp_data, <span class="cf">function</span>(mat) {</span>
-<span id="cb28-5"><a href="cascade-1-0-analysis-all-models.html#cb28-5"></a>  nodes =<span class="st"> </span><span class="kw">rownames</span>(mat)</span>
-<span id="cb28-6"><a href="cascade-1-0-analysis-all-models.html#cb28-6"></a>  tibble<span class="op">::</span><span class="kw">as_tibble</span>(mat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> nodes)</span>
-<span id="cb28-7"><a href="cascade-1-0-analysis-all-models.html#cb28-7"></a>})</span>
-<span id="cb28-8"><a href="cascade-1-0-analysis-all-models.html#cb28-8"></a></span>
-<span id="cb28-9"><a href="cascade-1-0-analysis-all-models.html#cb28-9"></a><span class="co"># OneForAll</span></span>
-<span id="cb28-10"><a href="cascade-1-0-analysis-all-models.html#cb28-10"></a>imp_res =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(tbl_list)</span>
-<span id="cb28-11"><a href="cascade-1-0-analysis-all-models.html#cb28-11"></a></span>
-<span id="cb28-12"><a href="cascade-1-0-analysis-all-models.html#cb28-12"></a><span class="co"># Get the importance stats</span></span>
-<span id="cb28-13"><a href="cascade-1-0-analysis-all-models.html#cb28-13"></a>imp_stats =<span class="st"> </span>imp_res <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb28-14"><a href="cascade-1-0-analysis-all-models.html#cb28-14"></a><span class="st">  </span><span class="kw">group_by</span>(nodes) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb28-15"><a href="cascade-1-0-analysis-all-models.html#cb28-15"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_acc  =</span> <span class="kw">mean</span>(MeanDecreaseAccuracy), </span>
-<span id="cb28-16"><a href="cascade-1-0-analysis-all-models.html#cb28-16"></a>            <span class="dt">sd_acc    =</span> <span class="kw">sd</span>(MeanDecreaseAccuracy), </span>
-<span id="cb28-17"><a href="cascade-1-0-analysis-all-models.html#cb28-17"></a>            <span class="dt">mean_gini =</span> <span class="kw">mean</span>(MeanDecreaseGini), </span>
-<span id="cb28-18"><a href="cascade-1-0-analysis-all-models.html#cb28-18"></a>            <span class="dt">sd_gini   =</span> <span class="kw">sd</span>(MeanDecreaseGini), </span>
-<span id="cb28-19"><a href="cascade-1-0-analysis-all-models.html#cb28-19"></a>            <span class="dt">.groups =</span> <span class="st">&#39;keep&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb28-20"><a href="cascade-1-0-analysis-all-models.html#cb28-20"></a><span class="st">  </span><span class="kw">ungroup</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="cascade-1-0-analysis-all-models.html#cb13-1"></a>rf_imp_data =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/rf_imp_data.rds&quot;</span>)</span>
+<span id="cb13-2"><a href="cascade-1-0-analysis-all-models.html#cb13-2"></a></span>
+<span id="cb13-3"><a href="cascade-1-0-analysis-all-models.html#cb13-3"></a><span class="co"># make a list of tibbles</span></span>
+<span id="cb13-4"><a href="cascade-1-0-analysis-all-models.html#cb13-4"></a>tbl_list =<span class="st"> </span><span class="kw">lapply</span>(rf_imp_data, <span class="cf">function</span>(mat) {</span>
+<span id="cb13-5"><a href="cascade-1-0-analysis-all-models.html#cb13-5"></a>  nodes =<span class="st"> </span><span class="kw">rownames</span>(mat)</span>
+<span id="cb13-6"><a href="cascade-1-0-analysis-all-models.html#cb13-6"></a>  tibble<span class="op">::</span><span class="kw">as_tibble</span>(mat) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> nodes)</span>
+<span id="cb13-7"><a href="cascade-1-0-analysis-all-models.html#cb13-7"></a>})</span>
+<span id="cb13-8"><a href="cascade-1-0-analysis-all-models.html#cb13-8"></a></span>
+<span id="cb13-9"><a href="cascade-1-0-analysis-all-models.html#cb13-9"></a><span class="co"># OneForAll</span></span>
+<span id="cb13-10"><a href="cascade-1-0-analysis-all-models.html#cb13-10"></a>imp_res =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(tbl_list)</span>
+<span id="cb13-11"><a href="cascade-1-0-analysis-all-models.html#cb13-11"></a></span>
+<span id="cb13-12"><a href="cascade-1-0-analysis-all-models.html#cb13-12"></a><span class="co"># Get the importance stats</span></span>
+<span id="cb13-13"><a href="cascade-1-0-analysis-all-models.html#cb13-13"></a>imp_stats =<span class="st"> </span>imp_res <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-14"><a href="cascade-1-0-analysis-all-models.html#cb13-14"></a><span class="st">  </span><span class="kw">group_by</span>(nodes) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-15"><a href="cascade-1-0-analysis-all-models.html#cb13-15"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_acc  =</span> <span class="kw">mean</span>(MeanDecreaseAccuracy), </span>
+<span id="cb13-16"><a href="cascade-1-0-analysis-all-models.html#cb13-16"></a>            <span class="dt">sd_acc    =</span> <span class="kw">sd</span>(MeanDecreaseAccuracy), </span>
+<span id="cb13-17"><a href="cascade-1-0-analysis-all-models.html#cb13-17"></a>            <span class="dt">mean_gini =</span> <span class="kw">mean</span>(MeanDecreaseGini), </span>
+<span id="cb13-18"><a href="cascade-1-0-analysis-all-models.html#cb13-18"></a>            <span class="dt">sd_gini   =</span> <span class="kw">sd</span>(MeanDecreaseGini), </span>
+<span id="cb13-19"><a href="cascade-1-0-analysis-all-models.html#cb13-19"></a>            <span class="dt">.groups =</span> <span class="st">&#39;keep&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-20"><a href="cascade-1-0-analysis-all-models.html#cb13-20"></a><span class="st">  </span><span class="kw">ungroup</span>()</span></code></pre></div>
 <p>The importance scores for each node were the <strong>mean decrease in accuracy and node impurity</strong> (Gini Index).
 We calculate the mean importance and standard deviation scores across all random samples for both measures of importance:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="cascade-1-0-analysis-all-models.html#cb29-1"></a><span class="co"># color first 5 nodes in x axis</span></span>
-<span id="cb29-2"><a href="cascade-1-0-analysis-all-models.html#cb29-2"></a>imp_col =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;green4&quot;</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="st">&quot;grey30&quot;</span>, <span class="kw">nrow</span>(imp_stats)<span class="op">-</span><span class="dv">5</span>))</span>
-<span id="cb29-3"><a href="cascade-1-0-analysis-all-models.html#cb29-3"></a>imp_stats <span class="op">%&gt;%</span></span>
-<span id="cb29-4"><a href="cascade-1-0-analysis-all-models.html#cb29-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(mean_acc))) <span class="op">%&gt;%</span></span>
-<span id="cb29-5"><a href="cascade-1-0-analysis-all-models.html#cb29-5"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> mean_acc, <span class="dt">fill =</span> mean_acc)) <span class="op">+</span></span>
-<span id="cb29-6"><a href="cascade-1-0-analysis-all-models.html#cb29-6"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb29-7"><a href="cascade-1-0-analysis-all-models.html#cb29-7"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb29-8"><a href="cascade-1-0-analysis-all-models.html#cb29-8"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin=</span>mean_acc<span class="op">-</span>sd_acc, <span class="dt">ymax=</span>mean_acc<span class="op">+</span>sd_acc), <span class="dt">width =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
-<span id="cb29-9"><a href="cascade-1-0-analysis-all-models.html#cb29-9"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb29-10"><a href="cascade-1-0-analysis-all-models.html#cb29-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
-<span id="cb29-11"><a href="cascade-1-0-analysis-all-models.html#cb29-11"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest Variable Importance (Accuracy)&quot;</span>, </span>
-<span id="cb29-12"><a href="cascade-1-0-analysis-all-models.html#cb29-12"></a>    <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease Accuracy&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="cascade-1-0-analysis-all-models.html#cb14-1"></a><span class="co"># color first 5 nodes in x axis</span></span>
+<span id="cb14-2"><a href="cascade-1-0-analysis-all-models.html#cb14-2"></a>imp_col =<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;green4&quot;</span>, <span class="dv">5</span>), <span class="kw">rep</span>(<span class="st">&quot;grey30&quot;</span>, <span class="kw">nrow</span>(imp_stats)<span class="op">-</span><span class="dv">5</span>))</span>
+<span id="cb14-3"><a href="cascade-1-0-analysis-all-models.html#cb14-3"></a>imp_stats <span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="cascade-1-0-analysis-all-models.html#cb14-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(mean_acc))) <span class="op">%&gt;%</span></span>
+<span id="cb14-5"><a href="cascade-1-0-analysis-all-models.html#cb14-5"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> mean_acc, <span class="dt">fill =</span> mean_acc)) <span class="op">+</span></span>
+<span id="cb14-6"><a href="cascade-1-0-analysis-all-models.html#cb14-6"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb14-7"><a href="cascade-1-0-analysis-all-models.html#cb14-7"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb14-8"><a href="cascade-1-0-analysis-all-models.html#cb14-8"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin=</span>mean_acc<span class="op">-</span>sd_acc, <span class="dt">ymax=</span>mean_acc<span class="op">+</span>sd_acc), <span class="dt">width =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb14-9"><a href="cascade-1-0-analysis-all-models.html#cb14-9"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb14-10"><a href="cascade-1-0-analysis-all-models.html#cb14-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
+<span id="cb14-11"><a href="cascade-1-0-analysis-all-models.html#cb14-11"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest Variable Importance (Accuracy)&quot;</span>, </span>
+<span id="cb14-12"><a href="cascade-1-0-analysis-all-models.html#cb14-12"></a>    <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease Accuracy&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-imp-fig"></span>
 <img src="index_files/figure-html/param-ss-rf-imp-fig-1.png" alt="Random Forest: Mean Decrease Accuracy per node" width="2100" />
 <p class="caption">
-Figure 14: Random Forest: Mean Decrease Accuracy per node
+Figure 7: Random Forest: Mean Decrease Accuracy per node
 </p>
 </div>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="cascade-1-0-analysis-all-models.html#cb30-1"></a>imp_stats <span class="op">%&gt;%</span></span>
-<span id="cb30-2"><a href="cascade-1-0-analysis-all-models.html#cb30-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(mean_gini))) <span class="op">%&gt;%</span></span>
-<span id="cb30-3"><a href="cascade-1-0-analysis-all-models.html#cb30-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> mean_gini, <span class="dt">fill =</span> mean_gini)) <span class="op">+</span></span>
-<span id="cb30-4"><a href="cascade-1-0-analysis-all-models.html#cb30-4"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb30-5"><a href="cascade-1-0-analysis-all-models.html#cb30-5"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb30-6"><a href="cascade-1-0-analysis-all-models.html#cb30-6"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean_gini<span class="op">-</span>sd_gini, <span class="dt">ymax =</span> mean_gini<span class="op">+</span>sd_gini), <span class="dt">width =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
-<span id="cb30-7"><a href="cascade-1-0-analysis-all-models.html#cb30-7"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb30-8"><a href="cascade-1-0-analysis-all-models.html#cb30-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
-<span id="cb30-9"><a href="cascade-1-0-analysis-all-models.html#cb30-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest Variable Importance (Gini Index)&quot;</span>, </span>
-<span id="cb30-10"><a href="cascade-1-0-analysis-all-models.html#cb30-10"></a>    <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="cascade-1-0-analysis-all-models.html#cb15-1"></a>imp_stats <span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="cascade-1-0-analysis-all-models.html#cb15-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(mean_gini))) <span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="cascade-1-0-analysis-all-models.html#cb15-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> mean_gini, <span class="dt">fill =</span> mean_gini)) <span class="op">+</span></span>
+<span id="cb15-4"><a href="cascade-1-0-analysis-all-models.html#cb15-4"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb15-5"><a href="cascade-1-0-analysis-all-models.html#cb15-5"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb15-6"><a href="cascade-1-0-analysis-all-models.html#cb15-6"></a><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> mean_gini<span class="op">-</span>sd_gini, <span class="dt">ymax =</span> mean_gini<span class="op">+</span>sd_gini), <span class="dt">width =</span> <span class="fl">0.2</span>) <span class="op">+</span></span>
+<span id="cb15-7"><a href="cascade-1-0-analysis-all-models.html#cb15-7"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb15-8"><a href="cascade-1-0-analysis-all-models.html#cb15-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
+<span id="cb15-9"><a href="cascade-1-0-analysis-all-models.html#cb15-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest Variable Importance (Gini Index)&quot;</span>, </span>
+<span id="cb15-10"><a href="cascade-1-0-analysis-all-models.html#cb15-10"></a>    <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-imp-fig2"></span>
 <img src="index_files/figure-html/param-ss-rf-imp-fig2-1.png" alt="Random Forest: Mean Decrease in Node Impurity (Gini Index)" width="2100" />
 <p class="caption">
-Figure 15: Random Forest: Mean Decrease in Node Impurity (Gini Index)
+Figure 8: Random Forest: Mean Decrease in Node Impurity (Gini Index)
 </p>
 </div>
 <div class="green-box">
@@ -1184,23 +1160,24 @@ Figure 15: Random Forest: Mean Decrease in Node Impurity (Gini Index)
 </div>
 <p>Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely <code>ranger</code> <span class="citation">(Wright and Ziegler <a href="references.html#ref-Wright2017" role="doc-biblioref">2017</a>)</span>.
 Use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_ranger.R">param_ss_ranger.R</a> to reproduce the results:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="cascade-1-0-analysis-all-models.html#cb31-1"></a>ranger_res =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/ranger_res.rds&quot;</span>)</span>
-<span id="cb31-2"><a href="cascade-1-0-analysis-all-models.html#cb31-2"></a>imp_res =<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">nodes =</span> <span class="kw">names</span>(ranger_res<span class="op">$</span>variable.importance), </span>
-<span id="cb31-3"><a href="cascade-1-0-analysis-all-models.html#cb31-3"></a>  <span class="dt">gini_index =</span> ranger_res<span class="op">$</span>variable.importance)</span>
-<span id="cb31-4"><a href="cascade-1-0-analysis-all-models.html#cb31-4"></a></span>
-<span id="cb31-5"><a href="cascade-1-0-analysis-all-models.html#cb31-5"></a>imp_res <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb31-6"><a href="cascade-1-0-analysis-all-models.html#cb31-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(gini_index))) <span class="op">%&gt;%</span></span>
-<span id="cb31-7"><a href="cascade-1-0-analysis-all-models.html#cb31-7"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> gini_index, <span class="dt">fill =</span> gini_index)) <span class="op">+</span></span>
-<span id="cb31-8"><a href="cascade-1-0-analysis-all-models.html#cb31-8"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb31-9"><a href="cascade-1-0-analysis-all-models.html#cb31-9"></a><span class="st">    </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
-<span id="cb31-10"><a href="cascade-1-0-analysis-all-models.html#cb31-10"></a><span class="st">    </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb31-11"><a href="cascade-1-0-analysis-all-models.html#cb31-11"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
-<span id="cb31-12"><a href="cascade-1-0-analysis-all-models.html#cb31-12"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest (Ranger) Variable Importance (Gini Index)&quot;</span>, </span>
-<span id="cb31-13"><a href="cascade-1-0-analysis-all-models.html#cb31-13"></a>      <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="cascade-1-0-analysis-all-models.html#cb16-1"></a>ranger_res =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/ranger_res.rds&quot;</span>)</span>
+<span id="cb16-2"><a href="cascade-1-0-analysis-all-models.html#cb16-2"></a>imp_res =<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">nodes =</span> <span class="kw">names</span>(ranger_res<span class="op">$</span>variable.importance), </span>
+<span id="cb16-3"><a href="cascade-1-0-analysis-all-models.html#cb16-3"></a>  <span class="dt">gini_index =</span> ranger_res<span class="op">$</span>variable.importance)</span>
+<span id="cb16-4"><a href="cascade-1-0-analysis-all-models.html#cb16-4"></a></span>
+<span id="cb16-5"><a href="cascade-1-0-analysis-all-models.html#cb16-5"></a>imp_res <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb16-6"><a href="cascade-1-0-analysis-all-models.html#cb16-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">nodes =</span> forcats<span class="op">::</span><span class="kw">fct_reorder</span>(nodes, <span class="kw">desc</span>(gini_index))) <span class="op">%&gt;%</span></span>
+<span id="cb16-7"><a href="cascade-1-0-analysis-all-models.html#cb16-7"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> nodes, <span class="dt">y =</span> gini_index, <span class="dt">fill =</span> gini_index)) <span class="op">+</span></span>
+<span id="cb16-8"><a href="cascade-1-0-analysis-all-models.html#cb16-8"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">show.legend =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb16-9"><a href="cascade-1-0-analysis-all-models.html#cb16-9"></a><span class="st">    </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span></span>
+<span id="cb16-10"><a href="cascade-1-0-analysis-all-models.html#cb16-10"></a><span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span><span class="kw">label_number_si</span>()) <span class="op">+</span></span>
+<span id="cb16-11"><a href="cascade-1-0-analysis-all-models.html#cb16-11"></a><span class="st">    </span><span class="kw">theme_classic</span>(<span class="dt">base_size =</span> <span class="dv">14</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb16-12"><a href="cascade-1-0-analysis-all-models.html#cb16-12"></a><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">colour =</span> imp_col)) <span class="op">+</span></span>
+<span id="cb16-13"><a href="cascade-1-0-analysis-all-models.html#cb16-13"></a><span class="st">    </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Random Forest (Ranger) Variable Importance (Gini Index)&quot;</span>, </span>
+<span id="cb16-14"><a href="cascade-1-0-analysis-all-models.html#cb16-14"></a>      <span class="dt">x =</span> <span class="st">&quot;Nodes&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Mean Decrease in Node Impurity&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:param-ss-rf-imp-fig3"></span>
 <img src="index_files/figure-html/param-ss-rf-imp-fig3-1.png" alt="Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)" width="2100" />
 <p class="caption">
-Figure 16: Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)
+Figure 9: Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)
 </p>
 </div>
 </div>
@@ -1214,12 +1191,12 @@ We make the plots afterwards using the result data with the <a href="https://git
 <p>First we used UMAP in <strong>unsupervised mode</strong> (no <em>a priori</em> knowledge of the number of fixpoints per model provided or of any other information/label per model for that matter).
 So, UMAP is given a subset of all binary numbers from <span class="math inline">\(0\)</span> (<span class="math inline">\(23\)</span> <span class="math inline">\(0\)</span>’s) to <span class="math inline">\(2^{23}-1\)</span> (<span class="math inline">\(23\)</span> <span class="math inline">\(1\)</span>’s) representing each possible link operator mutated model (<span class="math inline">\(0\)</span>’s map to <code>AND-NOT</code>, <span class="math inline">\(1\)</span>’s to <code>OR-NOT</code>) and places them in the 2D plane.</p>
 <p>The following figures show us the 2D parameterization map of all CASCADE 1.0 models, <strong>colored either by their decimal (base-10) number</strong> (converted from the binary link-operator model representation) or <strong>by their respective number of fixpoints</strong>:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="cascade-1-0-analysis-all-models.html#cb32-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/all_models_maps/umap_20nn_model_num.png&quot;</span>)</span>
-<span id="cb32-2"><a href="cascade-1-0-analysis-all-models.html#cb32-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/all_models_maps/umap_20nn.png&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="cascade-1-0-analysis-all-models.html#cb17-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/all_models_maps/umap_20nn_model_num.png&quot;</span>)</span>
+<span id="cb17-2"><a href="cascade-1-0-analysis-all-models.html#cb17-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/all_models_maps/umap_20nn.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:umap-unsup-figs"></span>
 <img src="img/all_models_maps/umap_20nn_model_num.png" alt="CASCADE 1.0 Model Parameterization Maps" width="50%" /><img src="img/all_models_maps/umap_20nn.png" alt="CASCADE 1.0 Model Parameterization Maps" width="50%" />
 <p class="caption">
-Figure 17: CASCADE 1.0 Model Parameterization Maps
+Figure 10: CASCADE 1.0 Model Parameterization Maps
 </p>
 </div>
 <div class="green-box">
@@ -1230,7 +1207,7 @@ Figure 17: CASCADE 1.0 Model Parameterization Maps
 <div id="supervised-umap" class="section level4 unnumbered" number="">
 <h4>Supervised UMAP</h4>
 <p>Next, we used <strong>UMAP in supervised mode</strong> - i.e. the association between each model and the corresponding fixpoint group was given as input to UMAP:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="cascade-1-0-analysis-all-models.html#cb33-1"></a><span class="co">#knitr::include_graphics(path = &quot;img/all_models_maps/&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="cascade-1-0-analysis-all-models.html#cb18-1"></a><span class="co">#knitr::include_graphics(path = &quot;img/all_models_maps/&quot;)</span></span></code></pre></div>
 <div class="green-box">
 <p>We observe that the <span class="math inline">\(2\)</span>-fixpoint model structures are spread out in the Y dimension much less than the corresponding <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>-fixpoint models.
 Also, the X dimension can clearly be used to <strong>distinguish between the 3 attractor classes</strong>.</p>
@@ -1240,21 +1217,18 @@ Also, the X dimension can clearly be used to <strong>distinguish between the 3 a
 </div>
 <div id="embedding-important-nodes-in-the-map" class="section level3 unnumbered" number="">
 <h3>Embedding Important Nodes in the Map</h3>
-<p>Using random forest and regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints).
+<p>Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints).
 Using (supervised) UMAP we took a sample of the dataset (<span class="math inline">\(33\%\)</span> of the models) and placed it to the 2D plane, linking closely parameterized models in clusters.</p>
-<p>We will now color the <a href="cascade-1-0-analysis-all-models.html#supervised-umap">supervised UMAP-generated map</a> with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_sup_imp_nodes.R">param_ss_umap_sup_imp_nodes.R</a> script).</p>
+<p>We will now color the <a href="cascade-1-0-analysis-all-models.html#supervised-umap">supervised UMAP-generated map</a> with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R">param_ss_umap_imp_nodes.R</a> script).</p>
 <p>The 3 most important nodes:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="cascade-1-0-analysis-all-models.html#cb34-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MAPK14.png&quot;</span>)</span>
-<span id="cb34-2"><a href="cascade-1-0-analysis-all-models.html#cb34-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_MEK_f.png&quot;</span>)</span>
-<span id="cb34-3"><a href="cascade-1-0-analysis-all-models.html#cb34-3"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_ERK_f.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_MAPK14.png" width="33%" /><img src="img/umap_supervised_MEK_f.png" width="33%" /><img src="img/umap_supervised_ERK_f.png" width="33%" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="cascade-1-0-analysis-all-models.html#cb19-1"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_MAPK14.png&quot;)</span></span>
+<span id="cb19-2"><a href="cascade-1-0-analysis-all-models.html#cb19-2"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_MEK_f.png&quot;)</span></span>
+<span id="cb19-3"><a href="cascade-1-0-analysis-all-models.html#cb19-3"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_ERK_f.png&quot;)</span></span></code></pre></div>
 <p>The next 2 most important nodes:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="cascade-1-0-analysis-all-models.html#cb35-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_mTORC1_c.png&quot;</span>)</span>
-<span id="cb35-2"><a href="cascade-1-0-analysis-all-models.html#cb35-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_PTEN.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_mTORC1_c.png" width="50%" /><img src="img/umap_supervised_PTEN.png" width="50%" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="cascade-1-0-analysis-all-models.html#cb20-1"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_mTORC1_c.png&quot;)</span></span>
+<span id="cb20-2"><a href="cascade-1-0-analysis-all-models.html#cb20-2"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_PTEN.png&quot;)</span></span></code></pre></div>
 <p><code>CFLAR</code> was the <strong>least important node</strong> for assessing the number of fixpoints of a model from its parameterization:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="cascade-1-0-analysis-all-models.html#cb36-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/umap_supervised_CFLAR.png&quot;</span>)</span></code></pre></div>
-<p><img src="img/umap_supervised_CFLAR.png" width="1050" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="cascade-1-0-analysis-all-models.html#cb21-1"></a><span class="co">#knitr::include_graphics(path = &quot;img/umap_supervised_CFLAR.png&quot;)</span></span></code></pre></div>
 <div class="green-box">
 <p>We can see a <strong>visual link</strong> between node importance (related to #fixpoints) and link operator assignment: <strong>the less important a node is, the more randomly distributed (chaotically) it’s link-operator values are across the parameterization map</strong>.</p>
 <p>The important nodes can be used to more accurately define <strong>families of closely parameterized models</strong>.</p>
@@ -1267,7 +1241,7 @@ Using (supervised) UMAP we took a sample of the dataset (<span class="math inlin
           </div>
         </div>
       </div>
-<a href="bbr-function-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="cascade-1-0-analysis-1-ss-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -1,7 +1,7 @@
 ---
 title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 05 October, 2020"
+date: "Last updated: 06 October, 2020"
 description: "Investigations related to link operators mutations in boolean models"
 url: 'https\://bblodfon.github.io/balance-paper/'
 github-repo: "bblodfon/balance-paper"
@@ -10,8 +10,19 @@ link-citations: true
 site: bookdown::bookdown_site
 ---
 
-# Input Libraries {-}
+# Intro {-}
 
+The purpose of this analysis is to make an investigation regarding the relation of **boolean model parameterization** (based on the [standardized equation form](https://druglogics.github.io/druglogics-doc/gitsbe-description.html#default-equation) inspired by [@Mendoza2006]) and various other model attributes, e.g. their drug combination prediction performance, their ability to predict synergies, their fitness to a specific cancerous cell line activity profile, as well as more general directives, such as the identification of **essential nodes that drive the change of dynamics** throughout the parameterization space.
+
+The dataset used in this analysis is derived from the *CASCADE 1.0* topology [@cascade2020].
+The cancer signaling network has a total of $77$ nodes, out of which $23$ have link operators in their respective boolean equation (both activating and inhibiting regulators).
+Using the [abmlog](https://github.com/druglogics/abmlog) software, we generated all $2^{23} = 8388608$ possible link operator mutated models for the CASCADE 1.0 topology.
+
+We use the relative new, *non-linear dimension reduction* method UMAP [@McInnes2018a] to place all the generated boolean models in a **boolean parameterization map** and most of our conclusions are based on observing patterns in the produced maps.
+
+The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783).
+
+Libraries used in this analysis:
 
 ```r
 library(xfun)
@@ -36,7 +47,7 @@ library(uwot)
 library(Ckmeans.1d.dp)
 ```
 
-# CASCADE 1.0 Analysis (All models) {-}
+# CASCADE 1.0 - General {-}
 
 ## Network Properties {-}
 
@@ -61,15 +72,7 @@ dd_stats %>% group_by(in_degree) %>% tally() %>%
   geom_smooth(aes(color = "red"), se = FALSE, show.legend = FALSE) + 
   theme_classic() +
   labs(title = "In-Degree Distribution (CASCADE 1.0)", x = "In Degree", y = "Number of Nodes")
-```
 
-<div class="figure" style="text-align: center">
-<img src="index_files/figure-html/in-degree-fig-1.png" alt="In Degree Distribution (CASCADE 1.0)" width="2100" />
-<p class="caption">(\#fig:in-degree-fig)In Degree Distribution (CASCADE 1.0)</p>
-</div>
-
-
-```r
 dd_stats %>% group_by(out_degree) %>% tally() %>%
   ggplot(aes(x = out_degree, y = n)) +
   geom_bar(stat = "identity", fill = "steelblue") + 
@@ -78,16 +81,14 @@ dd_stats %>% group_by(out_degree) %>% tally() %>%
   labs(title = "Out-Degree Distribution (CASCADE 1.0)", x = "Out Degree", y = "Number of Nodes")
 ```
 
-<div class="figure" style="text-align: center">
-<img src="index_files/figure-html/out-degree-fig-1.png" alt="Out Degree Distribution (CASCADE 1.0)" width="2100" />
-<p class="caption">(\#fig:out-degree-fig)Out Degree Distribution (CASCADE 1.0)</p>
+<div class="figure">
+<img src="index_files/figure-html/in-degree-fig-1.png" alt="Degree Distribution (CASCADE 1.0)" width="50%" /><img src="index_files/figure-html/in-degree-fig-2.png" alt="Degree Distribution (CASCADE 1.0)" width="50%" />
+<p class="caption">(\#fig:in-degree-fig)Degree Distribution (CASCADE 1.0)</p>
 </div>
 
 ## Model Stable State Statistics {-}
 
-Using [abmlog](https://github.com/druglogics/abmlog) we generated all $2^{23} = 8388608$ possible link operator mutated models for the CASCADE 1.0 topology.
-The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783). 
-The `gitsbe` files include also the fixpoint attractors.
+The `gitsbe` files of the model dataset include also the fixpoint attractors of each model (`.bnet` files have only the equations).
 Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_models_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_models_ss.R)).
 The model stable state (fixpoint) statistics are as follows:
 
@@ -114,16 +115,10 @@ models_ss_stats %>% group_by(ss_num) %>% tally() %>%
 Less than $50\%$ of the total possible parameterized models have a single fixpoint attractor which corresponds to a single stable phenotype behavior.
 :::
 
-## Stable States Data {-}
-
-:::{.note}
-To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_ss_data.R)
-:::
-
-## Parameterization vs #fixpoints {-}
+# CASCADE 1.0 - Parameterization vs #fixpoints {-}
 
 :::{.blue-box}
-In this subsection we identify the **key nodes** whose parameterization affects the *change of dynamics* of the CASCADE 1.0 network, i.e. are responsible for the **change in the number of fixpoint attractors (0,1 and 2)** across all link-operator mutated models.
+In this section we identify the **key nodes** whose parameterization affects the *change of dynamics* of the CASCADE 1.0 network, i.e. are responsible for the **change in the number of fixpoint attractors (0,1 and 2)** across all link-operator mutated models.
 :::
 
 We will use several statistical methods, in each of the sub-sections below.
@@ -135,7 +130,7 @@ The ternary response for each model is a number denoting the number of fixpoints
 
 The matrix we can generate with the script [get_lo_mat.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_model_ss.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/count_model_ss.R).
 
-### Glmnet {-}
+## Multinomial LASSO {-}
 
 Use the script [param_ss_glmnet.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_glmnet.R) to fit a **multinomial LASSO model** for the data [@Friedman2010].
 We now simply load the result object:
@@ -143,15 +138,13 @@ We now simply load the result object:
 ```r
 fit_a1 = readRDS(file = "data/fit_a1.rds")
 plot(fit_a1, xvar = "dev", type.coef = "2norm")
-```
-
-<img src="index_files/figure-html/param-ss-glmnet-1.png" width="672" />
-
-```r
 plot(fit_a1, xvar = "lambda", type.coef = "2norm")
 ```
 
-<img src="index_files/figure-html/param-ss-glmnet-2.png" width="672" />
+<div class="figure">
+<img src="index_files/figure-html/param-ss-glmnet-1.png" alt="Euclidean Norm of glment coefficients vs lambda and deviance explained" width="50%" /><img src="index_files/figure-html/param-ss-glmnet-2.png" alt="Euclidean Norm of glment coefficients vs lambda and deviance explained" width="50%" />
+<p class="caption">(\#fig:param-ss-glmnet)Euclidean Norm of glment coefficients vs lambda and deviance explained</p>
+</div>
 
 As we can see there is no $\lambda$ that could explain more than $44\%$ of the deviance and there are a lot of non-zero coefficients associated with smaller values of $\lambda$.
 For example, choosing  $\lambda = 0.0142$ (tested prediction accuracy $\approx 0.72$ on a random subset of the data), we have the following coefficients, shown in a heatmap:
@@ -239,7 +232,7 @@ ComplexHeatmap::Heatmap(matrix = cvfit_mat, name = "Coef", row_title = "Number o
 The top 5 most important nodes are seen in green in the above heatmap: `MAPK14`, `PTEN`, `CTNNB1`, `MEK_f` and `mTORC1_c`.
 :::
 
-### Random Forest {-}
+## Random Forests {-}
 
 We used the [param_ss_randf.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_randf.R) script to tune and train a random forest classifier on the dataset [@Liaw2002].
 First we tuned the `mtry` parameter, the number of variables randomly selected at each tree split:
@@ -361,17 +354,23 @@ imp_res %>%
 <p class="caption">(\#fig:param-ss-rf-imp-fig3)Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)</p>
 </div>
 
-### Parameterization Map {-}
+## Parameterization Maps {-}
 
-We use UMAP [@McInnes2018a] to **reduce the dimensionality of our dataset** from $23$ (number of nodes with link operators) to $2$ and visualize it to see if there is any apparent *visual relation* between the models parameterization and number of fixpoints.
+:::{.blue-box}
+We use UMAP [@McInnes2018a] to **reduce the dimension of our dataset** from $23$ (number of nodes with link operators) to $2$ and visualize it, to see if there is any apparent *visual relation* between the model parameterization and number of fixpoints.
+:::
 
 We used the [param_ss_umap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap.R) script to run the UMAP implementation offered by the `uwot` R package.
-We make the plots afterwards using the result data with the [param_ss_umap_vis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_vis.R) script.
+We tried various values for the `n_neighbors` parameter where larger values result in **more global views** of the dataset, while smaller values result in **more local data** being preserved.
+Also, the *distance metric* between the model parameterization vectors was mostly set to the standard (*euclidean*), but we also tried the *hamming* distance which seemed appropriate because of the binary nature of the dataset.
 
-#### Unsupervised UMAP {-}
+We make the figures afterwards using the result UMAP data with the [param_ss_umap_vis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_vis.R) script.
+See all the produced figures [here](https://github.com/bblodfon/balance-paper/blob/master/img/all_models_maps).
+
+### Unsupervised UMAP {-}
 
 First we used UMAP in **unsupervised mode** (no *a priori* knowledge of the number of fixpoints per model provided or of any other information/label per model for that matter).
-So, UMAP is given a subset of all binary numbers from $0$ ($23$ $0$'s) to $2^{23}-1$ ($23$ $1$'s) representing each possible link operator mutated model ($0$'s map to `AND-NOT`, $1$'s to `OR-NOT`) and places them in the 2D plane.
+So, UMAP is given all binary numbers from $0$ ($23$ $0$'s) to $2^{23}-1$ ($23$ $1$'s) representing each possible link operator mutated model ($0$'s map to `AND-NOT`, $1$'s to `OR-NOT`) and places them in the 2D plane.
 
 The following figures show us the 2D parameterization map of all CASCADE 1.0 models, **colored either by their decimal (base-10) number** (converted from the binary link-operator model representation) or **by their respective number of fixpoints**:
 
@@ -381,66 +380,107 @@ knitr::include_graphics(path = "img/all_models_maps/umap_20nn.png")
 ```
 
 <div class="figure">
-<img src="img/all_models_maps/umap_20nn_model_num.png" alt="CASCADE 1.0 Model Parameterization Maps" width="50%" /><img src="img/all_models_maps/umap_20nn.png" alt="CASCADE 1.0 Model Parameterization Maps" width="50%" />
-<p class="caption">(\#fig:umap-unsup-figs)CASCADE 1.0 Model Parameterization Maps</p>
+<img src="img/all_models_maps/umap_20nn_model_num.png" alt="CASCADE 1.0 Model Parameterization Maps (euclidean distance)" width="50%" /><img src="img/all_models_maps/umap_20nn.png" alt="CASCADE 1.0 Model Parameterization Maps (euclidean distance)" width="50%" />
+<p class="caption">(\#fig:umap-unsup-figs)CASCADE 1.0 Model Parameterization Maps (euclidean distance)</p>
+</div>
+
+
+```r
+knitr::include_graphics(path = "img/all_models_maps/ham_umap_20nn_model_num.png")
+knitr::include_graphics(path = "img/all_models_maps/ham_umap_20nn.png")
+```
+
+<div class="figure">
+<img src="img/all_models_maps/ham_umap_20nn_model_num.png" alt="CASCADE 1.0 Model Parameterization Maps (hamming distance)" width="50%" /><img src="img/all_models_maps/ham_umap_20nn.png" alt="CASCADE 1.0 Model Parameterization Maps (hamming distance)" width="50%" />
+<p class="caption">(\#fig:umap-unsup-figs-2)CASCADE 1.0 Model Parameterization Maps (hamming distance)</p>
 </div>
 
 :::{.green-box}
-UMAP has found $8$ **neighboorhoods/superclusters of similarly parameterized models**, which seem to follow the numerical representation (i.e. models with close decimal numbering seem to be clustered together).
-
-Also, models with **similar parameterization seem to also have the same number of fixpoints** (i.e. there is some order in the placement of models that belong to the same fixpoint class - this phenomenon does not manifest chaotically).
+- Using the *hamming* distance metric the visualization of the dataset results in many more smaller clusters compared to the *euclidean* representation, which results in $8$ **neighborhoods/superclusters of similarly parameterized models**.
+These seem to follow the numerical representation (i.e. models with close decimal numbering seem to be clustered together).
+- Models with **similar parameterization seem to also have the same number of fixpoints** (i.e. there is some order in the placement of models that belong to the same fixpoint class - this phenomenon does not manifest chaotically - e.g. models in the same sub-cluster in the hamming parameterization map tend to have the same number of fixpoints).
+- There is no distinct pattern that can match model parameterization with number of attractors. 
+In other words, models with different number of fixpoints can manifest in no particular order whatsoever across the parameterization map/space.
 :::
 
-#### Supervised UMAP {-}
+### Supervised UMAP {-}
 
 Next, we used **UMAP in supervised mode** - i.e. the association between each model and the corresponding fixpoint group was given as input to UMAP:
 
 ```r
-#knitr::include_graphics(path = "img/all_models_maps/")
+knitr::include_graphics(path = "img/all_models_maps/sumap_14nn_0_3_min_dist.png")
+knitr::include_graphics(path = "img/all_models_maps/sumap_20nn.png")
 ```
 
-:::{.green-box}
-We observe that the $2$-fixpoint model structures are spread out in the Y dimension much less than the corresponding $0$ and $1$-fixpoint models.
-Also, the X dimension can clearly be used to **distinguish between the 3 attractor classes**.
+<div class="figure">
+<img src="img/all_models_maps/sumap_14nn_0_3_min_dist.png" alt="CASCADE 1.0 Model Parameterization Supervised Maps" width="50%" /><img src="img/all_models_maps/sumap_20nn.png" alt="CASCADE 1.0 Model Parameterization Supervised Maps" width="50%" />
+<p class="caption">(\#fig:umap-sup-fig)CASCADE 1.0 Model Parameterization Supervised Maps</p>
+</div>
 
-So, it seems that the more complex are the models (here we mean dynamical complexity - i.e. more attractors) the more spread out are in the parameterization map and form many more distinct clusters.
+:::{.green-box}
+With **increased model complexity** (meaning dynamical complexity - i.e. **more attractors**), the subsequent fixpoint superclusters form sub-clusters that are very differently parameterized - i.e. they form **distinct families of models** and thus appear to be more *spread out* in the supervised parameterization map.
+
+The simple argument for this is as follows: the larger distance between a model in the $0$ or $1$-fixpoint (supervised) supercluster is smaller than many of the model distances within the $2$-fixpoint sub-clusters.
 :::
 
-### Embedding Important Nodes in the Map {-}
+## Embedding Important Nodes in the Map {-}
 
-Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints).
-Using (supervised) UMAP we took a sample of the dataset ($33\%$ of the models) and placed it to the 2D plane, linking closely parameterized models in clusters.
+Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints) in the CASCADE 1.0 signaling network.
+Using UMAP we observed that closely parameterized models form clusters.
 
-We will now color the [supervised UMAP-generated map](#supervised-umap) with the link-operator values of the top 5 most important nodes found from the aforementioned methods as well the least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R) script).
+We will now color the UMAP parameterization maps according to the link-operator values of the top $5$ most important nodes found from the aforementioned methods as well as the $2$ least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R) script and see all the produced figures [here](https://github.com/bblodfon/balance-paper/blob/master/img/imp_nodes_param_ss_maps)).
 
 The 3 most important nodes:
 
 ```r
-#knitr::include_graphics(path = "img/umap_supervised_MAPK14.png")
-#knitr::include_graphics(path = "img/umap_supervised_MEK_f.png")
-#knitr::include_graphics(path = "img/umap_supervised_ERK_f.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_MAPK14.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_ERK_f.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_MEK_f.png")
 ```
+
+<img src="img/imp_nodes_param_ss_maps/unsup_MAPK14.png" width="33%" /><img src="img/imp_nodes_param_ss_maps/unsup_ERK_f.png" width="33%" /><img src="img/imp_nodes_param_ss_maps/unsup_MEK_f.png" width="33%" />
 
 The next 2 most important nodes:
 
 ```r
-#knitr::include_graphics(path = "img/umap_supervised_mTORC1_c.png")
-#knitr::include_graphics(path = "img/umap_supervised_PTEN.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_mTORC1_c.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_PTEN.png")
 ```
 
-`CFLAR` was the **least important node** for assessing the number of fixpoints of a model from its parameterization:
+<img src="img/imp_nodes_param_ss_maps/unsup_mTORC1_c.png" width="50%" /><img src="img/imp_nodes_param_ss_maps/unsup_PTEN.png" width="50%" />
+
+`CFLAR` and `CYCS` were the **least important node** for assessing the number of fixpoints of a model from its parameterization:
 
 ```r
-#knitr::include_graphics(path = "img/umap_supervised_CFLAR.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_CFLAR.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/unsup_CYCS.png")
 ```
+
+<img src="img/imp_nodes_param_ss_maps/unsup_CFLAR.png" width="50%" /><img src="img/imp_nodes_param_ss_maps/unsup_CYCS.png" width="50%" />
+
+Same trend can be seen (and maybe a little more clearly) in the supervised corresponding maps:
+
+```r
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/sup_MAPK14.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/sup_mTORC1_c.png")
+knitr::include_graphics(path = "img/imp_nodes_param_ss_maps/sup_CFLAR.png")
+```
+
+<img src="img/imp_nodes_param_ss_maps/sup_MAPK14.png" width="33%" /><img src="img/imp_nodes_param_ss_maps/sup_mTORC1_c.png" width="33%" /><img src="img/imp_nodes_param_ss_maps/sup_CFLAR.png" width="33%" />
 
 :::{.green-box}
 We can see a **visual link** between node importance (related to #fixpoints) and link operator assignment: **the less important a node is, the more randomly distributed (chaotically) it's link-operator values are across the parameterization map**.
 
-The important nodes can be used to more accurately define **families of closely parameterized models**.
+A collection of important nodes can be used to more accurately define **families of closely parameterized models** and as we've seen above this also translates to models belonging to the same fixpoint class.
 :::
 
 # CASCADE 1.0 Analysis (1 ss models) {-}
+
+## Stable States Data {-}
+
+:::{.note}
+To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_ss_data.R)
+:::
 
 :::{.orange-box}
 In the second part of this analysis, **only the models that have 1 stable state** will be used (see [Stable States Data]).
@@ -452,7 +492,7 @@ All variables of interest (stable state, link-operator parameterization, fitness
 In this section we present the results of using UMAP [@McInnes2018a] on the link-operator parameterization data of the CASCADE 1.0 models with 1 stable state.
 We created several such *parameterization maps* by adjusting the *n_neighbors* parameter input (from $2$ to $20$), which is responsible for the **size of the local neighborhood** (in terms of number of neighboring sample points) used for the manifold approximation.
 As the documentation says, larger values result in **more global views** of the manifold, while smaller values result in **more local data** being preserved.
-To get these map images and the reduced dimensionality dataset, use the script [1ss_models_umap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/1ss_models_umap.R) for more details.
+To get these map images and the reduced dimension dataset, use the script [1ss_models_umap.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/1ss_models_umap.R) for more details.
 
 :::{.blue-box}
 Note that in all these mappings to the 2D space, **models that share similar link-operator parameterization will reside in the same area/cluster in the map**.

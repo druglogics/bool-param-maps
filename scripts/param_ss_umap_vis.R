@@ -128,7 +128,7 @@ data %>%
   geom_point(shape = '.') +
   guides(colour = guide_legend(title = "#Fixpoints", label.theme = element_text(size = 12),
     override.aes = list(shape = 19, size = 12))) +
-  labs(title = paste0("Parameterization Supervised Map (All CASCADE 1.0 models)")) +
+  labs(title = paste0("Parameterization Supervised Map (All CASCADE 1.0 models) - 14 Neighbors")) +
   theme_classic() +
   theme(plot.title = element_text(hjust = 0.5))
 ggsave(filename = paste0("img/all_models_maps/sumap_14nn_0_3_min_dist.png"), dpi = "print", width = 7, height = 5)

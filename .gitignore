@@ -22,4 +22,10 @@ data/1ss_lo_umap/lo_umap_1ss_3nn.rds
 data/1ss_lo_umap/lo_umap_1ss_5nn.rds
 data/1ss_lo_umap/lo_umap_1ss_7nn.rds
 data/1ss_lo_umap/lo_umap_1ss_9nn.rds
+.cache/
+.ipynb_checkpoints/
+.ipython/
+.java/
+.jupyter/
+.local/
 

@@ -875,10 +875,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-parameterization-vs-fixpoints.html"><a href="cascade-1-0-parameterization-vs-fixpoints.html#embedding-important-nodes-in-the-map"><i class="fa fa-check"></i>Embedding Important Nodes in the Map</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis (1 ss models)</a>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html"><i class="fa fa-check"></i>CASCADE 1.0 Analysis - 1 ss models</a>
 <ul>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#stable-states-data"><i class="fa fa-check"></i>Stable States Data</a></li>
-<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#d-model-parameterization-maps"><i class="fa fa-check"></i>2D Model Parameterization Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#parameterization-maps-1"><i class="fa fa-check"></i>Parameterization Maps</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#gitsbe-models-on-the-map"><i class="fa fa-check"></i>Gitsbe Models on the Map</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#performance-maps"><i class="fa fa-check"></i>Performance Maps</a>
 <ul>
@@ -1129,7 +1129,7 @@ Figure 9: Random Forest (ranger): Mean Decrease in Node Impurity (Gini Index)
 We tried various values for the <code>n_neighbors</code> parameter where larger values result in <strong>more global views</strong> of the dataset, while smaller values result in <strong>more local data</strong> being preserved.
 Also, the <em>distance metric</em> between the model parameterization vectors was mostly set to the standard (<em>euclidean</em>), but we also tried the <em>hamming</em> distance which seemed appropriate because of the binary nature of the dataset.</p>
 <p>We make the figures afterwards using the result UMAP data with the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_vis.R">param_ss_umap_vis.R</a> script.
-See all the produced figures <a href="https://github.com/bblodfon/balance-paper/blob/master/img/all_models_maps">here</a>.</p>
+See all the produced figures <a href="https://github.com/bblodfon/balance-paper/tree/master/img/all_models_maps">here</a>.</p>
 <div id="unsupervised-umap" class="section level3 unnumbered" number="">
 <h3>Unsupervised UMAP</h3>
 <p>First we used UMAP in <strong>unsupervised mode</strong> (no <em>a priori</em> knowledge of the number of fixpoints per model provided or of any other information/label per model for that matter).
@@ -1182,7 +1182,7 @@ Figure 12: CASCADE 1.0 Model Parameterization Supervised Maps
 <h2>Embedding Important Nodes in the Map</h2>
 <p>Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints) in the CASCADE 1.0 signaling network.
 Using UMAP we observed that closely parameterized models form clusters.</p>
-<p>We will now color the UMAP parameterization maps according to the link-operator values of the top <span class="math inline">\(5\)</span> most important nodes found from the aforementioned methods as well as the <span class="math inline">\(2\)</span> least important node reported with random forests (use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R">param_ss_umap_imp_nodes.R</a> script and see all the produced figures <a href="https://github.com/bblodfon/balance-paper/blob/master/img/imp_nodes_param_ss_maps">here</a>).</p>
+<p>We will now color the UMAP parameterization maps according to the link-operator values of the top <span class="math inline">\(5\)</span> most important nodes found from the aforementioned methods as well as the <span class="math inline">\(2\)</span> least important node reported with random forests (use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R">param_ss_umap_imp_nodes.R</a> script and see all the produced figures <a href="https://github.com/bblodfon/balance-paper/tree/master/img/imp_nodes_param_ss_maps">here</a>).</p>
 <p>The 3 most important nodes:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="cascade-1-0-parameterization-vs-fixpoints.html#cb18-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/imp_nodes_param_ss_maps/unsup_MAPK14.png&quot;</span>)</span>
 <span id="cb18-2"><a href="cascade-1-0-parameterization-vs-fixpoints.html#cb18-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/imp_nodes_param_ss_maps/unsup_ERK_f.png&quot;</span>)</span>

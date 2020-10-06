@@ -365,7 +365,7 @@ We tried various values for the `n_neighbors` parameter where larger values resu
 Also, the *distance metric* between the model parameterization vectors was mostly set to the standard (*euclidean*), but we also tried the *hamming* distance which seemed appropriate because of the binary nature of the dataset.
 
 We make the figures afterwards using the result UMAP data with the [param_ss_umap_vis.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_vis.R) script.
-See all the produced figures [here](https://github.com/bblodfon/balance-paper/blob/master/img/all_models_maps).
+See all the produced figures [here](https://github.com/bblodfon/balance-paper/tree/master/img/all_models_maps).
 
 ### Unsupervised UMAP {-}
 
@@ -428,7 +428,7 @@ The simple argument for this is as follows: the larger distance between a model 
 Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints) in the CASCADE 1.0 signaling network.
 Using UMAP we observed that closely parameterized models form clusters.
 
-We will now color the UMAP parameterization maps according to the link-operator values of the top $5$ most important nodes found from the aforementioned methods as well as the $2$ least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R) script and see all the produced figures [here](https://github.com/bblodfon/balance-paper/blob/master/img/imp_nodes_param_ss_maps)).
+We will now color the UMAP parameterization maps according to the link-operator values of the top $5$ most important nodes found from the aforementioned methods as well as the $2$ least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/param_ss_umap_imp_nodes.R) script and see all the produced figures [here](https://github.com/bblodfon/balance-paper/tree/master/img/imp_nodes_param_ss_maps)).
 
 The 3 most important nodes:
 
@@ -474,20 +474,18 @@ We can see a **visual link** between node importance (related to #fixpoints) and
 A collection of important nodes can be used to more accurately define **families of closely parameterized models** and as we've seen above this also translates to models belonging to the same fixpoint class.
 :::
 
-# CASCADE 1.0 Analysis (1 ss models) {-}
+# CASCADE 1.0 Analysis - 1 ss models {-}
 
 ## Stable States Data {-}
 
 :::{.note}
+In this section, **only the boolean models that have 1 stable state** will be used in the analysis.
+All variables of interest (stable state, link-operator parameterization, fitness to steady state, performance MCC score, etc.) will relate only to the 1 stable state models from now on.
+
 To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/get_ss_data.R)
 :::
 
-:::{.orange-box}
-In the second part of this analysis, **only the models that have 1 stable state** will be used (see [Stable States Data]).
-All variables of interest (stable state, link-operator parameterization, fitness to steady state, performance MCC score, etc.) will relate only to the 1 stable state models from now on.
-:::
-
-## 2D Model Parameterization Maps {-}
+## Parameterization Maps {-}
 
 In this section we present the results of using UMAP [@McInnes2018a] on the link-operator parameterization data of the CASCADE 1.0 models with 1 stable state.
 We created several such *parameterization maps* by adjusting the *n_neighbors* parameter input (from $2$ to $20$), which is responsible for the **size of the local neighborhood** (in terms of number of neighboring sample points) used for the manifold approximation.
@@ -514,35 +512,24 @@ knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_3.png")
 
 
 ```r
-knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_4.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_5.png")
-```
-
-<div class="figure">
-<img src="img/1ss_umap/1ss_umap_unsup_4.png" alt="2D Parameterization map for 1 stable state models (4 and 5 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_5.png" alt="2D Parameterization map for 1 stable state models (4 and 5 neighbors)" width="50%" />
-<p class="caption">(\#fig:param-maps-1ss-models-2)2D Parameterization map for 1 stable state models (4 and 5 neighbors)</p>
-</div>
-
-
-```r
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_6.png")
-knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_8.png")
 ```
 
 <div class="figure">
-<img src="img/1ss_umap/1ss_umap_unsup_6.png" alt="2D Parameterization map for 1 stable state models (6 and 8 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_8.png" alt="2D Parameterization map for 1 stable state models (6 and 8 neighbors)" width="50%" />
-<p class="caption">(\#fig:param-maps-1ss-models-3)2D Parameterization map for 1 stable state models (6 and 8 neighbors)</p>
+<img src="img/1ss_umap/1ss_umap_unsup_5.png" alt="2D Parameterization map for 1 stable state models (5 and 6 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_6.png" alt="2D Parameterization map for 1 stable state models (5 and 6 neighbors)" width="50%" />
+<p class="caption">(\#fig:param-maps-1ss-models-2)2D Parameterization map for 1 stable state models (5 and 6 neighbors)</p>
 </div>
 
 
 ```r
-knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_9.png")
+knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_8.png")
 knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_11.png")
 ```
 
 <div class="figure">
-<img src="img/1ss_umap/1ss_umap_unsup_9.png" alt="2D Parameterization map for 1 stable state models (9 and 11 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_11.png" alt="2D Parameterization map for 1 stable state models (9 and 11 neighbors)" width="50%" />
-<p class="caption">(\#fig:param-maps-1ss-models-4)2D Parameterization map for 1 stable state models (9 and 11 neighbors)</p>
+<img src="img/1ss_umap/1ss_umap_unsup_8.png" alt="2D Parameterization map for 1 stable state models (8 and 11 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_11.png" alt="2D Parameterization map for 1 stable state models (8 and 11 neighbors)" width="50%" />
+<p class="caption">(\#fig:param-maps-1ss-models-3)2D Parameterization map for 1 stable state models (8 and 11 neighbors)</p>
 </div>
 
 
@@ -553,7 +540,7 @@ knitr::include_graphics(path = "img/1ss_umap/1ss_umap_unsup_15.png")
 
 <div class="figure">
 <img src="img/1ss_umap/1ss_umap_unsup_12.png" alt="2D Parameterization map for 1 stable state models (12 and 15 neighbors)" width="50%" /><img src="img/1ss_umap/1ss_umap_unsup_15.png" alt="2D Parameterization map for 1 stable state models (12 and 15 neighbors)" width="50%" />
-<p class="caption">(\#fig:param-maps-1ss-models-5)2D Parameterization map for 1 stable state models (12 and 15 neighbors)</p>
+<p class="caption">(\#fig:param-maps-1ss-models-4)2D Parameterization map for 1 stable state models (12 and 15 neighbors)</p>
 </div>
 
 :::{.green-box}
@@ -564,16 +551,16 @@ We observe the existence of **two large families (superclusters) of parameteriza
 
 ## Gitsbe Models on the Map {-}
 
-[Gitsbe](https://druglogics.github.io/druglogics-doc/gitsbe.html) uses a genetic algorithm approach to produce boolean models that are fitted to basal, biomarker training data.
+[Gitsbe](https://druglogics.github.io/druglogics-doc/gitsbe.html) uses a genetic algorithm approach to produce boolean models that are fitted to activity-based, biomarker training data.
 
 We used Gitsbe and tested the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
 The calibrated models performed very well in terms of both ROC and PR-AUC.
 
 :::{.blue-box}
-Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighbourhood in the parameterization map.
+Here we want to check whether models produced by a method such as a genetic algorithm-based one **have similar parameterization** - i.e. they belong in the same neighborhood in the parameterization map.
 :::
 
-We will use models from $1000$ gitsbe simulations, calibrated to steady state (a total of $3000$ models, choosing the best-fit models from each simulation).
+We will use models from $1000$ gitsbe simulations, calibrated to steady state (a total of $3000$ models, choosing the $3$ best-fit models from each simulation).
 The results are provided in [this data file](https://github.com/bblodfon/balance-paper/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
 
 All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_models_fit.R)):
@@ -587,7 +574,7 @@ knitr::include_graphics(path = "img/gitsbe_fit_density.png")
 <p class="caption">(\#fig:gitbse-fit-fig)Gitsbe model fitness to AGS steady state</p>
 </div>
 
-To generate the next figures (same map, same gitsbe models, different number of neighbors) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R):
+To generate the next figures (same map, same gitsbe models, different number of neighbors) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R) - all figures are available [here](https://github.com/bblodfon/balance-paper/tree/master/img/gitsbe_umaps):
 
 
 ```r
@@ -602,34 +589,23 @@ knitr::include_graphics(path = "img/gitsbe_umaps/4nn.png")
 
 
 ```r
-knitr::include_graphics(path = "img/gitsbe_umaps/6nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/8nn.png")
-```
-
-<div class="figure">
-<img src="img/gitsbe_umaps/6nn.png" alt="Gitsbe models in Parameterization map (6 and 8 neighbors)" width="50%" /><img src="img/gitsbe_umaps/8nn.png" alt="Gitsbe models in Parameterization map (6 and 8 neighbors)" width="50%" />
-<p class="caption">(\#fig:gitsbe-maps-2)Gitsbe models in Parameterization map (6 and 8 neighbors)</p>
-</div>
-
-
-```r
-knitr::include_graphics(path = "img/gitsbe_umaps/11nn.png")
 knitr::include_graphics(path = "img/gitsbe_umaps/14nn.png")
 ```
 
 <div class="figure">
-<img src="img/gitsbe_umaps/11nn.png" alt="Gitsbe models in Parameterization map (11 and 14 neighbors)" width="50%" /><img src="img/gitsbe_umaps/14nn.png" alt="Gitsbe models in Parameterization map (11 and 14 neighbors)" width="50%" />
-<p class="caption">(\#fig:gitsbe-maps-3)Gitsbe models in Parameterization map (11 and 14 neighbors)</p>
+<img src="img/gitsbe_umaps/8nn.png" alt="Gitsbe models in Parameterization map (6 and 8 neighbors)" width="50%" /><img src="img/gitsbe_umaps/14nn.png" alt="Gitsbe models in Parameterization map (6 and 8 neighbors)" width="50%" />
+<p class="caption">(\#fig:gitsbe-maps-2)Gitsbe models in Parameterization map (6 and 8 neighbors)</p>
 </div>
 
 :::{.green-box}
-Gitsbe-generated models that fit the basal biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific sub-clusters** (better seen in the Figure with 14 neighbors which gives a more global view of the dataset).
+Gitsbe-generated models that fit the biomarker steady state data for the AGS cell line have a **diverse structure that spans across the parameterization map** but nonetheless appear to gather in **smaller parameterization-specific sub-clusters** (better seen in the Figure with 14 neighbors which gives a more global view of the dataset).
 
 Observing the distribution of the gitsbe models in the parameterization map, we see that most of them are being **placed at one of the two superclusters**.
 :::
 
 Of course, there are areas in the map that Gitsbe models do not cover, which may as well be high-performance model areas.
-Since we have generated all possible link-operator models with CASCADE 1.0, we can proceed to generate a performance map atop the parameterization one and cross-check if the gitsbe models fall into high-performance areas or not.
+Since we have generated all possible link-operator models with CASCADE 1.0, we can proceed to generate a performance map (atop the parameterization one) and cross-check if the gitsbe models fall into high-performance areas or not.
 
 ## Performance Maps {-}
 
@@ -674,39 +650,17 @@ Most of the 1 stable state models have MCC performance close to random or worse,
 
 ### Unsupervised UMAP {-}
 
-If we draw the parameterization maps for different number of neighbors and **color the points/models according to their MCC score**, we get these images:
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their MCC score**, we get these images (to see all figures, check [here](https://github.com/bblodfon/balance-paper/tree/master/img/mcc_maps)):
 
 
 ```r
 knitr::include_graphics(path = "img/mcc_maps/2nn.png")
-knitr::include_graphics(path = "img/mcc_maps/4nn.png")
-```
-
-<div class="figure">
-<img src="img/mcc_maps/2nn.png" alt="MCC Parameterization map (2 and 4 neighbors)" width="50%" /><img src="img/mcc_maps/4nn.png" alt="MCC Parameterization map (2 and 4 neighbors)" width="50%" />
-<p class="caption">(\#fig:mcc-maps-1)MCC Parameterization map (2 and 4 neighbors)</p>
-</div>
-
-
-```r
-knitr::include_graphics(path = "img/mcc_maps/6nn.png")
-knitr::include_graphics(path = "img/mcc_maps/8nn.png")
-```
-
-<div class="figure">
-<img src="img/mcc_maps/6nn.png" alt="MCC Parameterization map (6 and 8 neighbors)" width="50%" /><img src="img/mcc_maps/8nn.png" alt="MCC Parameterization map (6 and 8 neighbors)" width="50%" />
-<p class="caption">(\#fig:mcc-maps-2)MCC Parameterization map (6 and 8 neighbors)</p>
-</div>
-
-
-```r
-knitr::include_graphics(path = "img/mcc_maps/11nn.png")
 knitr::include_graphics(path = "img/mcc_maps/14nn.png")
 ```
 
 <div class="figure">
-<img src="img/mcc_maps/11nn.png" alt="MCC Parameterization map (11 and 14 neighbors)" width="50%" /><img src="img/mcc_maps/14nn.png" alt="MCC Parameterization map (11 and 14 neighbors)" width="50%" />
-<p class="caption">(\#fig:mcc-maps-3)MCC Parameterization map (11 and 14 neighbors)</p>
+<img src="img/mcc_maps/2nn.png" alt="MCC Parameterization map (2 and 14 neighbors)" width="50%" /><img src="img/mcc_maps/14nn.png" alt="MCC Parameterization map (2 and 14 neighbors)" width="50%" />
+<p class="caption">(\#fig:mcc-maps-1)MCC Parameterization map (2 and 14 neighbors)</p>
 </div>
 
 :::{.green-box}
@@ -814,7 +768,7 @@ knitr::include_graphics(path = "img/mcc_sumaps/class/14nn_1w_class.png")
 </div>
 
 :::{.green-box}
-We observe that the higher the number of neighbors is ($\ge 10$), the better UMAP classifies the models to distinct (super-) clusters representing the different MCC classes.
+We observe that the higher the number of neighbors is ($\ge 10$ with a balanced *target weight* of $0.5$), the better UMAP classifies the models to distinct (super-) clusters representing the different MCC classes.
 :::
 
 ## Performance vs Fitness {-}
@@ -872,24 +826,13 @@ knitr::include_graphics(path = "img/fit_maps/4nn.png")
 
 
 ```r
-knitr::include_graphics(path = "img/fit_maps/6nn.png")
-knitr::include_graphics(path = "img/fit_maps/8nn.png")
-```
-
-<div class="figure">
-<img src="img/fit_maps/6nn.png" alt="Fitness Parameterization map (6 and 8 neighbors)" width="50%" /><img src="img/fit_maps/8nn.png" alt="Fitness Parameterization map (6 and 8 neighbors)" width="50%" />
-<p class="caption">(\#fig:fit-maps-2)Fitness Parameterization map (6 and 8 neighbors)</p>
-</div>
-
-
-```r
 knitr::include_graphics(path = "img/fit_maps/11nn.png")
 knitr::include_graphics(path = "img/fit_maps/14nn.png")
 ```
 
 <div class="figure">
 <img src="img/fit_maps/11nn.png" alt="Fitness Parameterization map (11 and 14 neighbors)" width="50%" /><img src="img/fit_maps/14nn.png" alt="Fitness Parameterization map (11 and 14 neighbors)" width="50%" />
-<p class="caption">(\#fig:fit-maps-3)Fitness Parameterization map (11 and 14 neighbors)</p>
+<p class="caption">(\#fig:fit-maps-2)Fitness Parameterization map (11 and 14 neighbors)</p>
 </div>
 
 :::{.green-box}
@@ -1131,7 +1074,7 @@ Using as a base the **performance parameterization maps (supervised and unsuperv
 
 We give some examples of how the distribution of link-operator values looks like in the parameterization maps for the more important nodes (e.g. `ERK_f`, `MAPK14`) but also for the least important ones (e.g. `CYCS`, `CFLAR`).
 See the script [perf_biomarkers_embedding.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/perf_biomarkers_embedding.R) for more details.
-All the produced images by the script are accessible [here](https://github.com/bblodfon/balance-paper/blob/master/img/nodes_lo_maps).
+All the produced images by the script are accessible [here](https://github.com/bblodfon/balance-paper/tree/master/img/nodes_lo_maps).
 
 Using as a base the **unsupervised parameterization MAP with 14 neighbors**, we have:
 

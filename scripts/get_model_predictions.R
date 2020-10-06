@@ -20,7 +20,7 @@ for (res_dir in res_dirs) {
 res = dplyr::bind_rows(model_pred_data)
 
 # read the stable state data (only models who have 1 stable state are included)
-ss_data = readRDS(file = "data/ss_data.rds")
+ss_data = readRDS(file = "data/ss_data.rds") # see `get_ss_data.R`
 
 # keep the model predictions only for the 1 stable state models (and in the same order)
 res = res[rownames(ss_data),]

@@ -11,7 +11,8 @@ library(usefun)
 # Read the models stable state data (see `get_ss_data.R` script)
 ss_data = readRDS(file = "data/ss_data.rds")
 
-# get the AGS steady state
+# get the AGS steady state (literature-curated).
+# See S4 Table in Flobak et al. (2015) for more info
 steady_state_file = "data/steadystate"
 lines = readLines(steady_state_file)
 ss_str = unlist(strsplit(x = lines[8], split = "\t"))

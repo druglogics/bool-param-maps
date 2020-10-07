@@ -13,8 +13,8 @@ fit_data %>% as_tibble() %>%
   ggplot() +
   geom_density(aes(x = value), fill = "#4DAF4A", alpha = 0.7, adjust = 3, show.legend = FALSE) +
   xlim(c(0,1.05)) +
-  xlab("Fitness to AGS steady state") +
-  ggtitle("Fitness Density  (All link-operator, 1 stable state models)") +
+  xlab("Fitness to AGS steady state (24 nodes)") +
+  ggtitle("Fitness Density (All link-operator, 1 stable state models)") +
   theme_classic(base_size = 14) +
   theme(plot.title = element_text(hjust = 0.5))
 ggsave(filename = "img/1ss_models_fit_density.png", dpi = "print", width = 7, height = 5)

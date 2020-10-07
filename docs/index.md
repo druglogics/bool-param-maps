@@ -1,7 +1,7 @@
 ---
 title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 06 October, 2020"
+date: "Last updated: 07 October, 2020"
 description: "Investigations related to link operators mutations in boolean models"
 url: 'https\://bblodfon.github.io/balance-paper/'
 github-repo: "bblodfon/balance-paper"
@@ -774,44 +774,73 @@ We observe that the higher the number of neighbors is ($\ge 10$ with a balanced 
 ## Performance vs Fitness {-}
 
 :::{.blue-box}
-We try to see if there is any correlation between **performance (MCC)** and **fitness to the AGS steady state** ($24$ nodes) for the 1 stable state CASCADE 1.0 models.
+We try to see if there is any correlation between **performance (MCC)** and **fitness to the AGS steady state**.
 
-Use the [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script to reproduce the figures.
+We study **two AGS steady states**: one with a total of $24$ nodes which is the result of manual literature curation (S4 Table in @Flobak2015) and serves as the *gold-standard*, and one with all $77$ nodes, which is the single (and only) fixpoint of the AGS boolean model in @Flobak2015.
+
+Note that second, larger steady state reports the same activity values for the common $24$ nodes as the first one.
+
+Use the [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script to reproduce the figures for the literature-curated steady state and the [fit_vs_performance_ags_pub.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_vs_performance_ags_pub.R) for the AGS model fixpoint/steady state.
 :::
 
-First, we check that the fitness density of all 1 stable state models covers the whole *fitness spectrum*.
-As we can see in the figure below, most of the models have **at least half of the nodes** in the same state as in the AGS steady state:
+First, we check if the fitness density of all 1 stable state models covers the whole *fitness spectrum*:
 
 ```r
 knitr::include_graphics(path = "img/1ss_models_fit_density.png")
+knitr::include_graphics(path = "img/1ss_models_fit_density_pub.png")
 ```
 
 <div class="figure">
-<img src="img/1ss_models_fit_density.png" alt="All 1 stable state models fitness to AGS steady state" width="1050" />
-<p class="caption">(\#fig:1ss-models-fit-density-fig)All 1 stable state models fitness to AGS steady state</p>
+<img src="img/1ss_models_fit_density.png" alt="All 1 stable state models fitness to AGS steady state(s)" width="50%" /><img src="img/1ss_models_fit_density_pub.png" alt="All 1 stable state models fitness to AGS steady state(s)" width="50%" />
+<p class="caption">(\#fig:1ss-models-fit-density-fig)All 1 stable state models fitness to AGS steady state(s)</p>
 </div>
+
+The Pearson correlation between the two fitness vectors is high:
+
+```r
+fit_data = readRDS(file = "data/fit_data.rds")
+fit_data_pub = readRDS(file = "data/fit_data_pub.rds")
+
+# data check
+stopifnot(all(names(fit_data) == names(fit_data_pub)))
+
+# Pearson correlation
+cor(x = fit_data, y = fit_data_pub, method = "pearson") %>% round(digits = 2)
+```
+
+[1] 0.94
+
+:::{.green-box}
+We observe that **most of the models have at least half of the nodes** in the same state as in the AGS steady state, no matter which steady state we fit the stable state data against.
+This makes the **fitness score distribution skewed** towards the higher fitness values.
+
+Of course, though the two steady states completely agree on the values of the $24$ nodes, it might be that the rest of the nodes have slightly different activity state values from the ones found in the fixpoint attractor of the AGS model in @Flobak2015.
+If that is the case in reality, the fitness distribution might be more uniform.
+:::
 
 We follow the same classification scheme as [above](#fig:mcc-histogram), i.e. splitting the 1 stable models to $4$ MCC classes and comparing the fitness scores between these classes:
 
 ```r
 knitr::include_graphics(path = "img/mcc_vs_fit.png")
+knitr::include_graphics(path = "img/mcc_vs_fit_pub.png")
 ```
 
 <div class="figure">
-<img src="img/mcc_vs_fit.png" alt="MCC performance vs Fitness to AGS steady state (All 1 stable state models)" width="1050" />
-<p class="caption">(\#fig:fit-vs-perf-fig)MCC performance vs Fitness to AGS steady state (All 1 stable state models)</p>
+<img src="img/mcc_vs_fit.png" alt="MCC performance vs Fitness to AGS steady state(s) for all 1 stable state models. Left is fitness to the AGS-curated steady state (24 nodes), right is for the full, 77-node steady state." width="50%" /><img src="img/mcc_vs_fit_pub.png" alt="MCC performance vs Fitness to AGS steady state(s) for all 1 stable state models. Left is fitness to the AGS-curated steady state (24 nodes), right is for the full, 77-node steady state." width="50%" />
+<p class="caption">(\#fig:fit-vs-perf-fig)MCC performance vs Fitness to AGS steady state(s) for all 1 stable state models. Left is fitness to the AGS-curated steady state (24 nodes), right is for the full, 77-node steady state.</p>
 </div>
 
 :::{.green-box}
 The last MCC class has a **statistically significant higher median fitness** to the AGS steady state compared to all other lower MCC classes, even though the correlation between fitness and performance is not linear and most of the models have a fitness higher than $0.5$.
+Note also that models that have significantly lower than $0.5$ fitness in each steady state case, belong to the first two, lower performance classes.
 
-The last two figures points us to the fact that more constraints are needed for the fitness calculation of the Gitsbe genetic algorithm or any other for that matter (i.e. more nodes in the AGS steady state - now only $24/77=31\%$ is included) in order to define more restrictive parameterized models that would allow a much more *uniform* fitness density spectrum (or at least **not skewed towards the higher fitness values**).
-Such fitness spectrum would (hopefully) allow for more granularity in the corresponding performance behaviour between the different MCC classes, and thus more distinctive correlation.
+The last two figures points us to the fact that more constraints are needed for the fitness calculation of the Gitsbe genetic algorithm or any other for that matter (i.e. more literature-curated nodes in the AGS steady state - now only $24/77=31\%$ is included) in order to define more restrictive parameterized models that would allow a much more *uniform* fitness density spectrum (or at least **not skewed towards the higher fitness values**).
+Such fitness spectrum would (hopefully) allow for more granularity in the corresponding performance behavior between the different MCC classes, and thus more distinctive correlation.
 :::
 
 ## Fitness Maps {-}
 
-If we draw the parameterization maps for different number of neighbors and **color the points/models according to their fitness to the AGS steady state**, we get these images (see [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script):
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their fitness to the AGS steady state (24 nodes)**, we get these images (see [fit_figures.R](https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R) script):
 
 
 ```r
@@ -836,7 +865,7 @@ knitr::include_graphics(path = "img/fit_maps/14nn.png")
 </div>
 
 :::{.green-box}
-Higher fitness models manifest in both superclusters, suggesting again the need for more nodes in the training data (AGS steady state).
+Higher fitness models manifest in both superclusters, suggesting again the need for more literature-curated nodes in the training data (AGS steady state).
 Also, closely parameterized models tend to have same fitness (**existence of smaller parameterization clusters of same fitness models**).
 
 No apparent correlation can be observed between fitness and performance (MCC) maps.

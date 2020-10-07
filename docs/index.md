@@ -128,7 +128,7 @@ The training data is a **link-operator matrix**, where rows are models ($2^{23}$
 The ternary response for each model is a number denoting the number of fixpoints ($0,1$ or $2$).
 :::
 
-The matrix we can generate with the script [get_lo_mat.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_model_ss.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/count_model_ss.R).
+The matrix we can generate with the script [get_lo_mat.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_models_ss.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/count_models_ss.R).
 
 ## Multinomial LASSO {-}
 

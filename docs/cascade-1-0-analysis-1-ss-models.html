@@ -10,10 +10,10 @@
 
   <meta property="og:title" content="CASCADE 1.0 Analysis - 1 ss models | A study in boolean model parameterization" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://bblodfon.github.io/balance-paper/" />
+  <meta property="og:url" content="https://bblodfon.github.io/bool-param-maps/" />
   
   <meta property="og:description" content="Investigations related to link operators mutations in boolean models" />
-  <meta name="github-repo" content="bblodfon/balance-paper" />
+  <meta name="github-repo" content="bblodfon/bool-param-maps" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="CASCADE 1.0 Analysis - 1 ss models | A study in boolean model parameterization" />
@@ -926,7 +926,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="note">
 <p>In this section, <strong>only the boolean models that have 1 stable state</strong> will be used in the analysis.
 All variables of interest (stable state, link-operator parameterization, fitness to steady state, performance MCC score, etc.) will relate only to the 1 stable state models from now on.</p>
-<p>To load the stable state data for the models that have <strong>1 stable state</strong> use the Zenodo dataset <a href="https://doi.org/10.5281/zenodo.4022783"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg" alt="DOI" /></a> and the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/get_ss_data.R">get_ss_data.R</a></p>
+<p>To load the stable state data for the models that have <strong>1 stable state</strong> use the Zenodo dataset <a href="https://doi.org/10.5281/zenodo.4022783"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg" alt="DOI" /></a> and the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_ss_data.R">get_ss_data.R</a></p>
 </div>
 </div>
 <div id="parameterization-maps-1" class="section level2 unnumbered" number="">
@@ -934,7 +934,7 @@ All variables of interest (stable state, link-operator parameterization, fitness
 <p>In this section we present the results of using UMAP <span class="citation">(McInnes, Healy, and Melville <a href="references.html#ref-McInnes2018a" role="doc-biblioref">2018</a>)</span> on the link-operator parameterization data of the CASCADE 1.0 models with 1 stable state.
 We created several such <em>parameterization maps</em> by adjusting the <em>n_neighbors</em> parameter input (from <span class="math inline">\(2\)</span> to <span class="math inline">\(20\)</span>), which is responsible for the <strong>size of the local neighborhood</strong> (in terms of number of neighboring sample points) used for the manifold approximation.
 As the documentation says, larger values result in <strong>more global views</strong> of the manifold, while smaller values result in <strong>more local data</strong> being preserved.
-To get these map images and the reduced dimension dataset, use the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/1ss_models_umap.R">1ss_models_umap.R</a> for more details.</p>
+To get these map images and the reduced dimension dataset, use the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/1ss_models_umap.R">1ss_models_umap.R</a> for more details.</p>
 <div class="blue-box">
 <p>Note that in all these mappings to the 2D space, <strong>models that share similar link-operator parameterization will reside in the same area/cluster in the map</strong>.
 The larger the <em>n_neighbors</em> is, the more the smaller clusters merge into larger ones.
@@ -987,8 +987,8 @@ The calibrated models performed very well in terms of both ROC and PR-AUC.</p>
 <p>Here we want to check whether models produced by a method such as a genetic algorithm-based one <strong>have similar parameterization</strong> - i.e. they belong in the same neighborhood in the parameterization map.</p>
 </div>
 <p>We will use models from <span class="math inline">\(1000\)</span> gitsbe simulations, calibrated to steady state (a total of <span class="math inline">\(3000\)</span> models, choosing the <span class="math inline">\(3\)</span> best-fit models from each simulation).
-The results are provided in <a href="https://github.com/bblodfon/balance-paper/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz">this data file</a> and to reproduce them, follow the instructions <a href="https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html">here</a>, keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to <span class="math inline">\(1000\)</span>).</p>
-<p>All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_models_fit.R">gitsbe_models_fit.R</a>):</p>
+The results are provided in <a href="https://github.com/bblodfon/bool-param-maps/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz">this data file</a> and to reproduce them, follow the instructions <a href="https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html">here</a>, keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to <span class="math inline">\(1000\)</span>).</p>
+<p>All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/gitsbe_models_fit.R">gitsbe_models_fit.R</a>):</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb26-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/gitsbe_fit_density.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:gitbse-fit-fig"></span>
 <img src="img/gitsbe_fit_density.png" alt="Gitsbe model fitness to AGS steady state" width="1050" />
@@ -996,7 +996,7 @@ The results are provided in <a href="https://github.com/bblodfon/balance-paper/b
 Figure 17: Gitsbe model fitness to AGS steady state
 </p>
 </div>
-<p>To generate the next figures (same map, same gitsbe models, different number of neighbors) use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/gitsbe_model_embedding.R">gitsbe_model_embedding.R</a> - all figures are available <a href="https://github.com/bblodfon/balance-paper/tree/master/img/gitsbe_umaps">here</a>:</p>
+<p>To generate the next figures (same map, same gitsbe models, different number of neighbors) use the <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/gitsbe_model_embedding.R">gitsbe_model_embedding.R</a> - all figures are available <a href="https://github.com/bblodfon/bool-param-maps/tree/master/img/gitsbe_umaps">here</a>:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb27-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/gitsbe_umaps/2nn.png&quot;</span>)</span>
 <span id="cb27-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb27-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/gitsbe_umaps/4nn.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:gitsbe-maps-1"></span>
@@ -1035,9 +1035,9 @@ The <em>HSA</em> rule was used to define if a model is synergistic for a particu
 The results are available in the Zenodo dataset <a href="https://doi.org/10.5281/zenodo.4022783"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg" alt="DOI" /></a>, file <code>cascade_1.0_hsa_fixpoints.tar.gz</code>.
 As previously said, we are going to use the 1 stable state model predictions only.</p>
 </div>
-<p>We used the emba R package <span class="citation">(Zobolas, Kuiper, and Flobak <a href="references.html#ref-Zobolas2020" role="doc-biblioref">2020</a>)</span> to perform a biomarker analysis on the 1 stable state models dataset and their predictions from <code>drabme</code> (see script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R">emba_analysis.R</a>).
+<p>We used the emba R package <span class="citation">(Zobolas, Kuiper, and Flobak <a href="references.html#ref-Zobolas2020" role="doc-biblioref">2020</a>)</span> to perform a biomarker analysis on the 1 stable state models dataset and their predictions from <code>drabme</code> (see script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/emba_analysis.R">emba_analysis.R</a>).
 Part of the results from the emba analysis is the calculation of the <strong>Matthews correlation coefficient (MCC) performance score</strong> for each model.
-We use these MCC model scores to draw the next figures (see <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_figures.R">mcc_figures.R</a> script)</p>
+We use these MCC model scores to draw the next figures (see <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/mcc_figures.R">mcc_figures.R</a> script)</p>
 <p>Splitting all the 1 stable state models to <span class="math inline">\(4\)</span> MCC classes we can see that <strong>a lot of models have performance close to random prediction or even worse</strong>:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb30-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_hist.png&quot;</span>)</span>
 <span id="cb30-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb30-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_hist2.png&quot;</span>)</span></code></pre></div>
@@ -1052,7 +1052,7 @@ Figure 20: MCC Classes Histograms
 </div>
 <div id="unsupervised-umap-1" class="section level3 unnumbered" number="">
 <h3>Unsupervised UMAP</h3>
-<p>If we draw the parameterization maps for different number of neighbors and <strong>color the points/models according to their MCC score</strong>, we get these images (to see all figures, check <a href="https://github.com/bblodfon/balance-paper/tree/master/img/mcc_maps">here</a>):</p>
+<p>If we draw the parameterization maps for different number of neighbors and <strong>color the points/models according to their MCC score</strong>, we get these images (to see all figures, check <a href="https://github.com/bblodfon/bool-param-maps/tree/master/img/mcc_maps">here</a>):</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb31-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_maps/2nn.png&quot;</span>)</span>
 <span id="cb31-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb31-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_maps/14nn.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:mcc-maps-1"></span>
@@ -1084,7 +1084,7 @@ The only difference with the previous performance maps is that we provide UMAP (
 <p>The main thing we want to answer here is <strong>if UMAP can do a better job placing the models on the map</strong>, given additional information about their performance.</p>
 </div>
 <p>We tried UMAP with different <em>number of neighbors</em> (from local to a more global view of the dataset), <em>target weight</em> (weighting factor between data topology (<span class="math inline">\(0\)</span>) and target/response topology (<span class="math inline">\(1\)</span>) or somewhere in between) and setting the response either to the MCC score as a continuous, numeric value or to the MCC classes (discrete variable) as <a href="cascade-1-0-analysis-1-ss-models.html#fig:mcc-histogram">shown above</a>.
-See script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/mcc_sumap.R">mcc_sumap.R</a> for more details.</p>
+See script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/mcc_sumap.R">mcc_sumap.R</a> for more details.</p>
 <p>First, we show some maps, where the response <strong>MCC was treated as a continuous variable</strong>:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb32-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_sumaps/4nn_0w.png&quot;</span>)</span>
 <span id="cb32-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb32-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/mcc_sumaps/4nn_0.5w.png&quot;</span>)</span>
@@ -1152,7 +1152,7 @@ Figure 27: MCC Parameterization map (14 neighbors, MCC Classes)
 <p>We try to see if there is any correlation between <strong>performance (MCC)</strong> and <strong>fitness to the AGS steady state</strong>.</p>
 <p>We study <strong>two AGS steady states</strong>: one with a total of <span class="math inline">\(24\)</span> nodes which is the result of manual literature curation (S4 Table in <span class="citation">Flobak et al. (<a href="references.html#ref-Flobak2015" role="doc-biblioref">2015</a>)</span>) and serves as the <em>gold-standard</em>, and one with all <span class="math inline">\(77\)</span> nodes, which is the single (and only) fixpoint of the AGS boolean model in <span class="citation">Flobak et al. (<a href="references.html#ref-Flobak2015" role="doc-biblioref">2015</a>)</span>.</p>
 <p>Note that second, larger steady state reports the same activity values for the common <span class="math inline">\(24\)</span> nodes as the first one.</p>
-<p>Use the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R">fit_figures.R</a> script to reproduce the figures for the literature-curated steady state and the <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_vs_performance_ags_pub.R">fit_vs_performance_ags_pub.R</a> for the AGS model fixpoint/steady state.</p>
+<p>Use the <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_figures.R">fit_figures.R</a> script to reproduce the figures for the literature-curated steady state and the <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_vs_performance_ags_pub.R">fit_vs_performance_ags_pub.R</a> for the AGS model fixpoint/steady state.</p>
 </div>
 <p>First, we check if the fitness density of all 1 stable state models covers the whole <em>fitness spectrum</em>:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb38-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/1ss_models_fit_density.png&quot;</span>)</span>
@@ -1197,7 +1197,7 @@ Such fitness spectrum would (hopefully) allow for more granularity in the corres
 </div>
 <div id="fitness-maps" class="section level2 unnumbered" number="">
 <h2>Fitness Maps</h2>
-<p>If we draw the parameterization maps for different number of neighbors and <strong>color the points/models according to their fitness to the AGS steady state (24 nodes)</strong>, we get these images (see <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/fit_figures.R">fit_figures.R</a> script):</p>
+<p>If we draw the parameterization maps for different number of neighbors and <strong>color the points/models according to their fitness to the AGS steady state (24 nodes)</strong>, we get these images (see <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_figures.R">fit_figures.R</a> script):</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb41-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/fit_maps/2nn.png&quot;</span>)</span>
 <span id="cb41-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb41-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/fit_maps/4nn.png&quot;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:fit-maps-1"></span>
@@ -1227,7 +1227,7 @@ Also, closely parameterized models tend to have same fitness (<strong>existence 
 </div>
 <div id="emba-biomarkers" class="section level3 unnumbered" number="">
 <h3>emba biomarkers</h3>
-<p>We use the <code>emba</code> results with <span class="math inline">\(4\)</span> MCC classes (see script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/emba_analysis.R">emba_analysis.R</a> and MCC classification histograms <a href="cascade-1-0-analysis-1-ss-models.html#fig:mcc-histogram">above</a>).
+<p>We use the <code>emba</code> results with <span class="math inline">\(4\)</span> MCC classes (see script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/emba_analysis.R">emba_analysis.R</a> and MCC classification histograms <a href="cascade-1-0-analysis-1-ss-models.html#fig:mcc-histogram">above</a>).
 What emba <span class="citation">(Zobolas, Kuiper, and Flobak <a href="references.html#ref-Zobolas2020" role="doc-biblioref">2020</a>)</span> does is to group the models to <span class="math inline">\(4\)</span> MCC Classes and compare the average stable state activities and link operator values for each node between <strong>every possible pair of MCC classes</strong>.
 Nodes that have <strong>higher average differences</strong> (either positively or negatively and between any comparison pair) are considered as <strong>more important</strong> and are thus annotated as <em>biomarkers</em> based on a given threshold.</p>
 <p>In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the higher MCC class of the corresponding comparison pair:</p>
@@ -1321,7 +1321,7 @@ This of course relates to the fact that these nodes were found also as <em>activ
 <div id="random-forest-biomarkers" class="section level3 unnumbered" number="">
 <h3>Random Forest biomarkers</h3>
 <p>We use the <code>ranger</code> R package <span class="citation">(Wright and Ziegler <a href="references.html#ref-Wright2017" role="doc-biblioref">2017</a>)</span> to find <strong>important nodes/variables</strong> that determine the difference in performance (MCC score) between the input models.
-Both the stable state data as well the link operator parameterization data will be used as training sets (see the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/perf_biomarkers_ranger.R">perf_biomarkers_ranger.R</a>).</p>
+Both the stable state data as well the link operator parameterization data will be used as training sets (see the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/perf_biomarkers_ranger.R">perf_biomarkers_ranger.R</a>).</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb47-1"></a>ranger_ss_mcc_res =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/ss_mcc_ranger_res.rds&quot;</span>)</span>
 <span id="cb47-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb47-2"></a></span>
 <span id="cb47-3"><a href="cascade-1-0-analysis-1-ss-models.html#cb47-3"></a>imp_ss_rf =<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">nodes =</span> <span class="kw">names</span>(ranger_ss_mcc_res<span class="op">$</span>variable.importance), </span>
@@ -1425,8 +1425,8 @@ As a result for example, we observe a much greater granularity of the importance
 <p>Using as a base the <strong>performance parameterization maps (supervised and unsupervised)</strong> for the 1 stable state models, we color the points (models) according to the <strong>link operator value</strong> of some of the <strong>performance biomarker</strong> that we found in the previous analysis using <code>emba</code> and random forests.</p>
 </div>
 <p>We give some examples of how the distribution of link-operator values looks like in the parameterization maps for the more important nodes (e.g. <code>ERK_f</code>, <code>MAPK14</code>) but also for the least important ones (e.g. <code>CYCS</code>, <code>CFLAR</code>).
-See the script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/perf_biomarkers_embedding.R">perf_biomarkers_embedding.R</a> for more details.
-All the produced images by the script are accessible <a href="https://github.com/bblodfon/balance-paper/tree/master/img/nodes_lo_maps">here</a>.</p>
+See the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/perf_biomarkers_embedding.R">perf_biomarkers_embedding.R</a> for more details.
+All the produced images by the script are accessible <a href="https://github.com/bblodfon/bool-param-maps/tree/master/img/nodes_lo_maps">here</a>.</p>
 <p>Using as a base the <strong>unsupervised parameterization MAP with 14 neighbors</strong>, we have:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb50-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/nodes_lo_maps/unsup_MAPK14.png&quot;</span>)</span>
 <span id="cb50-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb50-2"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/nodes_lo_maps/unsup_ERK_f.png&quot;</span>)</span>
@@ -1468,7 +1468,7 @@ Figure 39: MCC Supervised Parameterization maps (MCC discrete) colored by link-o
 <div id="synergy-maps" class="section level2 unnumbered" number="">
 <h2>Synergy Maps</h2>
 <p>As stated in a <a href="cascade-1-0-analysis-1-ss-models.html#performance-maps">previous section</a>, the CASCADE 1.0 models produced by <code>abmlog</code> were tested for synergy against the drug combination dataset in <span class="citation">Flobak et al. (<a href="references.html#ref-Flobak2015" role="doc-biblioref">2015</a>)</span>.
-Using the <em>HSA</em> method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics (see script <a href="https://github.com/bblodfon/balance-paper/blob/master/scripts/synergy_maps.R">synergy_maps.R</a>):</p>
+Using the <em>HSA</em> method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics (see script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_maps.R">synergy_maps.R</a>):</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb53-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&#39;img/synergy_stats.png&#39;</span>)</span></code></pre></div>
 <div class="figure"><span id="fig:syn-stats"></span>
 <img src="img/synergy_stats.png" alt="Synergy Statistics across all CASCADE 1.0 models with 1 stable state" width="1050" />

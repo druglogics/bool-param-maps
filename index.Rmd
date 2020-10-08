@@ -20,7 +20,16 @@ Using the [abmlog](https://github.com/druglogics/abmlog) software, we generated 
 
 We use the relative new, *non-linear dimension reduction* method UMAP [@McInnes2018a] to place all the generated boolean models in a **boolean parameterization map** and most of our conclusions are based on observing patterns in the produced maps.
 
-The models are stored in both `.gitsbe` and `.bnet` files in the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783).
+:::{.green-box}
+The next picture gives a general overview:
+```{r overview-img, fig}
+knitr::include_graphics(path = "img/abmlog_to_maps.png")
+```
+:::
+
+:::{.note}
+The model dataset is available in Zenodo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783).
+:::
 
 Libraries used in this analysis:
 ```{r Load libraries, message = FALSE}

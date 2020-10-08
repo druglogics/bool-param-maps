@@ -1,7 +1,7 @@
 ---
 title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 07 October, 2020"
+date: "Last updated: 08 October, 2020"
 description: "Investigations related to link operators mutations in boolean models"
 url: 'https\://bblodfon.github.io/bool-param-maps/'
 github-repo: "bblodfon/bool-param-maps"
@@ -980,7 +980,7 @@ draw(state_heat, annotation_legend_list = biomarkers_legend,
 
 :::{.green-box}
 We observe that `ERK_f` will have the `OR-NOT` link operator in most of the higher performance models and the `MAPK14` the `AND-NOT` link operator.
-This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [Figure above](#fig:ss-lo-agreement-prop)).
+This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [analysis here](https://bblodfon.github.io/brf-bias/cascade-1-0-data-analysis.html#fig:ss-lo-agreement-prop)).
 
 Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes influencing the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
 :::
@@ -1253,7 +1253,150 @@ We observe that there are **two synergy sub-clusters**, one primarily related to
 Since the synergies belong to $2$ mutually exclusive (in terms of parameterization) clusters, this is a visual cue that there cannot be a model that predicts all 4 of these synergies.
 :::
 
+## Stable State Patterns in Synergistic models {-}
+
+:::{.blue-box}
+We want to identify if there are **activity patterns** in the models that predict the observed synergies.
+
+To do this, we take a sample of such synergistic models that predict each of the $4$ observed synergies and show the corresponding heatmaps of stable state activities.
+More details on the [synergy_heatmaps.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_heatmaps.R) script.
+:::
+
+
+```r
+knitr::include_graphics(path = "img/synergy_heatmaps/PD-AK_ss_heat.png")
+```
+
+<div class="figure">
+<img src="img/synergy_heatmaps/PD-AK_ss_heat.png" alt="PD-AK stable state activity heatmap" width="2100" />
+<p class="caption">(\#fig:synergy-heatmaps)PD-AK stable state activity heatmap</p>
+</div>
+
+
+```r
+knitr::include_graphics(path = "img/synergy_heatmaps/PI-PD_ss_heat.png")
+```
+
+<div class="figure">
+<img src="img/synergy_heatmaps/PI-PD_ss_heat.png" alt="PI-PD stable state activity heatmap" width="2100" />
+<p class="caption">(\#fig:synergy-heatmaps-2)PI-PD stable state activity heatmap</p>
+</div>
+
+:::{.green-box}
+- All the models that predict the `PD-AK` synergy show one **distinct activity state pattern**
+- The `PI-PD` heatmap is more *heterogeneous* (though still patterns do exist).
+The reason for this might be because the parameterization is more spread out across the map in the combined synergy [figure above](#fig:syn-maps-5) - i.e. some models are in the low-performance supercluster.
+:::
+
+
+```r
+knitr::include_graphics(path = "img/synergy_heatmaps/AK-5Z_ss_heat.png")
+```
+
+<div class="figure">
+<img src="img/synergy_heatmaps/AK-5Z_ss_heat.png" alt="AK-5Z stable state activity heatmaps" width="2100" />
+<p class="caption">(\#fig:synergy-heatmaps-3)AK-5Z stable state activity heatmaps</p>
+</div>
+
+
+```r
+knitr::include_graphics(path = "img/synergy_heatmaps/PI-5Z_ss_heat.png")
+```
+
+<div class="figure">
+<img src="img/synergy_heatmaps/PI-5Z_ss_heat.png" alt="PI-5Z stable state activity heatmaps" width="2100" />
+<p class="caption">(\#fig:synergy-heatmaps-4)PI-5Z stable state activity heatmaps</p>
+</div>
+
+:::{.green-box}
+All the synergistic models in the `5Z` sub-cluster seem to follow the **same stable state activity patterns** (pretty much we get the same node names in the columns after the clustering in the heatmaps). 
+There exist $2$ **main such patterns**, specified by the state vector (ON,{ON/OFF},{OFF/ON},ON) - where ON and OFF denote vectors of *active*/*inhibited* nodes that are clustered together.
+:::
+
+Note that in all $4$ heatmaps above, the `Prosurvival` node is always *active*, denoting proliferating activity patterns in the boolean models where synergies can manifest.
+
 ## Synergy Biomarkers {-}
+
+:::{.blue-box}
+We assess **important nodes (biomarkers)** whose *activity* and/or link-operator (*parameterization*) affects the manifestation of the $4$ observed synergies.
+:::
+
+Here, `emba` [@Zobolas2020] performs the classification to *synergistic* and *antagonistic* model groups per synergy observed (as exemplified by the [figure above](#fig:syn-stats) - the `NA` models are discarded) and compares the average stable state activities and link operator values of each node in the two groups.
+
+In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the corresponding synergistic model group:
+
+```r
+syn_res = readRDS(file = "data/synergy_res.rds")
+
+# define coloring function of state differences
+col_fun = circlize::colorRamp2(c(min(syn_res$diff.state.synergies.mat), 
+  0, max(syn_res$diff.state.synergies.mat)), c("red", "white", "green"))
+
+set.seed(42)
+state_syn_heat = ComplexHeatmap::Heatmap(matrix = syn_res$diff.state.synergies.mat, 
+  name = "State Difference", col = col_fun,
+  row_title = "Synergistic Drug Combinations", row_names_side = "left", 
+  row_title_side = "left", row_dend_side = "right",
+  column_title = "Average State Differences (Synergistic vs Antagonistic)", 
+  column_names_gp = gpar(fontsize = 5),
+  heatmap_legend_param = list(direction = "horizontal"))
+
+biomarkers_legend = Legend(title = "Activity State Biomarkers",
+  labels = c("Active", "Inhibited"),
+  legend_gp = gpar(fill = c("green4", "red4")))
+
+draw(state_syn_heat, annotation_legend_list = biomarkers_legend, 
+  heatmap_legend_side = "bottom", annotation_legend_side = "bottom", 
+  merge_legend = TRUE)
+```
+
+<div class="figure">
+<img src="index_files/figure-html/state-syn-heat-1.png" alt="Heatmap of Average State Differences between synergistic and antagonistic model groups for each observed synergy" width="672" />
+<p class="caption">(\#fig:state-syn-heat)Heatmap of Average State Differences between synergistic and antagonistic model groups for each observed synergy</p>
+</div>
+
+:::{.green-box}
+- The activity state biomarkers are clustered in two categories representing the two synergy sub-clusters we found previously, namely the `5Z` sub-cluster and the `PD` sub-cluster.
+- The models predicting the `5Z` synergies seem to have more **active state biomarkers**, whereas the models predicting the `PD` synergies seem to have more **inhibited state biomarkers**.
+- `MAPK14` seems to be a **definitive node distinguishing the two synergy subgroups**, since it's a strong inhibited biomarker for the `5Z` synergies, but a fairly unimportant node for the `PD` synergies.
+- `ERK_f` is an active state biomarker (same observation was found in the *performance* biomarkers analysis)
+:::
+
+In the next heatmap, a positive (resp. negative) link operator difference for a node denotes that its link operator was mostly `OR-NOT` (resp. `AND-NOT`) in the corresponding synergistic model group:
+
+```r
+# define coloring function of state differences
+col_fun = circlize::colorRamp2(c(min(syn_res$diff.link.synergies.mat), 
+  0, max(syn_res$diff.link.synergies.mat)), c("red", "white", "green"))
+
+set.seed(42)
+lo_syn_heat = ComplexHeatmap::Heatmap(matrix = syn_res$diff.link.synergies.mat, 
+  name = "Link Operator Difference", col = col_fun,
+  row_title = "Synergistic Drug Combinations", row_names_side = "left", 
+  row_title_side = "left", row_dend_side = "right",
+  column_title = "Average Link Operator Differences (Synergistic vs Antagonistic)", 
+  column_names_gp = gpar(fontsize = 11),
+  heatmap_legend_param = list(direction = "horizontal"))
+
+biomarkers_legend = Legend(title = "Link Operator Biomarkers",
+  labels = c("OR-NOT (1)", "AND-NOT (0)"),
+  legend_gp = gpar(fill = c("green4", "red4")))
+
+draw(lo_syn_heat, annotation_legend_list = biomarkers_legend, 
+  heatmap_legend_side = "bottom", annotation_legend_side = "bottom", 
+  merge_legend = TRUE)
+```
+
+<div class="figure">
+<img src="index_files/figure-html/lo-syn-heat-1.png" alt="Heatmap of Average Link Operator Differences between synergistic and antagonistic model groups for each observed synergy" width="672" />
+<p class="caption">(\#fig:lo-syn-heat)Heatmap of Average Link Operator Differences between synergistic and antagonistic model groups for each observed synergy</p>
+</div>
+
+:::{.green-box}
+- `ERK_f` is a strong synergy OR-NOT biomarker for all synergies (same as in the *performance* link-operator biomarkers section and shown in this [figure](#fig:nodes-lo-maps-1))
+- `MAPK14` is again the node that mostly distinguishes between the two synergy sub-clusters of `PD` and `5Z`. 
+This also relates to the embedding of the `MAPK14` link-operator value as demonstrated by this [figure](#fig:nodes-lo-maps-1), where the `MAPK14` node has the `OR-NOT` link-operator in the `PD` sub-cluster and `AND-NOT` in the `5Z` sub-cluster.
+:::
 
 # R session info {-}
 

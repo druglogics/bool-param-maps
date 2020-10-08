@@ -895,6 +895,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#embedding-link-operator-biomarkers-in-the-map"><i class="fa fa-check"></i>Embedding Link Operator Biomarkers in the Map</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-maps"><i class="fa fa-check"></i>Synergy Maps</a></li>
+<li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#stable-state-patterns-in-synergistic-models"><i class="fa fa-check"></i>Stable State Patterns in Synergistic models</a></li>
 <li class="chapter" data-level="" data-path="cascade-1-0-analysis-1-ss-models.html"><a href="cascade-1-0-analysis-1-ss-models.html#synergy-biomarkers"><i class="fa fa-check"></i>Synergy Biomarkers</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="r-session-info.html"><a href="r-session-info.html"><i class="fa fa-check"></i>R session info</a></li>
@@ -1314,7 +1315,7 @@ Figure 33: Heatmap of Average Link Operator Differences (emba, 4 MCC Classes)
 </div>
 <div class="green-box">
 <p>We observe that <code>ERK_f</code> will have the <code>OR-NOT</code> link operator in most of the higher performance models and the <code>MAPK14</code> the <code>AND-NOT</code> link operator.
-This of course relates to the fact that these nodes were found also as <em>active</em> and <em>inhibited</em> biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see <a href="#fig:ss-lo-agreement-prop">Figure above</a>).</p>
+This of course relates to the fact that these nodes were found also as <em>active</em> and <em>inhibited</em> biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see <a href="https://bblodfon.github.io/brf-bias/cascade-1-0-data-analysis.html#fig:ss-lo-agreement-prop">analysis here</a>).</p>
 <p>Interestingly, these two nodes (<code>ERK_f</code> and <code>MAPK14</code>) were 2 of the top most important nodes influencing the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.</p>
 </div>
 </div>
@@ -1540,8 +1541,131 @@ Figure 45: Combined Synergy Parameterization Maps
 Since the synergies belong to <span class="math inline">\(2\)</span> mutually exclusive (in terms of parameterization) clusters, this is a visual cue that there cannot be a model that predicts all 4 of these synergies.</p>
 </div>
 </div>
+<div id="stable-state-patterns-in-synergistic-models" class="section level2 unnumbered" number="">
+<h2>Stable State Patterns in Synergistic models</h2>
+<div class="blue-box">
+<p>We want to identify if there are <strong>activity patterns</strong> in the models that predict the observed synergies.</p>
+<p>To do this, we take a sample of such synergistic models that predict each of the <span class="math inline">\(4\)</span> observed synergies and show the corresponding heatmaps of stable state activities.
+More details on the <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_heatmaps.R">synergy_heatmaps.R</a> script.</p>
+</div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb60-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/synergy_heatmaps/PD-AK_ss_heat.png&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:synergy-heatmaps"></span>
+<img src="img/synergy_heatmaps/PD-AK_ss_heat.png" alt="PD-AK stable state activity heatmap" width="2100" />
+<p class="caption">
+Figure 46: PD-AK stable state activity heatmap
+</p>
+</div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb61-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/synergy_heatmaps/PI-PD_ss_heat.png&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:synergy-heatmaps-2"></span>
+<img src="img/synergy_heatmaps/PI-PD_ss_heat.png" alt="PI-PD stable state activity heatmap" width="2100" />
+<p class="caption">
+Figure 47: PI-PD stable state activity heatmap
+</p>
+</div>
+<div class="green-box">
+<ul>
+<li>All the models that predict the <code>PD-AK</code> synergy show one <strong>distinct activity state pattern</strong></li>
+<li>The <code>PI-PD</code> heatmap is more <em>heterogeneous</em> (though still patterns do exist).
+The reason for this might be because the parameterization is more spread out across the map in the combined synergy <a href="cascade-1-0-analysis-1-ss-models.html#fig:syn-maps-5">figure above</a> - i.e. some models are in the low-performance supercluster.</li>
+</ul>
+</div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb62-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/synergy_heatmaps/AK-5Z_ss_heat.png&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:synergy-heatmaps-3"></span>
+<img src="img/synergy_heatmaps/AK-5Z_ss_heat.png" alt="AK-5Z stable state activity heatmaps" width="2100" />
+<p class="caption">
+Figure 48: AK-5Z stable state activity heatmaps
+</p>
+</div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb63-1"></a>knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="dt">path =</span> <span class="st">&quot;img/synergy_heatmaps/PI-5Z_ss_heat.png&quot;</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:synergy-heatmaps-4"></span>
+<img src="img/synergy_heatmaps/PI-5Z_ss_heat.png" alt="PI-5Z stable state activity heatmaps" width="2100" />
+<p class="caption">
+Figure 49: PI-5Z stable state activity heatmaps
+</p>
+</div>
+<div class="green-box">
+<p>All the synergistic models in the <code>5Z</code> sub-cluster seem to follow the <strong>same stable state activity patterns</strong> (pretty much we get the same node names in the columns after the clustering in the heatmaps).
+There exist <span class="math inline">\(2\)</span> <strong>main such patterns</strong>, specified by the state vector (ON,{ON/OFF},{OFF/ON},ON) - where ON and OFF denote vectors of <em>active</em>/<em>inhibited</em> nodes that are clustered together.</p>
+</div>
+<p>Note that in all <span class="math inline">\(4\)</span> heatmaps above, the <code>Prosurvival</code> node is always <em>active</em>, denoting proliferating activity patterns in the boolean models where synergies can manifest.</p>
+</div>
 <div id="synergy-biomarkers" class="section level2 unnumbered" number="">
 <h2>Synergy Biomarkers</h2>
+<div class="blue-box">
+<p>We assess <strong>important nodes (biomarkers)</strong> whose <em>activity</em> and/or link-operator (<em>parameterization</em>) affects the manifestation of the <span class="math inline">\(4\)</span> observed synergies.</p>
+</div>
+<p>Here, <code>emba</code> <span class="citation">(Zobolas, Kuiper, and Flobak <a href="references.html#ref-Zobolas2020" role="doc-biblioref">2020</a>)</span> performs the classification to <em>synergistic</em> and <em>antagonistic</em> model groups per synergy observed (as exemplified by the <a href="cascade-1-0-analysis-1-ss-models.html#fig:syn-stats">figure above</a> - the <code>NA</code> models are discarded) and compares the average stable state activities and link operator values of each node in the two groups.</p>
+<p>In the next heatmap, a positive (resp. negative) state difference for a node denotes that its activity value was larger (resp. lower) in the corresponding synergistic model group:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-1"></a>syn_res =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/synergy_res.rds&quot;</span>)</span>
+<span id="cb64-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-2"></a></span>
+<span id="cb64-3"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-3"></a><span class="co"># define coloring function of state differences</span></span>
+<span id="cb64-4"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-4"></a>col_fun =<span class="st"> </span>circlize<span class="op">::</span><span class="kw">colorRamp2</span>(<span class="kw">c</span>(<span class="kw">min</span>(syn_res<span class="op">$</span>diff.state.synergies.mat), </span>
+<span id="cb64-5"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-5"></a>  <span class="dv">0</span>, <span class="kw">max</span>(syn_res<span class="op">$</span>diff.state.synergies.mat)), <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;green&quot;</span>))</span>
+<span id="cb64-6"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-6"></a></span>
+<span id="cb64-7"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-7"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb64-8"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-8"></a>state_syn_heat =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> syn_res<span class="op">$</span>diff.state.synergies.mat, </span>
+<span id="cb64-9"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-9"></a>  <span class="dt">name =</span> <span class="st">&quot;State Difference&quot;</span>, <span class="dt">col =</span> col_fun,</span>
+<span id="cb64-10"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-10"></a>  <span class="dt">row_title =</span> <span class="st">&quot;Synergistic Drug Combinations&quot;</span>, <span class="dt">row_names_side =</span> <span class="st">&quot;left&quot;</span>, </span>
+<span id="cb64-11"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-11"></a>  <span class="dt">row_title_side =</span> <span class="st">&quot;left&quot;</span>, <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb64-12"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-12"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Average State Differences (Synergistic vs Antagonistic)&quot;</span>, </span>
+<span id="cb64-13"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-13"></a>  <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">fontsize =</span> <span class="dv">5</span>),</span>
+<span id="cb64-14"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-14"></a>  <span class="dt">heatmap_legend_param =</span> <span class="kw">list</span>(<span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>))</span>
+<span id="cb64-15"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-15"></a></span>
+<span id="cb64-16"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-16"></a>biomarkers_legend =<span class="st"> </span><span class="kw">Legend</span>(<span class="dt">title =</span> <span class="st">&quot;Activity State Biomarkers&quot;</span>,</span>
+<span id="cb64-17"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-17"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Active&quot;</span>, <span class="st">&quot;Inhibited&quot;</span>),</span>
+<span id="cb64-18"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-18"></a>  <span class="dt">legend_gp =</span> <span class="kw">gpar</span>(<span class="dt">fill =</span> <span class="kw">c</span>(<span class="st">&quot;green4&quot;</span>, <span class="st">&quot;red4&quot;</span>)))</span>
+<span id="cb64-19"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-19"></a></span>
+<span id="cb64-20"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-20"></a><span class="kw">draw</span>(state_syn_heat, <span class="dt">annotation_legend_list =</span> biomarkers_legend, </span>
+<span id="cb64-21"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-21"></a>  <span class="dt">heatmap_legend_side =</span> <span class="st">&quot;bottom&quot;</span>, <span class="dt">annotation_legend_side =</span> <span class="st">&quot;bottom&quot;</span>, </span>
+<span id="cb64-22"><a href="cascade-1-0-analysis-1-ss-models.html#cb64-22"></a>  <span class="dt">merge_legend =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:state-syn-heat"></span>
+<img src="index_files/figure-html/state-syn-heat-1.png" alt="Heatmap of Average State Differences between synergistic and antagonistic model groups for each observed synergy" width="672" />
+<p class="caption">
+Figure 50: Heatmap of Average State Differences between synergistic and antagonistic model groups for each observed synergy
+</p>
+</div>
+<div class="green-box">
+<ul>
+<li>The activity state biomarkers are clustered in two categories representing the two synergy sub-clusters we found previously, namely the <code>5Z</code> sub-cluster and the <code>PD</code> sub-cluster.</li>
+<li>The models predicting the <code>5Z</code> synergies seem to have more <strong>active state biomarkers</strong>, whereas the models predicting the <code>PD</code> synergies seem to have more <strong>inhibited state biomarkers</strong>.</li>
+<li><code>MAPK14</code> seems to be a <strong>definitive node distinguishing the two synergy subgroups</strong>, since it’s a strong inhibited biomarker for the <code>5Z</code> synergies, but a fairly unimportant node for the <code>PD</code> synergies.</li>
+<li><code>ERK_f</code> is an active state biomarker (same observation was found in the <em>performance</em> biomarkers analysis)</li>
+</ul>
+</div>
+<p>In the next heatmap, a positive (resp. negative) link operator difference for a node denotes that its link operator was mostly <code>OR-NOT</code> (resp. <code>AND-NOT</code>) in the corresponding synergistic model group:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-1"></a><span class="co"># define coloring function of state differences</span></span>
+<span id="cb65-2"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-2"></a>col_fun =<span class="st"> </span>circlize<span class="op">::</span><span class="kw">colorRamp2</span>(<span class="kw">c</span>(<span class="kw">min</span>(syn_res<span class="op">$</span>diff.link.synergies.mat), </span>
+<span id="cb65-3"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-3"></a>  <span class="dv">0</span>, <span class="kw">max</span>(syn_res<span class="op">$</span>diff.link.synergies.mat)), <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;green&quot;</span>))</span>
+<span id="cb65-4"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-4"></a></span>
+<span id="cb65-5"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-5"></a><span class="kw">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb65-6"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-6"></a>lo_syn_heat =<span class="st"> </span>ComplexHeatmap<span class="op">::</span><span class="kw">Heatmap</span>(<span class="dt">matrix =</span> syn_res<span class="op">$</span>diff.link.synergies.mat, </span>
+<span id="cb65-7"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-7"></a>  <span class="dt">name =</span> <span class="st">&quot;Link Operator Difference&quot;</span>, <span class="dt">col =</span> col_fun,</span>
+<span id="cb65-8"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-8"></a>  <span class="dt">row_title =</span> <span class="st">&quot;Synergistic Drug Combinations&quot;</span>, <span class="dt">row_names_side =</span> <span class="st">&quot;left&quot;</span>, </span>
+<span id="cb65-9"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-9"></a>  <span class="dt">row_title_side =</span> <span class="st">&quot;left&quot;</span>, <span class="dt">row_dend_side =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb65-10"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-10"></a>  <span class="dt">column_title =</span> <span class="st">&quot;Average Link Operator Differences (Synergistic vs Antagonistic)&quot;</span>, </span>
+<span id="cb65-11"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-11"></a>  <span class="dt">column_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">fontsize =</span> <span class="dv">11</span>),</span>
+<span id="cb65-12"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-12"></a>  <span class="dt">heatmap_legend_param =</span> <span class="kw">list</span>(<span class="dt">direction =</span> <span class="st">&quot;horizontal&quot;</span>))</span>
+<span id="cb65-13"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-13"></a></span>
+<span id="cb65-14"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-14"></a>biomarkers_legend =<span class="st"> </span><span class="kw">Legend</span>(<span class="dt">title =</span> <span class="st">&quot;Link Operator Biomarkers&quot;</span>,</span>
+<span id="cb65-15"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-15"></a>  <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;OR-NOT (1)&quot;</span>, <span class="st">&quot;AND-NOT (0)&quot;</span>),</span>
+<span id="cb65-16"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-16"></a>  <span class="dt">legend_gp =</span> <span class="kw">gpar</span>(<span class="dt">fill =</span> <span class="kw">c</span>(<span class="st">&quot;green4&quot;</span>, <span class="st">&quot;red4&quot;</span>)))</span>
+<span id="cb65-17"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-17"></a></span>
+<span id="cb65-18"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-18"></a><span class="kw">draw</span>(lo_syn_heat, <span class="dt">annotation_legend_list =</span> biomarkers_legend, </span>
+<span id="cb65-19"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-19"></a>  <span class="dt">heatmap_legend_side =</span> <span class="st">&quot;bottom&quot;</span>, <span class="dt">annotation_legend_side =</span> <span class="st">&quot;bottom&quot;</span>, </span>
+<span id="cb65-20"><a href="cascade-1-0-analysis-1-ss-models.html#cb65-20"></a>  <span class="dt">merge_legend =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="figure"><span id="fig:lo-syn-heat"></span>
+<img src="index_files/figure-html/lo-syn-heat-1.png" alt="Heatmap of Average Link Operator Differences between synergistic and antagonistic model groups for each observed synergy" width="672" />
+<p class="caption">
+Figure 51: Heatmap of Average Link Operator Differences between synergistic and antagonistic model groups for each observed synergy
+</p>
+</div>
+<div class="green-box">
+<ul>
+<li><code>ERK_f</code> is a strong synergy OR-NOT biomarker for all synergies (same as in the <em>performance</em> link-operator biomarkers section and shown in this <a href="cascade-1-0-analysis-1-ss-models.html#fig:nodes-lo-maps-1">figure</a>)</li>
+<li><code>MAPK14</code> is again the node that mostly distinguishes between the two synergy sub-clusters of <code>PD</code> and <code>5Z</code>.
+This also relates to the embedding of the <code>MAPK14</code> link-operator value as demonstrated by this <a href="cascade-1-0-analysis-1-ss-models.html#fig:nodes-lo-maps-1">figure</a>, where the <code>MAPK14</code> node has the <code>OR-NOT</code> link-operator in the <code>PD</code> sub-cluster and <code>AND-NOT</code> in the <code>5Z</code> sub-cluster.</li>
+</ul>
+</div>
 </div>
 </div>
             </section>

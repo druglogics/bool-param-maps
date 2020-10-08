@@ -1258,7 +1258,7 @@ Since the synergies belong to $2$ mutually exclusive (in terms of parameterizati
 :::{.blue-box}
 We want to identify if there are **activity patterns** in the models that predict the observed synergies.
 
-To do this, we take a sample of such synergistic models that predict each of the $4$ observed synergies and show the corresponding heatmaps of stable state activities.
+To do this, we take a random sample of such synergistic models that predict each of the $4$ observed synergies and show the corresponding heatmaps of stable state activities.
 More details on the [synergy_heatmaps.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_heatmaps.R) script.
 :::
 

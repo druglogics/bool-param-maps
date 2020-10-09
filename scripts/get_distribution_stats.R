@@ -14,7 +14,7 @@ node_names = colnames(res_ss_df)
 # calculate in-degrees
 in_degree = sapply(node_names, function(node) { edge_tbl %>% filter(target == node) %>% nrow() })
 
-# calculate out-degress
+# calculate out-degrees
 out_degree = sapply(node_names, function(node) { edge_tbl %>% filter(source == node) %>% nrow() })
 
 # degree distribution stats for CASCADE 1.0

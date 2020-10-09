@@ -1,7 +1,7 @@
 ---
 title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 08 October, 2020"
+date: "Last updated: 09 October, 2020"
 description: "Investigations related to link operators mutations in boolean models"
 url: 'https\://bblodfon.github.io/bool-param-maps/'
 github-repo: "bblodfon/bool-param-maps"
@@ -111,6 +111,7 @@ models_ss_stats = readRDS(file = "data/models_ss_stats.rds")
 models_ss_stats %>% group_by(ss_num) %>% tally() %>%
   ggplot(aes(x = ss_num, y = n, fill = as.factor(ss_num))) +
   geom_bar(stat = "identity", show.legend = FALSE) + 
+  scale_y_continuous(labels = scales::label_number_si()) +
   geom_text(aes(label = n), vjust = -0.5) +
   geom_text(aes(label = paste0(100 * round(n/nrow(models_ss_stats), digits = 2), "%")), size = 10, vjust = c(2.5, 2.5, -2)) +
   theme_classic2() +

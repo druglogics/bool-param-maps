@@ -1,10 +1,10 @@
 ---
 title: "A study in boolean model parameterization"
 author: "[John Zobolas](https://github.com/bblodfon)"
-date: "Last updated: 09 October, 2020"
+date: "Last updated: 11 December, 2020"
 description: "Investigations related to link operators mutations in boolean models"
-url: 'https\://bblodfon.github.io/bool-param-maps/'
-github-repo: "bblodfon/bool-param-maps"
+url: 'https\://druglogics.github.io/bool-param-maps/'
+github-repo: "druglogics/bool-param-maps"
 bibliography: references.bib
 link-citations: true
 site: bookdown::bookdown_site
@@ -68,7 +68,7 @@ In this section we demonstrate the **scale-free properties of the CASCADE 1.0 ne
 We show that both in- and out-degree distributions are asymptotically power-law.
 :::
 
-Use the script [get_distribution_stats.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_distribution_stats.R) to generate the degree distribution stats.
+Use the script [get_distribution_stats.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/get_distribution_stats.R) to generate the degree distribution stats.
 We load the results:
 
 
@@ -101,7 +101,7 @@ dd_stats %>% group_by(out_degree) %>% tally() %>%
 ## Model Stable State Statistics {-}
 
 The `gitsbe` files of the model dataset include also the fixpoint attractors of each model (`.bnet` files have only the equations).
-Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_models_ss.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/count_models_ss.R)).
+Thus we can find the *frequency distribution* of the number of fixpoints across all produced models (use the script [count_models_ss.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/count_models_ss.R)).
 The model stable state (fixpoint) statistics are as follows:
 
 
@@ -141,11 +141,11 @@ The training data is a **link-operator matrix**, where rows are models ($2^{23}$
 The ternary response for each model is a number denoting the number of fixpoints ($0,1$ or $2$).
 :::
 
-The matrix we can generate with the script [get_lo_mat.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_models_ss.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/count_models_ss.R).
+The matrix we can generate with the script [get_lo_mat.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/get_lo_mat.R) and the response is part of the previously generated data from the script [count_models_ss.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/count_models_ss.R).
 
 ## Multinomial LASSO {-}
 
-Use the script [param_ss_glmnet.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_glmnet.R) to fit a **multinomial LASSO model** for the data [@Friedman2010].
+Use the script [param_ss_glmnet.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_glmnet.R) to fit a **multinomial LASSO model** for the data [@Friedman2010].
 We now simply load the result object:
 
 ```r
@@ -247,7 +247,7 @@ The top 5 most important nodes are seen in green in the above heatmap: `MAPK14`,
 
 ## Random Forests {-}
 
-We used the [param_ss_randf.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_randf.R) script to tune and train a random forest classifier on the dataset [@Liaw2002].
+We used the [param_ss_randf.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_randf.R) script to tune and train a random forest classifier on the dataset [@Liaw2002].
 First we tuned the `mtry` parameter, the number of variables randomly selected at each tree split:
 
 ```r
@@ -343,7 +343,7 @@ The top 5 important nodes by any of the two importance measures using random for
 :::
 
 Same results we get when using a faster, more memory efficient and with multi-thread support, random forest R package, namely `ranger` [@Wright2017].
-Use the script [param_ss_ranger.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_ranger.R) to reproduce the results:
+Use the script [param_ss_ranger.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_ranger.R) to reproduce the results:
 
 ```r
 ranger_res = readRDS(file = "data/ranger_res.rds")
@@ -373,12 +373,12 @@ imp_res %>%
 We use UMAP [@McInnes2018a] to **reduce the dimension of our dataset** from $23$ (number of nodes with link operators) to $2$ and visualize it, to see if there is any apparent *visual relation* between the model parameterization and number of fixpoints.
 :::
 
-We used the [param_ss_umap.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_umap.R) script to run the UMAP implementation offered by the `uwot` R package.
+We used the [param_ss_umap.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_umap.R) script to run the UMAP implementation offered by the `uwot` R package.
 We tried various values for the `n_neighbors` parameter where larger values result in **more global views** of the dataset, while smaller values result in **more local data** being preserved.
 Also, the *distance metric* between the model parameterization vectors was mostly set to the standard (*euclidean*), but we also tried the *hamming* distance which seemed appropriate because of the binary nature of the dataset.
 
-We make the figures afterwards using the result UMAP data with the [param_ss_umap_vis.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_umap_vis.R) script.
-See all the produced figures [here](https://github.com/bblodfon/bool-param-maps/tree/master/img/all_models_maps).
+We make the figures afterwards using the result UMAP data with the [param_ss_umap_vis.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_umap_vis.R) script.
+See all the produced figures [here](https://github.com/druglogics/bool-param-maps/tree/master/img/all_models_maps).
 
 ### Unsupervised UMAP {-}
 
@@ -441,7 +441,7 @@ The simple argument for this is as follows: the larger distance between a model 
 Using random forest and the regularized LASSO method, we found important nodes whose parameterization affects the change of dynamics (number of fixpoints) in the CASCADE 1.0 signaling network.
 Using UMAP we observed that closely parameterized models form clusters.
 
-We will now color the UMAP parameterization maps according to the link-operator values of the top $5$ most important nodes found from the aforementioned methods as well as the $2$ least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/param_ss_umap_imp_nodes.R) script and see all the produced figures [here](https://github.com/bblodfon/bool-param-maps/tree/master/img/imp_nodes_param_ss_maps)).
+We will now color the UMAP parameterization maps according to the link-operator values of the top $5$ most important nodes found from the aforementioned methods as well as the $2$ least important node reported with random forests (use the [param_ss_umap_imp_nodes.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/param_ss_umap_imp_nodes.R) script and see all the produced figures [here](https://github.com/druglogics/bool-param-maps/tree/master/img/imp_nodes_param_ss_maps)).
 
 The 3 most important nodes:
 
@@ -495,7 +495,7 @@ A collection of important nodes can be used to more accurately define **families
 In this section, **only the boolean models that have 1 stable state** will be used in the analysis.
 All variables of interest (stable state, link-operator parameterization, fitness to steady state, performance MCC score, etc.) will relate only to the 1 stable state models from now on.
 
-To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_ss_data.R)
+To load the stable state data for the models that have **1 stable state** use the Zenodo dataset [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4022783.svg)](https://doi.org/10.5281/zenodo.4022783) and the script [get_ss_data.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/get_ss_data.R)
 :::
 
 ## Parameterization Maps {-}
@@ -503,7 +503,7 @@ To load the stable state data for the models that have **1 stable state** use th
 In this section we present the results of using UMAP [@McInnes2018a] on the link-operator parameterization data of the CASCADE 1.0 models with 1 stable state.
 We created several such *parameterization maps* by adjusting the *n_neighbors* parameter input (from $2$ to $20$), which is responsible for the **size of the local neighborhood** (in terms of number of neighboring sample points) used for the manifold approximation.
 As the documentation says, larger values result in **more global views** of the manifold, while smaller values result in **more local data** being preserved.
-To get these map images and the reduced dimension dataset, use the script [1ss_models_umap.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/1ss_models_umap.R) for more details.
+To get these map images and the reduced dimension dataset, use the script [1ss_models_umap.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/1ss_models_umap.R) for more details.
 
 :::{.blue-box}
 Note that in all these mappings to the 2D space, **models that share similar link-operator parameterization will reside in the same area/cluster in the map**.
@@ -566,7 +566,7 @@ We observe the existence of **two large families (superclusters) of parameteriza
 
 [Gitsbe](https://druglogics.github.io/druglogics-doc/gitsbe.html) uses a genetic algorithm approach to produce boolean models that are fitted to activity-based, biomarker training data.
 
-We used Gitsbe and tested the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in [another report](https://bblodfon.github.io/ags-paper-1/cascade-1-0-analysis.html).
+We used Gitsbe and tested the produced models performance (ensemble-wise drug combination predictions) against synergy data from [@Flobak2015] in another report (AGS paper Sup. Material).
 The calibrated models performed very well in terms of both ROC and PR-AUC.
 
 :::{.blue-box}
@@ -574,9 +574,9 @@ Here we want to check whether models produced by a method such as a genetic algo
 :::
 
 We will use models from $1000$ gitsbe simulations, calibrated to steady state (a total of $3000$ models, choosing the $3$ best-fit models from each simulation).
-The results are provided in [this data file](https://github.com/bblodfon/bool-param-maps/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
+The results are provided in [this data file](https://github.com/druglogics/bool-param-maps/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
 
-All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/gitsbe_models_fit.R)):
+All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/gitsbe_models_fit.R)):
 
 ```r
 knitr::include_graphics(path = "img/gitsbe_fit_density.png")
@@ -587,7 +587,7 @@ knitr::include_graphics(path = "img/gitsbe_fit_density.png")
 <p class="caption">(\#fig:gitbse-fit-fig)Gitsbe model fitness to AGS steady state</p>
 </div>
 
-To generate the next figures (same map, same gitsbe models, different number of neighbors) use the [gitsbe_model_embedding.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/gitsbe_model_embedding.R) - all figures are available [here](https://github.com/bblodfon/bool-param-maps/tree/master/img/gitsbe_umaps):
+To generate the next figures (same map, same gitsbe models, different number of neighbors) use the [gitsbe_model_embedding.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/gitsbe_model_embedding.R) - all figures are available [here](https://github.com/druglogics/bool-param-maps/tree/master/img/gitsbe_umaps):
 
 
 ```r
@@ -640,9 +640,9 @@ The results are available in the Zenodo dataset [![DOI](https://zenodo.org/badge
 As previously said, we are going to use the 1 stable state model predictions only.
 :::
 
-We used the emba R package [@Zobolas2020] to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/emba_analysis.R)).
+We used the emba R package [@Zobolas2020] to perform a biomarker analysis on the 1 stable state models dataset and their predictions from `drabme` (see script [emba_analysis.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/emba_analysis.R)).
 Part of the results from the emba analysis is the calculation of the **Matthews correlation coefficient (MCC) performance score** for each model.
-We use these MCC model scores to draw the next figures (see [mcc_figures.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/mcc_figures.R) script)
+We use these MCC model scores to draw the next figures (see [mcc_figures.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/mcc_figures.R) script)
 
 Splitting all the 1 stable state models to $4$ MCC classes we can see that **a lot of models have performance close to random prediction or even worse**:
 
@@ -663,7 +663,7 @@ Most of the 1 stable state models have MCC performance close to random or worse,
 
 ### Unsupervised UMAP {-}
 
-If we draw the parameterization maps for different number of neighbors and **color the points/models according to their MCC score**, we get these images (to see all figures, check [here](https://github.com/bblodfon/bool-param-maps/tree/master/img/mcc_maps)):
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their MCC score**, we get these images (to see all figures, check [here](https://github.com/druglogics/bool-param-maps/tree/master/img/mcc_maps)):
 
 
 ```r
@@ -703,7 +703,7 @@ The main thing we want to answer here is **if UMAP can do a better job placing t
 :::
 
 We tried UMAP with different *number of neighbors* (from local to a more global view of the dataset), *target weight* (weighting factor between data topology ($0$) and target/response topology ($1$) or somewhere in between) and setting the response either to the MCC score as a continuous, numeric value or to the MCC classes (discrete variable) as [shown above](#fig:mcc-histogram).
-See script [mcc_sumap.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/mcc_sumap.R) for more details.
+See script [mcc_sumap.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/mcc_sumap.R) for more details.
 
 First, we show some maps, where the response **MCC was treated as a continuous variable**:
 
@@ -793,7 +793,7 @@ We study **two AGS steady states**: one with a total of $24$ nodes which is the 
 
 Note that second, larger steady state reports the same activity values for the common $24$ nodes as the first one.
 
-Use the [fit_figures.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_figures.R) script to reproduce the figures for the literature-curated steady state and the [fit_vs_performance_ags_pub.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_vs_performance_ags_pub.R) for the AGS model fixpoint/steady state.
+Use the [fit_figures.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/fit_figures.R) script to reproduce the figures for the literature-curated steady state and the [fit_vs_performance_ags_pub.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/fit_vs_performance_ags_pub.R) for the AGS model fixpoint/steady state.
 :::
 
 First, we check if the fitness density of all 1 stable state models covers the whole *fitness spectrum*:
@@ -853,7 +853,7 @@ Such fitness spectrum would (hopefully) allow for more granularity in the corres
 
 ## Fitness Maps {-}
 
-If we draw the parameterization maps for different number of neighbors and **color the points/models according to their fitness to the AGS steady state (24 nodes)**, we get these images (see [fit_figures.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/fit_figures.R) script):
+If we draw the parameterization maps for different number of neighbors and **color the points/models according to their fitness to the AGS steady state (24 nodes)**, we get these images (see [fit_figures.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/fit_figures.R) script):
 
 
 ```r
@@ -892,7 +892,7 @@ We assess **important nodes (biomarkers)** whose *activity* and/or link-operator
 
 ### emba biomarkers {-}
 
-We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
+We use the `emba` results with $4$ MCC classes (see script [emba_analysis.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/emba_analysis.R) and MCC classification histograms [above](#fig:mcc-histogram)).
 What emba [@Zobolas2020] does is to group the models to $4$ MCC Classes and compare the average stable state activities and link operator values for each node between **every possible pair of MCC classes**.
 Nodes that have **higher average differences** (either positively or negatively and between any comparison pair) are considered as **more important** and are thus annotated as *biomarkers* based on a given threshold.
 
@@ -993,7 +993,7 @@ draw(state_heat, annotation_legend_list = biomarkers_legend,
 
 :::{.green-box}
 We observe that `ERK_f` will have the `OR-NOT` link operator in most of the higher performance models and the `MAPK14` the `AND-NOT` link operator.
-This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [analysis here](https://bblodfon.github.io/brf-bias/cascade-1-0-data-analysis.html#fig:ss-lo-agreement-prop)).
+This of course relates to the fact that these nodes were found also as *active* and *inhibited* biomarkers respectively and that they have a very large observed agreement between stable state activity value and link operator parameterization (see [analysis here](https://druglogics.github.io/brf-bias/cascade-1-0-data-analysis.html#fig:ss-lo-agreement-prop)).
 
 Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most important nodes influencing the change of dynamics (number of attractors) in the link operator parameterization space of the CASCADE 1.0 network.
 :::
@@ -1001,7 +1001,7 @@ Interestingly, these two nodes (`ERK_f` and `MAPK14`) were 2 of the top most imp
 ### Random Forest biomarkers {-}
 
 We use the `ranger` R package [@Wright2017] to find **important nodes/variables** that determine the difference in performance (MCC score) between the input models.
-Both the stable state data as well the link operator parameterization data will be used as training sets (see the script [perf_biomarkers_ranger.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/perf_biomarkers_ranger.R)).
+Both the stable state data as well the link operator parameterization data will be used as training sets (see the script [perf_biomarkers_ranger.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/perf_biomarkers_ranger.R)).
 
 
 ```r
@@ -1115,8 +1115,8 @@ Using as a base the **performance parameterization maps (supervised and unsuperv
 :::
 
 We give some examples of how the distribution of link-operator values looks like in the parameterization maps for the more important nodes (e.g. `ERK_f`, `MAPK14`) but also for the least important ones (e.g. `CYCS`, `CFLAR`).
-See the script [perf_biomarkers_embedding.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/perf_biomarkers_embedding.R) for more details.
-All the produced images by the script are accessible [here](https://github.com/bblodfon/bool-param-maps/tree/master/img/nodes_lo_maps).
+See the script [perf_biomarkers_embedding.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/perf_biomarkers_embedding.R) for more details.
+All the produced images by the script are accessible [here](https://github.com/druglogics/bool-param-maps/tree/master/img/nodes_lo_maps).
 
 Using as a base the **unsupervised parameterization MAP with 14 neighbors**, we have:
 
@@ -1167,7 +1167,7 @@ We observe that both in the unsupervised parameterization maps and the MCC-super
 ## Synergy Maps {-}
 
 As stated in a [previous section](#performance-maps), the CASCADE 1.0 models produced by `abmlog` were tested for synergy against the drug combination dataset in @Flobak2015.
-Using the *HSA* method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics (see script [synergy_maps.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_maps.R)):
+Using the *HSA* method to define a drug combination as synergistic or not (antagonistic), we first present some useful statistics (see script [synergy_maps.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/synergy_maps.R)):
 
 ```r
 knitr::include_graphics(path = 'img/synergy_stats.png')
@@ -1272,7 +1272,7 @@ Since the synergies belong to $2$ mutually exclusive (in terms of parameterizati
 We want to identify if there are **activity patterns** in the models that predict the observed synergies.
 
 To do this, we take a random sample of such synergistic models that predict each of the $4$ observed synergies and show the corresponding heatmaps of stable state activities.
-More details on the [synergy_heatmaps.R](https://github.com/bblodfon/bool-param-maps/blob/master/scripts/synergy_heatmaps.R) script.
+More details on the [synergy_heatmaps.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/synergy_heatmaps.R) script.
 :::
 
 
@@ -1421,7 +1421,7 @@ xfun::session_info()
 ```
 R version 3.6.3 (2020-02-29)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 18.04.5 LTS
+Running under: Ubuntu 20.04.1 LTS
 
 Locale:
   LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
@@ -1432,86 +1432,60 @@ Locale:
   LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 Package version:
-  abind_1.4-5               assertthat_0.2.1         
-  backports_1.1.9           base64enc_0.1.3          
-  BH_1.72.0.3               bibtex_0.4.2.2           
-  bookdown_0.20             boot_1.3.25              
-  broom_0.7.0               callr_3.4.4              
-  car_3.0-9                 carData_3.0-4            
-  cellranger_1.1.0          circlize_0.4.10          
-  Ckmeans.1d.dp_4.3.3       cli_2.0.2                
-  clipr_0.7.0               clue_0.3-57              
-  cluster_2.1.0             codetools_0.2-16         
-  colorspace_1.4-1          compiler_3.6.3           
-  ComplexHeatmap_2.4.2      conquer_1.0.2            
-  corrplot_0.84             cowplot_1.1.0            
-  cpp11_0.2.1               crayon_1.3.4             
-  crosstalk_1.1.0.1         curl_4.3                 
-  data.table_1.13.0         desc_1.2.0               
-  digest_0.6.25             dplyr_1.0.2              
-  dqrng_0.2.1               DT_0.15                  
-  ellipsis_0.3.1            emba_0.1.7               
-  evaluate_0.14             fansi_0.4.1              
-  farver_2.0.3              FNN_1.1.3                
-  forcats_0.5.0             foreach_1.5.0            
-  foreign_0.8-75            gbRd_0.4-11              
-  generics_0.0.2            GetoptLong_1.0.2         
-  ggplot2_3.3.2             ggpubr_0.4.0             
-  ggrepel_0.8.2             ggsci_2.9                
-  ggsignif_0.6.0            glmnet_4.0-2             
-  GlobalOptions_0.1.2       glue_1.4.2               
-  graphics_3.6.3            grDevices_3.6.3          
-  grid_3.6.3                gridExtra_2.3            
-  gtable_0.3.0              haven_2.3.1              
-  highr_0.8                 hms_0.5.3                
-  htmltools_0.5.0           htmlwidgets_1.5.1        
-  igraph_1.2.5              irlba_2.3.3              
-  isoband_0.2.2             iterators_1.0.12         
-  jsonlite_1.7.1            knitr_1.29               
-  labeling_0.3              later_1.1.0.1            
-  lattice_0.20-41           lazyeval_0.2.2           
-  lifecycle_0.2.0           lme4_1.1.23              
-  magrittr_1.5              maptools_1.0.2           
-  markdown_1.1              MASS_7.3.53              
-  Matrix_1.2-18             MatrixModels_0.4.1       
-  matrixStats_0.56.0        methods_3.6.3            
-  mgcv_1.8.33               mime_0.9                 
-  minqa_1.2.4               munsell_0.5.0            
-  nlme_3.1.149              nloptr_1.2.2.2           
-  nnet_7.3.14               openxlsx_4.1.5           
-  parallel_3.6.3            pbkrtest_0.4.8.6         
-  pillar_1.4.6              pkgbuild_1.1.0           
-  pkgconfig_2.0.3           pkgload_1.1.0            
-  png_0.1-7                 polynom_1.4.0            
-  praise_1.0.0              prettyunits_1.1.1        
-  processx_3.4.4            progress_1.2.2           
-  promises_1.1.1            ps_1.3.4                 
-  purrr_0.3.4               quantreg_5.67            
-  R6_2.4.1                  randomForest_4.6-14      
-  ranger_0.12.1             RColorBrewer_1.1-2       
-  Rcpp_1.0.5                RcppAnnoy_0.0.16         
-  RcppArmadillo_0.9.900.3.0 RcppEigen_0.3.3.7.0      
-  RcppProgress_0.4.2        Rdpack_1.0.0             
-  readr_1.3.1               readxl_1.3.1             
-  rematch_1.0.1             rio_0.5.16               
-  rje_1.10.16               rjson_0.2.20             
-  rlang_0.4.7               rmarkdown_2.3            
-  rprojroot_1.3.2           RSpectra_0.16.0          
-  rstatix_0.6.0             rstudioapi_0.11          
-  scales_1.1.1              shape_1.4.5              
-  sitmo_2.0.1               sp_1.4.2                 
-  SparseM_1.78              splines_3.6.3            
-  statmod_1.4.34            stats_3.6.3              
-  stringi_1.5.3             stringr_1.4.0            
-  survival_3.2-3            testthat_2.3.2           
-  tibble_3.0.3              tidyr_1.1.2              
-  tidyselect_1.1.0          tinytex_0.25             
-  tools_3.6.3               usefun_0.4.8             
-  utf8_1.1.4                utils_3.6.3              
-  uwot_0.1.8                vctrs_0.3.4              
-  viridisLite_0.3.0         visNetwork_2.0.9         
-  withr_2.2.0               xfun_0.17                
-  yaml_2.2.1                zip_2.1.1                
+  abind_1.4-5              assertthat_0.2.1         backports_1.1.10        
+  base64enc_0.1.3          BH_1.72.0.3              bookdown_0.21           
+  boot_1.3.25              broom_0.7.2              callr_3.5.1             
+  car_3.0-10               carData_3.0-4            cellranger_1.1.0        
+  circlize_0.4.10          Ckmeans.1d.dp_4.3.3      cli_2.1.0               
+  clipr_0.7.1              clue_0.3-57              cluster_2.1.0           
+  codetools_0.2-16         colorspace_1.4-1         compiler_3.6.3          
+  ComplexHeatmap_2.2.0     conquer_1.0.2            corrplot_0.84           
+  cowplot_1.1.0            cpp11_0.2.3              crayon_1.3.4            
+  crosstalk_1.1.0.1        curl_4.3                 data.table_1.13.2       
+  desc_1.2.0               digest_0.6.27            dplyr_1.0.2             
+  dqrng_0.2.1              DT_0.16                  ellipsis_0.3.1          
+  emba_0.1.8               evaluate_0.14            fansi_0.4.1             
+  farver_2.0.3             FNN_1.1.3                forcats_0.5.0           
+  foreach_1.5.1            foreign_0.8-75           gbRd_0.4-11             
+  generics_0.0.2           GetoptLong_1.0.4         ggplot2_3.3.2           
+  ggpubr_0.4.0             ggrepel_0.8.2            ggsci_2.9               
+  ggsignif_0.6.0           glmnet_4.0-2             GlobalOptions_0.1.2     
+  glue_1.4.2               graphics_3.6.3           grDevices_3.6.3         
+  grid_3.6.3               gridExtra_2.3            gtable_0.3.0            
+  haven_2.3.1              highr_0.8                hms_0.5.3               
+  htmltools_0.5.0          htmlwidgets_1.5.2        igraph_1.2.6            
+  irlba_2.3.3              isoband_0.2.2            iterators_1.0.13        
+  jsonlite_1.7.1           knitr_1.30               labeling_0.4.2          
+  later_1.1.0.1            lattice_0.20-41          lazyeval_0.2.2          
+  lifecycle_0.2.0          lme4_1.1.25              magrittr_1.5            
+  maptools_1.0.2           markdown_1.1             MASS_7.3.53             
+  Matrix_1.2-18            MatrixModels_0.4.1       matrixStats_0.57.0      
+  methods_3.6.3            mgcv_1.8.33              mime_0.9                
+  minqa_1.2.4              munsell_0.5.0            nlme_3.1.149            
+  nloptr_1.2.2.2           nnet_7.3.14              openxlsx_4.2.2          
+  parallel_3.6.3           pbkrtest_0.4.8.6         pillar_1.4.6            
+  pkgbuild_1.1.0           pkgconfig_2.0.3          pkgload_1.1.0           
+  png_0.1-7                polynom_1.4.0            praise_1.0.0            
+  prettyunits_1.1.1        processx_3.4.4           progress_1.2.2          
+  promises_1.1.1           ps_1.4.0                 purrr_0.3.4             
+  quantreg_5.74            R6_2.4.1                 randomForest_4.6-14     
+  ranger_0.12.1            rbibutils_1.3            RColorBrewer_1.1-2      
+  Rcpp_1.0.5               RcppAnnoy_0.0.16         RcppArmadillo_0.10.1.0.0
+  RcppEigen_0.3.3.7.0      RcppProgress_0.4.2       Rdpack_2.0              
+  readr_1.4.0              readxl_1.3.1             rematch_1.0.1           
+  rio_0.5.16               rje_1.10.16              rjson_0.2.20            
+  rlang_0.4.8              rmarkdown_2.5            rprojroot_1.3.2         
+  RSpectra_0.16.0          rstatix_0.6.0            rstudioapi_0.11         
+  scales_1.1.1             shape_1.4.5              sitmo_2.0.1             
+  sp_1.4.4                 SparseM_1.78             splines_3.6.3           
+  statmod_1.4.35           stats_3.6.3              stringi_1.5.3           
+  stringr_1.4.0            survival_3.2-7           testthat_2.3.2          
+  tibble_3.0.4             tidyr_1.1.2              tidyselect_1.1.0        
+  tinytex_0.26             tools_3.6.3              usefun_0.4.8            
+  utf8_1.1.4               utils_3.6.3              uwot_0.1.8              
+  vctrs_0.3.4              viridisLite_0.3.0        visNetwork_2.0.9        
+  withr_2.3.0              xfun_0.18                xml2_1.3.2              
+  yaml_2.2.1               zip_2.1.1               
 ```
 
 # References {-}

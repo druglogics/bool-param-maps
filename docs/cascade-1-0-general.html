@@ -6,14 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>CASCADE 1.0 - General | A study in boolean model parameterization</title>
   <meta name="description" content="Investigations related to link operators mutations in boolean models" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="CASCADE 1.0 - General | A study in boolean model parameterization" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://bblodfon.github.io/bool-param-maps/" />
+  <meta property="og:url" content="https://druglogics.github.io/bool-param-maps/" />
   
   <meta property="og:description" content="Investigations related to link operators mutations in boolean models" />
-  <meta name="github-repo" content="bblodfon/bool-param-maps" />
+  <meta name="github-repo" content="druglogics/bool-param-maps" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="CASCADE 1.0 - General | A study in boolean model parameterization" />
@@ -32,7 +32,7 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="cascade-1-0-parameterization-vs-fixpoints.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 <script>
 /* ========================================================================
@@ -928,7 +930,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this section we demonstrate the <strong>scale-free properties of the CASCADE 1.0 network</strong>.
 We show that both in- and out-degree distributions are asymptotically power-law.</p>
 </div>
-<p>Use the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/get_distribution_stats.R">get_distribution_stats.R</a> to generate the degree distribution stats.
+<p>Use the script <a href="https://github.com/druglogics/bool-param-maps/blob/master/scripts/get_distribution_stats.R">get_distribution_stats.R</a> to generate the degree distribution stats.
 We load the results:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="cascade-1-0-general.html#cb3-1"></a>dd_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/dd_stats.rds&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="cascade-1-0-general.html#cb4-1"></a>dd_stats <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(in_degree) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>() <span class="op">%&gt;%</span></span>
@@ -954,7 +956,7 @@ Figure 1: Degree Distribution (CASCADE 1.0)
 <div id="model-stable-state-statistics" class="section level2 unnumbered" number="">
 <h2>Model Stable State Statistics</h2>
 <p>The <code>gitsbe</code> files of the model dataset include also the fixpoint attractors of each model (<code>.bnet</code> files have only the equations).
-Thus we can find the <em>frequency distribution</em> of the number of fixpoints across all produced models (use the script <a href="https://github.com/bblodfon/bool-param-maps/blob/master/scripts/count_models_ss.R">count_models_ss.R</a>).
+Thus we can find the <em>frequency distribution</em> of the number of fixpoints across all produced models (use the script <a href="https://github.com/druglogics/bool-param-maps/blob/master/scripts/count_models_ss.R">count_models_ss.R</a>).
 The model stable state (fixpoint) statistics are as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="cascade-1-0-general.html#cb5-1"></a>models_ss_stats =<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;data/models_ss_stats.rds&quot;</span>)</span>
 <span id="cb5-2"><a href="cascade-1-0-general.html#cb5-2"></a></span>

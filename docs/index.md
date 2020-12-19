@@ -574,7 +574,7 @@ Here we want to check whether models produced by a method such as a genetic algo
 :::
 
 We will use models from $1000$ gitsbe simulations, calibrated to steady state (a total of $3000$ models, choosing the $3$ best-fit models from each simulation).
-The results are provided in [this data file](https://github.com/druglogics/bool-param-maps/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://bblodfon.github.io/ags-paper-1/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
+The results are provided in [this data file](https://github.com/druglogics/bool-param-maps/blob/master/data/cascade_1.0_ss_1000sim_fixpoints_hsa.tar.gz) and to reproduce them, follow the instructions [here](https://druglogics.github.io/ags-paper/reproduce-data-simulation-results.html), keeping the default configuration options for CASCADE 1.0 and changing only the number of simulations to $1000$).
 
 All the Gitsbe models had a large fitness to the steady state AGS data (their stable states fitting almost exactly the states of the manually-curated 24 nodes), as it can be seen from the next figure (see [gitsbe_models_fit.R](https://github.com/druglogics/bool-param-maps/blob/master/scripts/gitsbe_models_fit.R)):
 
